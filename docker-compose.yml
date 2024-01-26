@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  # PHP
+  php:
+    container_name: todo-sync-php
+    build:
+      context: .
+      target: php
+      dockerfile: ./.docker/php/Dockerfile
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    ports:
+      - 8000:8000
+    depends_on:
+        - database
+    networks:
+      - todo_sync
+
+  # Database
+  database:
+    container_name: todo-sync-postgres
+    image: postgres:16.1
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=todosync
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+    volumes:
+      - ./.postgres:/var/lib/postgres/data
+    networks:
+      - todo_sync
+
+  # Node
+  app:
+    container_name: todo-sync-node
+    build:
+      context: .
+      dockerfile: ./.docker/node/Dockerfile
+    ports:
+      - 3000:3000
+    tty: true
+    networks:
+      - todo_sync
+    volumes:
+     - ./app:/app
+     - /app/node_modules
+
+networks:
+  todo_sync:
+    driver: bridge
