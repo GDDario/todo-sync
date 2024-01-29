@@ -1,10 +1,13 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "react-router-dom";
+import FormField from "../../../components/FormField";
+import WhiteButton from "../../../components/WhiteButton";
 
 const schema = z.object({
   email: z.string().email(),
-  password: z.string().min(1),
+  password: z.string().min(1, "Field required"),
 });
 
 type loginSchema = z.infer<typeof schema>;
@@ -22,39 +25,35 @@ const Login = () => {
 
   return (
     <div className="max-w-[300px] mx-auto">
-      <h1 className="text-center text-2xl">Login page</h1>
+      <h1 className="text-center text-2xl">Login</h1>
 
       <p className="my-4">
-        Already have an account? <u>Login in</u>.
+        Do not have an account?{" "}
+        <Link to="/register" className="hover:text-slate-200">
+          <u>Register now</u>
+        </Link>
+        .
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label>Email*</label>
-        <input
-          type="text"
-          className="text-black p-1 w-full rounded"
-          {...register("email")}
+        <FormField
+          type="email"
+          label="Email"
+          name="email"
+          register={register}
+          error={errors.email}
         />
-        {errors.email && (
-          <p className="mt-0.5 text-[#ff4e4e]">Email not valid.</p>
-        )}
+        <div className="mt-2">
+          <FormField
+            type="password"
+            label="Password"
+            name="password"
+            register={register}
+            error={errors.password}
+          />
+        </div>
 
-        <label className="mt-2 block">Password*</label>
-        <input
-          type="password"
-          className="text-black p-1 w-full rounded"
-          {...register("password")}
-        />
-        {errors.password && (
-          <p className="mt-0.5 text-[#ff4e4e]">The password is required.</p>
-        )}
-
-        <button
-          className="mt-6 block mx-auto p-1 bg-slate-100 rounded w-[100px] text-black"
-          type="submit"
-        >
-          Submit
-        </button>
+        <WhiteButton value="Login" />
       </form>
     </div>
   );
