@@ -1,21 +1,17 @@
 <?php
 
-namespace Src\Domain\Entities;
+namespace Src\Adapters\Repositories\UserRepository;
 
-use DateTime;
 use Src\Domain\ValueObjects\Email;
 use Src\Domain\ValueObjects\Uuid;
 
-class User
+class RegisterUserDTO
 {
     public function __construct(
-        public int $id,
         public Uuid $uuid,
         public string $username,
         public Email $email,
-        public ?string $password = null,
-        public ?DateTime $createdAt = null,
-        public ?DateTime $editedAt = null
+        public string $password
     ) {
     }
 }

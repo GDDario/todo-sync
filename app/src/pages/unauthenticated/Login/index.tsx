@@ -6,8 +6,8 @@ import FormField from "../../../components/FormField";
 import WhiteButton from "../../../components/WhiteButton";
 
 const schema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1, "Field required"),
+  email: z.string().email('Invalid email.'),
+  password: z.string().min(1, "Field required."),
 });
 
 type loginSchema = z.infer<typeof schema>;

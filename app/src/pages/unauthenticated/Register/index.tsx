@@ -7,17 +7,16 @@ import WhiteButton from "../../../components/WhiteButton";
 
 const schema = z
   .object({
-    name: z.string().min(4, "The name must have at least 4 characters."),
     username: z
       .string()
       .min(4, "The username must have at least 4 characters."),
-    email: z.string().email(),
-    password: z.string().min(6, "Must have at least 6 characters"),
-    confirmPassword: z.string().min(6, "Must have at least 6 characters"),
+    email: z.string().email('Invalid email.'),
+    password: z.string().min(6, "Must have at least 6 characters."),
+    passwordConfirmation: z.string().min(6, "Must have at least 6 characters."),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.password === data.passwordConfirmation, {
     message: "Passwords don't match",
-    path: ["confirmPassword"],
+    path: ["passwordConfirmation"],
   });
 
 type registerSchema = z.infer<typeof schema>;
@@ -29,8 +28,8 @@ const Register = () => {
     formState: { errors },
   } = useForm<registerSchema>({ resolver: zodResolver(schema) });
 
-  function onSubmit({ name, username, email, password, confirmPassword }) {
-    console.log({ name, username, email, password, confirmPassword });
+  function onSubmit({ username, email, password, passwordConfirmation }) {
+    console.log({ username, email, password, passwordConfirmation });
   }
 
   return (
@@ -48,20 +47,11 @@ const Register = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormField
           type="text"
-          label="Name"
-          name="name"
+          label="Username"
+          name="username"
           register={register}
-          error={errors.name}
+          error={errors.username}
         />
-        <div className="mt-3">
-          <FormField
-            type="text"
-            label="Username"
-            name="username"
-            register={register}
-            error={errors.username}
-          />
-        </div>
         <div className="mt-3">
           <FormField
             type="email"
@@ -84,9 +74,9 @@ const Register = () => {
           <FormField
             type="password"
             label="Confirm password"
-            name="confirmPassword"
+            name="passwordConfirmation"
             register={register}
-            error={errors.confirmPassword}
+            error={errors.passwordConfirmation}
           />
         </div>
 
