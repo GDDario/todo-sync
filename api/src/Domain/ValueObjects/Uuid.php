@@ -19,11 +19,6 @@ class Uuid
         return $this->value;
     }
 
-    public function jsonSerialize()
-    {
-        return $this->value;
-    }
-
     private function validate()
     {
         if (!Uuidv4::isValid($this->value)) {

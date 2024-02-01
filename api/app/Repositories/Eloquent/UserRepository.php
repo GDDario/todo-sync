@@ -6,11 +6,20 @@ use App\Models\User;
 use Src\Adapters\Repositories\UserRepository\RegisterUserDTO;
 use Src\Adapters\Repositories\UserRepository\UserRepositoryInterface;
 use Src\Domain\Entities\User as UserEntity;
+use Src\Domain\Exception\ValueAlreadyTakenException;
 use Src\Domain\ValueObjects\Email;
 use Src\Domain\ValueObjects\Uuid;
 
 class UserRepository implements UserRepositoryInterface {
+
     public function insert(RegisterUserDTO $dto): UserEntity {
+        if (User::where('username', '=', $dto->username)->exists()) {
+            throw new ValueAlreadyTakenException('Username');
+        }
+        if (User::where('email', '=', $dto->email)->exists()) {
+            throw new ValueAlreadyTakenException('Email');
+        }
+
         $user = User::create([
             'uuid' => $dto->uuid,
             'username' => $dto->username,
