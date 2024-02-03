@@ -7,11 +7,11 @@ use Src\Adapters\Presenters\UserPresenter;
 use Src\UseCases\RegisterUser\RegisterUser;
 use Src\UseCases\RegisterUser\RegisterUserInput;
 
-class AuthenticationController extends Controller
+class RegisterController extends Controller
 {
     public function store(RegisterRequest $request, RegisterUser $useCase)
     {
-        $response = $useCase->handle(
+        $data = $useCase->handle(
             new RegisterUserInput(
                 username: $request->username,
                 email: $request->email,
@@ -20,6 +20,6 @@ class AuthenticationController extends Controller
             )
         );
 
-        return new UserPresenter($response);
+        return new UserPresenter($data);
     }
 }

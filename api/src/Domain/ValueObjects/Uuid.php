@@ -3,7 +3,7 @@
 namespace Src\Domain\ValueObjects;
 
 use Ramsey\Uuid\Uuid as Uuidv4;
-use Src\Domain\Exception\InvalidValueObjectException;
+use Src\Domain\Exceptions\InvalidValueObjectException;
 
 class Uuid
 {

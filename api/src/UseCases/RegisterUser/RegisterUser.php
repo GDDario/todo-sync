@@ -7,7 +7,7 @@ use Ramsey\Uuid\Uuid as Uuidv4;
 use Src\Adapters\Repositories\UserRepository\RegisterUserDTO;
 use Src\Adapters\Repositories\UserRepository\UserRepositoryInterface;
 use Src\Domain\Entities\User;
-use Src\Domain\Exception\PasswordMatchingException;
+use Src\Domain\Exceptions\PasswordMatchingException;
 use Src\Domain\ValueObjects\Email;
 use Src\Domain\ValueObjects\Uuid;
 

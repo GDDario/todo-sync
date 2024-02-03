@@ -3,16 +3,19 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\User;
+use Src\Adapters\Repositories\UserRepository\LoginUserDTO;
 use Src\Adapters\Repositories\UserRepository\RegisterUserDTO;
 use Src\Adapters\Repositories\UserRepository\UserRepositoryInterface;
 use Src\Domain\Entities\User as UserEntity;
-use Src\Domain\Exception\ValueAlreadyTakenException;
+use Src\Domain\Exceptions\ValueAlreadyTakenException;
 use Src\Domain\ValueObjects\Email;
 use Src\Domain\ValueObjects\Uuid;
 
-class UserRepository implements UserRepositoryInterface {
+class UserRepository implements UserRepositoryInterface
+{
 
-    public function insert(RegisterUserDTO $dto): UserEntity {
+    public function insert(RegisterUserDTO $dto): UserEntity
+    {
         if (User::where('username', '=', $dto->username)->exists()) {
             throw new ValueAlreadyTakenException('Username');
         }
@@ -30,7 +33,8 @@ class UserRepository implements UserRepositoryInterface {
         return $this->hydrateEntity($user);
     }
 
-    private function hydrateEntity(User $user): UserEntity {
+    private function hydrateEntity(User $user): UserEntity
+    {
         return new UserEntity(
             id: $user->id,
             uuid: new Uuid($user->uuid),

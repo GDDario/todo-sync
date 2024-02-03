@@ -7,5 +7,5 @@ use Src\Domain\Entities\User;
 
 interface UserRepositoryInterface
 {
-    public function insert(RegisterUserDTO $registerUser): User;
+    public function insert(RegisterUserDTO $dto): User;
 }

@@ -2,7 +2,7 @@
 
 namespace Src\Domain\ValueObjects;
 
-use Src\Domain\Exception\InvalidValueObjectException;
+use Src\Domain\Exceptions\InvalidValueObjectException;
 
 class Email
 {

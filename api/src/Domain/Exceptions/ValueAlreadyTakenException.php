@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Domain\Exception;
+namespace Src\Domain\Exceptions;
 
 use Exception;
 use Illuminate\Http\Response;

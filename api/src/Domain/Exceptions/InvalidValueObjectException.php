@@ -1,21 +1,25 @@
 <?php
 
-namespace Src\Domain\Exception;
+namespace Src\Domain\Exceptions;
 
 use Exception;
 use Illuminate\Http\Response;
 
-class PasswordMatchingException extends Exception
+class InvalidValueObjectException extends Exception
 {
+    protected $message;
+
     public function __construct(
+        $message
     ) {
         parent::__construct();
+        $this->message = $message;
     }
 
     public function render($request) {
         return Response(
             [
-                'The password do not match.'
+                $this->message
             ],
             Response::HTTP_BAD_REQUEST
         );
