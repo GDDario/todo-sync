@@ -1,11 +1,14 @@
-import "./App.css";
+import { Provider } from "react-redux";
+import store from "./store";
+import router from "./router";
+import { RouterProvider } from "react-router-dom";
 
-function App() {
-  return (
-    <>
-      <h1 className="text-3xl font-bold underline text-red-500">Hello world!</h1>
-    </>
-  );
+const App = () => {
+    return (
+        <Provider store={store}>
+            <RouterProvider router={router} />
+        </Provider>
+    );
 }
 
 export default App;
