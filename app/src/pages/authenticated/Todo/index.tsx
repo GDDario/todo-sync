@@ -16,16 +16,16 @@ const schema = z.object({
 
 type loginSchema = z.infer<typeof schema>;
 
-const Dashboard = () => {
+const Todo = () => {
     const [isLoading, setLoading] = useState(false);
     
 
     return (
         <div>
-            <p>Hello, welcome to Dashboard screen.</p>
-            <Link to='/todo'>Todo</Link>
+            <p>Hello, welcome to Todo screen.</p>
+            <Link to='/dashboard'>To Dashboard</Link>
         </div>
     );
 };
 
-export default Dashboard;
+export default Todo;

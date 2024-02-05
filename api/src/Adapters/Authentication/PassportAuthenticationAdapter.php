@@ -19,6 +19,11 @@ class PassportAuthenticationAdapter implements AuthenticationInterface
         return $token;
     }
 
+    public function logout() {
+        $token = Auth::user()->token();
+        $token->revoke();
+    }
+
     private function attemptLogin(array $credentials): LoginUserOutput
     {
         if (Auth::attempt($credentials)) {

@@ -33,7 +33,7 @@ const Login = () => {
             // @ts-ignore
             dispatch(loginUser(userData.data.data.user)).then(() => {
                 storeToken(userData.data.data.token);
-                navigate('/register');
+                navigate('/dashboard');
             });
         } catch (error: any) {
             
@@ -48,7 +48,7 @@ const Login = () => {
 
             <p className="my-4">
                 Do not have an account?{" "}
-                <Link to="/register" className="hover:text-slate-200">
+                <Link to="/register" className="hover:text-appWhiteDarker">
                     <u>Register now</u>
                 </Link>
                 .

@@ -7,7 +7,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        mainColor: "#0C88A4"
+        mainColor: "#0C88A4",
+        appWhite: "#F1F5F9",
+        appWhiteDarker: "#E2E8F0"
       }
     },
   },

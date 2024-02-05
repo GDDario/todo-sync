@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use Illuminate\Http\Request;
 use Src\Adapters\Presenters\LoginPresenter;
-use Src\Adapters\Presenters\UserPresenter;
 use Src\UseCases\LoginUser\LoginUser;
 use Src\UseCases\LoginUser\LoginUserInput;
+use Src\UseCases\LogoutUser\LogoutUser;
 
 class LoginController extends Controller
 {
-    public function store(LoginRequest $request, LoginUser $useCase)
+    public function login(LoginRequest $request, LoginUser $useCase)
     {
         $data = $useCase->handle(
             new LoginUserInput(
@@ -20,5 +21,9 @@ class LoginController extends Controller
         );
 
         return new LoginPresenter($data);
+    }
+
+    public function logout(Request $request, LogoutUser $useCase) {
+        $useCase->handle();
     }
 }

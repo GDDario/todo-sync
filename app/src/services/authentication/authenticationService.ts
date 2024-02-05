@@ -21,4 +21,10 @@ const getToken = (): string | null => {
     return localStorage.getItem('token');
 };
 
-export { register, login, storeToken, getToken };
+const logout = async () => {
+    await axiosInstance.post('http://localhost:8000/api/logout');
+    localStorage.clear();
+    sessionStorage.clear();
+}
+
+export { register, login, storeToken, getToken, tokenLogin, logout };

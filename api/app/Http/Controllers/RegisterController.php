@@ -9,7 +9,7 @@ use Src\UseCases\RegisterUser\RegisterUserInput;
 
 class RegisterController extends Controller
 {
-    public function store(RegisterRequest $request, RegisterUser $useCase)
+    public function login(RegisterRequest $request, RegisterUser $useCase)
     {
         $data = $useCase->handle(
             new RegisterUserInput(
