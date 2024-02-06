@@ -1,11 +1,9 @@
 <?php
 
-namespace Src\UseCases\LoginUser;
+namespace Src\UseCases\User\LoginUser;
 
 use Src\Adapters\Authentication\AuthenticationInterface;
-use Src\Adapters\Repositories\UserRepository\LoginUserDTO;
 use Src\Adapters\Repositories\UserRepository\UserRepositoryInterface;
-use Src\Domain\ValueObjects\Email;
 
 class LoginUser
 {

@@ -6,13 +6,6 @@ type UserType = {
     username: string;
 }
 
-export const loginUser = createAsyncThunk<UserType>(
-    'user/loginUser',
-    async (userData: any) => {
-        return userData;
-    }
-)
-
 const initialState: UserType = {
     uuid: '',
     username: '',
@@ -22,16 +15,14 @@ const initialState: UserType = {
 const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder.addCase(loginUser.fulfilled, (state, action) => {
-            state.uuid = action.payload.uuid;
-            state.email = action.payload.email;
-            state.username = action.payload.username;
-        });
+    reducers: {
+        setUser: (state, { payload }) => {
+            return payload;
+        },
     }
 });
 
-export const selectUser = (state) => state.user;
+export const selectUser = (state: any) => state.user;
+export const { setUser } = userSlice.actions;
 
 export default userSlice.reducer;

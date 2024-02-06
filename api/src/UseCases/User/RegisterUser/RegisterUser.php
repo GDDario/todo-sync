@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\UseCases\RegisterUser;
+namespace Src\UseCases\User\RegisterUser;
 
 use Illuminate\Support\Facades\Hash;
 use Ramsey\Uuid\Uuid as Uuidv4;

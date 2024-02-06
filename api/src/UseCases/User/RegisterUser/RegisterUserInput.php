@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\UseCases\RegisterUser;
+namespace Src\UseCases\User\RegisterUser;
 
 class RegisterUserInput
 {

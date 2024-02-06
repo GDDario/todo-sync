@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Src\Adapters\Presenters\LoginPresenter;
-use Src\UseCases\LoginUser\LoginUser;
-use Src\UseCases\LoginUser\LoginUserInput;
-use Src\UseCases\LogoutUser\LogoutUser;
+use Src\UseCases\User\LoginUser\LoginUser;
+use Src\UseCases\User\LoginUser\LoginUserInput;
+use Src\UseCases\User\LogoutUser\LogoutUser;
 
 class LoginController extends Controller
 {

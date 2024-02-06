@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\UseCases\LoginUser;
+namespace Src\UseCases\User\LoginUser;
 
 class LoginUserInput
 {

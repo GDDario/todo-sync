@@ -9,8 +9,8 @@ const login = async (credentials: LoginCredentials) => {
     return await axiosInstance.post<LoginResponse>('http://localhost:8000/api/login', credentials);
 };
 
-const tokenLogin = async (credentials: TokenLoginCredentials) => {
-    return await axiosInstance.post<LoginResponse>('http://localhost:8000/api/login', credentials);
+const tokenLogin = async () => {
+    return await axiosInstance.get<LoginResponse>('http://localhost:8000/api/authenticated-user');
 };
 
 const storeToken = (token: string): void => {

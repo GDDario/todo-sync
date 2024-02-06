@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\UseCases\LogoutUser;
+namespace Src\UseCases\User\LogoutUser;
 
 use Src\Adapters\Authentication\AuthenticationInterface;
 

@@ -6,7 +6,7 @@ import FormField from "../../../components/FormField";
 import WhiteButton from "../../../components/WhiteButton";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../../store/userSlice";
+import { setUser } from "../../../store/userSlice";
 import { login, storeToken } from "../../../services/authentication/authenticationService";
 
 const schema = z.object({
@@ -31,12 +31,12 @@ const Login = () => {
         try {
             const userData = await login({ email, password });
             // @ts-ignore
-            dispatch(loginUser(userData.data.data.user)).then(() => {
-                storeToken(userData.data.data.token);
-                navigate('/dashboard');
-            });
+            console.log(userData.data.data.user);
+            dispatch(setUser(userData.data.data.user));
+            storeToken(userData.data.data.token);
+            navigate('/dashboard');
         } catch (error: any) {
-            
+            console.log('errorrr', error)
         } finally {
             setLoading(false);
         }

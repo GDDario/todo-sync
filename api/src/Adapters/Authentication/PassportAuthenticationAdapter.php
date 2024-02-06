@@ -3,12 +3,13 @@
 namespace Src\Adapters\Authentication;
 
 use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\Token;
 use Src\Domain\Exceptions\FailedLoginException;
-use Src\UseCases\LoginUser\LoginUserInput;
 use Src\Adapters\Authentication\AuthenticationInterface;
 use Src\Domain\ValueObjects\Email;
 use Src\Domain\ValueObjects\Uuid;
-use Src\UseCases\LoginUser\LoginUserOutput;
+use Src\UseCases\User\GetUserFromToken\GetUserFromTokenOutput;
+use Src\UseCases\User\LoginUser\LoginUserOutput;
 
 class PassportAuthenticationAdapter implements AuthenticationInterface
 {
@@ -40,5 +41,17 @@ class PassportAuthenticationAdapter implements AuthenticationInterface
         }
 
         throw new FailedLoginException();
+    }
+
+    public function extractCredentialsFromToken(string $token): GetUserFromTokenOutput {
+        $jti = json_decode(base64_decode(explode('.', $token)[1]))->jti;
+        $token = Token::find($jti);
+        $user = $token->user;
+
+        return new GetUserFromTokenOutput(
+            uuid: new Uuid($user->uuid),
+                username: $user->username,
+                email: new Email($user->email),
+        );
     }
 }

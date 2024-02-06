@@ -1,18 +1,16 @@
 <?php
 
-namespace Src\UseCases\LoginUser;
+namespace Src\UseCases\User\GetUserFromToken;
 
 use Src\Domain\ValueObjects\Email;
 use Src\Domain\ValueObjects\Uuid;
 
-class LoginUserOutput
+class GetUserFromTokenOutput
 {
     public function __construct(
         public Uuid $uuid,
         public string $username,
         public Email $email,
-        public string $token
     ) {
-
     }
 }
