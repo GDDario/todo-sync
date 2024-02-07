@@ -12,12 +12,12 @@ const schema = z.object({
 
 type loginSchema = z.infer<typeof schema>;
 
-const Todo = () => {
+const List = () => {
     const [isLoading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(changePageName('Todo'));
+        dispatch(changePageName('List'));
     }, []);
 
     return (
@@ -28,4 +28,4 @@ const Todo = () => {
     );
 };
 
-export default Todo;
+export default List;

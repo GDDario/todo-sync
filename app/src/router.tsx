@@ -4,7 +4,7 @@ import Login from "./pages/unauthenticated/Login";
 import Register from "./pages/unauthenticated/Register";
 import AuthenticatedRoutes from "./pages/authenticated/AuthenticatedRoutes";
 import Dashboard from "./pages/authenticated/Dashboard";
-import Todo from "./pages/authenticated/Todo";
+import List from "./pages/authenticated/List";
 
 
 const router = createBrowserRouter([
@@ -34,8 +34,8 @@ const router = createBrowserRouter([
             },
             {
                 index: true,
-                path: "/todo",
-                element: <Todo />,
+                path: "/list",
+                element: <List />,
             },
         ],
     },

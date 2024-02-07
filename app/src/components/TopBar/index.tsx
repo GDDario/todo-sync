@@ -15,11 +15,11 @@ const TopBar = () => {
     }
 
     return (
-        <div className="w-full h-[60px] bg-mainColor p-4 flex justify-between">
+        <div className="w-full h-[60px] bg-mainColor p-4 flex justify-between shadow-sm shadow-black">
             
             <span className="text-appWhite">{page.name}</span>
 
-            <button onClick={() => handleLogout()} className="flex gap-2 text-appWhite">
+            <button onClick={() => handleLogout()} className="flex justify-center items-center gap-2 rounded-[4px] text-appWhite hover-button p-2">
                 <MdLogout size={24} />
                 Logout
             </button>

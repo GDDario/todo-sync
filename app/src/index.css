@@ -12,3 +12,11 @@ body, #root {
   min-height: 100vh;
 }
 
+.hover-button {
+  transition: 0.2s;
+}
+
+.hover-button:hover {
+  background-color: #F1F5F9;
+  color: #0C88A4;
+}
