@@ -39,7 +39,9 @@ const AuthenticatedRoutes = () => {
 
     return (
         <MainLayout>
-            <Outlet />
+            <div className="p-12">
+                <Outlet />
+            </div>
         </MainLayout>
     );
 };

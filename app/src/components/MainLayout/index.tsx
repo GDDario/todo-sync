@@ -9,11 +9,11 @@ type MainLayoutProps = {
 const MainLayout = ({ children }: MainLayoutProps) => {
 
     return (
-        <div className="min-h-screen flex">
+        <div className="h-screen flex overflow-hidden">
             <SideMenu />
             <div className="inline-block w-full">
                 <TopBar />
-                <div className="h-[calc(100%-60px)]">
+                <div className="overflow-y-auto max-h-[calc(100%-60px)]">
                     {children}
                 </div>
             </div>
