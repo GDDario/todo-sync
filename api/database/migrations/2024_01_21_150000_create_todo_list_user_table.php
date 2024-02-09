@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_team_todo', function (Blueprint $table) {
+        Schema::create('todo_list_user', function (Blueprint $table) {
             $table->id();
             $table->uuid();
+            $table->bigInteger('todo_list_id');
             $table->bigInteger('user_id');
-            $table->bigInteger('team_todo_id');
             $table->timestamps();
 
+            $table->foreign('todo_list_id')->references('id')->on('todo_lists');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('team_todo_id')->references('id')->on('team_todos');
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_team_todos');
+        Schema::dropIfExists('list_user');
     }
 };

@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('teams', function (Blueprint $table) {
+        Schema::create('todo_lists', function (Blueprint $table) {
             $table->id();
             $table->uuid();
             $table->string('name');
-            $table->text('description');
-            $table->bigInteger('user_creator_id');
+            $table->bigInteger('user_id');
+            $table->boolean('is_collaborative')->default(false);
             $table->timestamps();
 
-            $table->foreign('user_creator_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists('list');
     }
 };
