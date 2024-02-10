@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->date('due_date')->nullable();
             $table->boolean('scheduled')->default(false);
+            $table->string('schedule_options')->nullable();
             $table->bigInteger('todo_list_id');
             $table->timestamps();
 
