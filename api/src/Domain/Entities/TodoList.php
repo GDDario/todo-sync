@@ -12,10 +12,10 @@ class TodoList
         public Uuid $uuid,
         public string $name,
         public bool $isCollaborative = false,
-        public ?User $user,
-        public ?array $todos,
-        public ?DateTimeInterface $createdAt,
-        public ?DateTimeInterface $updatedAt,
+        public ?User $user = null,
+        public ?array $todos = null,
+        public ?DateTimeInterface $createdAt = null,
+        public ?DateTimeInterface $updatedAt = null,
     ) {
     }
 }

@@ -8,6 +8,7 @@ use Src\Domain\ValueObjects\Uuid;
 class GetUserFromTokenOutput
 {
     public function __construct(
+        public int $id,
         public Uuid $uuid,
         public string $username,
         public Email $email,

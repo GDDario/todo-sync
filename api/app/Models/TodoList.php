@@ -12,6 +12,7 @@ class TodoList extends Model
     protected $fillable = [
         'uuid',
         'name',
+        'is_collaborative',
         'user_id'
     ];
 }

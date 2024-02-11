@@ -3,7 +3,6 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\User;
-use Src\Adapters\Repositories\UserRepository\LoginUserDTO;
 use Src\Adapters\Repositories\UserRepository\RegisterUserDTO;
 use Src\Adapters\Repositories\UserRepository\UserRepositoryInterface;
 use Src\Domain\Entities\User as UserEntity;
@@ -13,7 +12,6 @@ use Src\Domain\ValueObjects\Uuid;
 
 class UserRepository implements UserRepositoryInterface
 {
-
     public function insert(RegisterUserDTO $dto): UserEntity
     {
         if (User::where('username', '=', $dto->username)->exists()) {

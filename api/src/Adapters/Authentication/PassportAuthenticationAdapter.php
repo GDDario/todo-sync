@@ -20,7 +20,8 @@ class PassportAuthenticationAdapter implements AuthenticationInterface
         return $token;
     }
 
-    public function logout() {
+    public function logout()
+    {
         $token = Auth::user()->token();
         $token->revoke();
     }
@@ -43,15 +44,17 @@ class PassportAuthenticationAdapter implements AuthenticationInterface
         throw new FailedLoginException();
     }
 
-    public function extractCredentialsFromToken(string $token): GetUserFromTokenOutput {
+    public function extractCredentialsFromToken(string $token): GetUserFromTokenOutput
+    {
         $jti = json_decode(base64_decode(explode('.', $token)[1]))->jti;
         $token = Token::find($jti);
         $user = $token->user;
 
         return new GetUserFromTokenOutput(
+            id: $user->id,
             uuid: new Uuid($user->uuid),
-                username: $user->username,
-                email: new Email($user->email),
+            username: $user->username,
+            email: new Email($user->email),
         );
     }
 }

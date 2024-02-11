@@ -3,6 +3,7 @@
 namespace Src\Domain\Entities;
 
 use DateTime;
+use DateTimeInterface;
 use Src\Domain\ValueObjects\Email;
 use Src\Domain\ValueObjects\Uuid;
 
@@ -14,8 +15,8 @@ class User
         public string $username,
         public Email $email,
         public ?string $password = null,
-        public ?DateTime $createdAt = null,
-        public ?DateTime $editedAt = null
+        public ?DateTimeInterface $createdAt = null,
+        public ?DateTimeInterface $editedAt = null
     ) {
     }
 }
