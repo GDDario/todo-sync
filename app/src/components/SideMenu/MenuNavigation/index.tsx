@@ -4,10 +4,14 @@ import { FaThList } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import "./style.css";
+import { useState } from "react";
+import ModalBase from "../../Modal/ModalBase";
+import CreateTodoListModal from "../../Modal/CreateTodoListModal";
 
 const MenuNavigation = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [modal, setModal] = useState<boolean>(false);
 
     return (
         <ul className="flex flex-col gap-3">
@@ -31,7 +35,7 @@ const MenuNavigation = () => {
                             <FaThList size={20} />
                             Lists
                         </div>
-                        <button className="rounded-[4px] p-1 hover-button"><FaPlus size={16} /></button>
+                        <button className="rounded-[4px] p-1 hover-button" onClick={() => setModal(true)}><FaPlus size={16} /></button>
                     </div>
 
                     <ul className="mt-2 flex flex-col gap-1">
@@ -54,6 +58,10 @@ const MenuNavigation = () => {
                     </ul>
                 </div>
             </li>
+
+            {
+                modal && <CreateTodoListModal onClose={() => setModal(false)} />
+            }
         </ul>
     );
 };
