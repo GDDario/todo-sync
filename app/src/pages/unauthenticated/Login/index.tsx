@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
-import FormField from "../../../components/FormField";
-import WhiteButton from "../../../components/WhiteButton";
+import FormField from "../../../components/Form/FormField";
+import Button from "../../../components/Button";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../store/userSlice";
@@ -72,7 +72,7 @@ const Login = () => {
                     />
                 </div>
 
-                <WhiteButton isLoading={isLoading} value="Login" />
+                <Button isLoading={isLoading} value="Login" />
             </form>
         </div>
     );

@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
-import FormField from "../../../components/FormField";
-import WhiteButton from "../../../components/WhiteButton";
+import FormField from "../../../components/Form/FormField";
+import Button from "../../../components/Button";
 import { register as authRegister } from "../../../services/authentication/authenticationService";
 import { useState } from "react";
 
@@ -105,7 +105,7 @@ const Register = () => {
                     />
                 </div>
 
-                <WhiteButton value="Register" isLoading={isLoading} />
+                <Button variant="white" value="Register" isLoading={isLoading} />
             </form>
         </div>
     );
