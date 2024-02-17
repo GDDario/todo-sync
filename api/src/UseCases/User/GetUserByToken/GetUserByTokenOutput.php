@@ -1,11 +1,11 @@
 <?php
 
-namespace Src\UseCases\User\GetUserFromToken;
+namespace Src\UseCases\User\GetUserByToken;
 
 use Src\Domain\ValueObjects\Email;
 use Src\Domain\ValueObjects\Uuid;
 
-class GetUserFromTokenOutput
+class GetUserByTokenOutput
 {
     public function __construct(
         public int $id,

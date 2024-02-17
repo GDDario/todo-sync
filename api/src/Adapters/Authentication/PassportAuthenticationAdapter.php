@@ -8,7 +8,7 @@ use Src\Domain\Exceptions\FailedLoginException;
 use Src\Adapters\Authentication\AuthenticationInterface;
 use Src\Domain\ValueObjects\Email;
 use Src\Domain\ValueObjects\Uuid;
-use Src\UseCases\User\GetUserFromToken\GetUserFromTokenOutput;
+use Src\UseCases\User\GetUserByToken\GetUserByTokenOutput;
 use Src\UseCases\User\LoginUser\LoginUserOutput;
 
 class PassportAuthenticationAdapter implements AuthenticationInterface
@@ -44,13 +44,13 @@ class PassportAuthenticationAdapter implements AuthenticationInterface
         throw new FailedLoginException();
     }
 
-    public function extractCredentialsFromToken(string $token): GetUserFromTokenOutput
+    public function extractCredentialsFromToken(string $token): GetUserByTokenOutput
     {
         $jti = json_decode(base64_decode(explode('.', $token)[1]))->jti;
         $token = Token::find($jti);
         $user = $token->user;
 
-        return new GetUserFromTokenOutput(
+        return new GetUserByTokenOutput(
             id: $user->id,
             uuid: new Uuid($user->uuid),
             username: $user->username,

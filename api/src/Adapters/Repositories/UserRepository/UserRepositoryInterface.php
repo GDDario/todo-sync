@@ -8,4 +8,5 @@ use Src\Domain\Entities\User;
 interface UserRepositoryInterface
 {
     public function insert(RegisterUserDTO $dto): User;
+    public function findByEmail(string $email): array;
 }

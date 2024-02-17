@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\UseCases\User\GetUserFromToken;
+namespace Src\UseCases\User\GetUserByToken;
 
-class GetUserFromTokenInput
+class GetUserByTokenInput
 {
     public function __construct(
         public string $token

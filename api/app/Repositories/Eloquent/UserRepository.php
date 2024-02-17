@@ -12,6 +12,14 @@ use Src\Domain\ValueObjects\Uuid;
 
 class UserRepository implements UserRepositoryInterface
 {
+    public function findByEmail(string $email): array {
+        $users = User::where('email', 'LIKE', "$email%")->get();
+
+        return $users->map(function($user) {
+            return $this->hydrateEntity($user);
+        })->toArray();
+    }
+
     public function insert(RegisterUserDTO $dto): UserEntity
     {
         if (User::where('username', '=', $dto->username)->exists()) {
