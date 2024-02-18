@@ -6,18 +6,21 @@ use App\Models\User;
 use Src\Adapters\Repositories\UserRepository\RegisterUserDTO;
 use Src\Adapters\Repositories\UserRepository\UserRepositoryInterface;
 use Src\Domain\Entities\User as UserEntity;
+use Src\Domain\Exceptions\EntityNotFoundException;
 use Src\Domain\Exceptions\ValueAlreadyTakenException;
 use Src\Domain\ValueObjects\Email;
 use Src\Domain\ValueObjects\Uuid;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function findByEmail(string $email): array {
-        $users = User::where('email', 'LIKE', "$email%")->get();
+    public function findByEmail(string $email): UserEntity {
+        if (!$user = User::where('email', "$email%")->first()) {
+            throw new EntityNotFoundException(
+                "User with email $email not found"
+            );
+        }
 
-        return $users->map(function($user) {
-            return $this->hydrateEntity($user);
-        })->toArray();
+        return $this->hydrateEntity($user);
     }
 
     public function insert(RegisterUserDTO $dto): UserEntity

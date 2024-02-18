@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\UseCases\User\ListUsersByEmail;
+namespace Src\UseCases\User\GetUserByEmail;
 
-class ListUsersByEmailInput
+class GetUserByEmailInput
 {
     public function __construct(
         public string $email

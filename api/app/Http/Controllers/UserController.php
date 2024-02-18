@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Src\Adapters\Presenters\UserPresenter;
 use Src\UseCases\User\GetUserByToken\GetUserByToken;
 use Src\UseCases\User\GetUserByToken\GetUserByTokenInput;
-use Src\UseCases\User\ListUsersByEmail\ListUsersByEmail;
-use Src\UseCases\User\ListUsersByEmail\ListUsersByEmailInput;
+use Src\UseCases\User\GetUserByEmail\GetUserByEmail;
+use Src\UseCases\User\GetUserByEmail\GetUserByEmailInput;
 
 class UserController extends Controller
 {
@@ -20,16 +20,12 @@ class UserController extends Controller
         return new UserPresenter($data);
     }
 
-    public function listByEmail(Request $request, ListUsersByEmail $useCase)
+    public function listByEmail(Request $request, GetUserByEmail $useCase)
     {
         $data = $useCase->handle(
-            new ListUsersByEmailInput($request->get('value', ''))
+            new GetUserByEmailInput($request->get('value', ''))
         );
 
-        $mappedUsers = array_map(function($data) {
-            return new UserPresenter($data);
-        }, $data->users);
-
-        return ['data' => $mappedUsers];
+       return new UserPresenter($data);
     }
 }
