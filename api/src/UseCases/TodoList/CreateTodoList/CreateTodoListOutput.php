@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\UseCases\TodoList;
+namespace Src\UseCases\TodoList\CreateTodoList;
 
 use DateTimeInterface;
 use Src\Domain\ValueObjects\Uuid;

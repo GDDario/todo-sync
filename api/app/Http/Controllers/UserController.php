@@ -20,12 +20,12 @@ class UserController extends Controller
         return new UserPresenter($data);
     }
 
-    public function listByEmail(Request $request, GetUserByEmail $useCase)
+    public function getByEmail(Request $request, GetUserByEmail $useCase)
     {
         $data = $useCase->handle(
-            new GetUserByEmailInput($request->get('value', ''))
+            new GetUserByEmailInput($request->get('value', '') ?? '')
         );
 
-       return new UserPresenter($data);
+       return new UserPresenter($data->user);
     }
 }

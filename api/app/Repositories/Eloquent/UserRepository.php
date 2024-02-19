@@ -14,7 +14,7 @@ use Src\Domain\ValueObjects\Uuid;
 class UserRepository implements UserRepositoryInterface
 {
     public function findByEmail(string $email): UserEntity {
-        if (!$user = User::where('email', "$email%")->first()) {
+        if (!$user = User::where('email', "$email")->first()) {
             throw new EntityNotFoundException(
                 "User with email $email not found"
             );

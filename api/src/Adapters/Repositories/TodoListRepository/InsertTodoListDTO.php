@@ -7,10 +7,11 @@ use Src\Domain\ValueObjects\Uuid;
 class InsertTodoListDTO
 {
     public function __construct(
+        public int $userId,
         public Uuid $uuid,
         public string $name,
         public bool $isCollaborative,
-        public int $userId
+        public array $collaboratorsUuids
     ) {
     }
 }

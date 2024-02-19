@@ -26,11 +26,12 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('/todo-list')->group(function () {
         Route::post('', [TodoListController::class, 'store']);
+        Route::get('', [TodoListController::class, 'listByUserId']);
     });
 
     Route::prefix('/user')->group(function () {
         Route::get('/authenticated', [UserController::class, 'getByToken']);
-        Route::get('/email', [UserController::class, 'listByEmail']);
+        Route::get('/email', [UserController::class, 'getByEmail']);
     });
 });
 
