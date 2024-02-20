@@ -2,15 +2,15 @@ import { LoginCredentials, LoginResponse, RegisterCredentials, RegisterResponse,
 import axiosInstance from "../../config/axiosConfig";
 
 const register = async (credentials: RegisterCredentials) => {
-    return await axiosInstance.post<RegisterResponse>('http://localhost:8000/api/register', credentials);
+    return await axiosInstance.post<RegisterResponse>('/register', credentials);
 };
 
 const login = async (credentials: LoginCredentials) => {
-    return await axiosInstance.post<LoginResponse>('http://localhost:8000/api/login', credentials);
+    return await axiosInstance.post<LoginResponse>('/login', credentials);
 };
 
 const tokenLogin = async () => {
-    return await axiosInstance.get<LoginResponse>('http://localhost:8000/api/authenticated-user');
+    return await axiosInstance.get<LoginResponse>('/user/authenticated');
 };
 
 const storeToken = (token: string): void => {
@@ -22,7 +22,7 @@ const getToken = (): string | null => {
 };
 
 const logout = async () => {
-    await axiosInstance.post('http://localhost:8000/api/logout');
+    await axiosInstance.post('/logout');
     localStorage.clear();
     sessionStorage.clear();
 }

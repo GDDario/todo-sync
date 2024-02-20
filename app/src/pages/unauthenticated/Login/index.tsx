@@ -7,7 +7,10 @@ import Button from "../../../components/Button";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../store/userSlice";
-import { login, storeToken } from "../../../services/authentication/authenticationService";
+import { login, storeToken, tokenLogin } from "../../../services/authentication/authenticationService";
+import { getTodoLists } from "../../../services/todo/todoListService";
+import { setTodoLists } from "../../../store/todoListsSlice";
+
 
 const schema = z.object({
     email: z.string().email('Invalid email.'),
@@ -30,10 +33,13 @@ const Login = () => {
         setLoading(true);
         try {
             const userData = await login({ email, password });
-            // @ts-ignore
-            console.log(userData.data.data.user);
+            
             dispatch(setUser(userData.data.data.user));
             storeToken(userData.data.data.token);
+
+            const todoListData = await getTodoLists();
+            dispatch(setTodoLists(todoListData.data.data));
+
             navigate('/dashboard');
         } catch (error: any) {
             console.log('errorrr', error)
@@ -72,7 +78,9 @@ const Login = () => {
                     />
                 </div>
 
-                <Button isLoading={isLoading} value="Login" />
+                <div className="mt-6 flex justify-center">
+                    <Button variant="white" isLoading={isLoading} value="Login" />
+                </div>
             </form>
         </div>
     );

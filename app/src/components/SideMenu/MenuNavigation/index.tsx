@@ -4,14 +4,16 @@ import { FaThList } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import "./style.css";
-import { useState } from "react";
-import ModalBase from "../../Modal/ModalBase";
+import { useEffect, useState } from "react";
 import CreateTodoListModal from "../../Modal/CreateTodoListModal";
+import { useSelector } from "react-redux";
+import { selectTodoLists } from "../../../store/todoListsSlice";
 
 const MenuNavigation = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [modal, setModal] = useState<boolean>(false);
+    const todoLists = useSelector(selectTodoLists);
 
     return (
         <ul className="flex flex-col gap-3">
@@ -39,14 +41,20 @@ const MenuNavigation = () => {
                     </div>
 
                     <ul className="mt-2 flex flex-col gap-1">
-                        <li className="pl-8 flex items-center gap-1">
-                            <button className={`flex w-full items-center gap-2 text-appWhite p-1 rounded-[4px] ${location.pathname == '/list/label' && 'selected'}`}>
-                                <span>
-                                    <GoDotFill size={12} />
-                                </span>
-                                <p className="text-nowrap">Label</p>
-                            </button>
-                        </li>
+                        {todoLists && todoLists.map((todoList) => {
+                            return (
+                                <li key={todoList.uuid} className="pl-8 flex items-center gap-1">
+                                    <button className={`flex w-full items-center gap-2 text-appWhite p-1 rounded-[4px] ${location.pathname == `/list/${1}` && 'selected'} hover-button`}>
+                                        <span>
+                                            <GoDotFill size={12} />
+                                        </span>
+                                        <p className="text-nowrap">{todoList.name}</p>
+                                    </button>
+                                </li>
+                            );
+                        })
+
+                        }
                         <li className="pl-8 flex items-center gap-1">
                             <button className={`flex w-full items-center gap-2 text-appWhite p-1 rounded-[4px] ${location.pathname == '/list/label-2' && 'selected'}`}>
                                 <span>

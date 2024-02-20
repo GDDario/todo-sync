@@ -3,9 +3,11 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 import { IoSettingsSharp } from "react-icons/io5";
 import MenuNavigation from "./MenuNavigation";
+import { selectTodoLists } from "../../store/todoListsSlice";
 
 const SideMenu = () => {
     const user = useSelector(selectUser);
+    const todoLists = useSelector(selectTodoLists);
 
     return (
         <aside className="flex flex-col justify-between h-screen min-w-[220px] w-[10%] max-w-[300px] bg-mainColor p-2 text-appWhite shadow-sm shadow-black">

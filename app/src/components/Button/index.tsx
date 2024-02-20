@@ -1,15 +1,18 @@
 import { ReactNode } from "react";
 
 type ButtonProps = {
+  id?: string;
   value: string;
-  isLoading?: boolean;
+  type?: "button" | "submit" | "reset" | undefined;
   variant?: string;
   icon?: ReactNode;
+  onClick?: (e?) => void  
+  isLoading?: boolean;
 };
 
-const Button = ({ value, isLoading, variant, icon }: ButtonProps) => {
+const Button = ({ id, value, type, variant, icon, onClick, isLoading }: ButtonProps) => {
   const styleClasses = () => {
-    let classes = "mt-6 py-1 px-2 rounded min-w-[100px] ";
+    let classes = "py-1 px-2 rounded min-w-[100px] ";
 
     if (icon) {
       classes += "flex justify-between items-center ";
@@ -33,9 +36,11 @@ const Button = ({ value, isLoading, variant, icon }: ButtonProps) => {
 
   return (
     <button
+      id={id}
       className={styleClasses()}
-      type="submit"
+      type={type ?? 'submit'}
       disabled={isLoading}
+      onClick={(e) => onClick && onClick(e)}
     >
       {value}
       {isLoading && '...'}

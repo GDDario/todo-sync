@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUser, setUser } from "../../store/userSlice";
 import MainLayout from "../../components/MainLayout";
 import { useEffect } from "react";
+import { getTodoLists } from "../../services/todo/todoListService";
+import { setTodoLists } from "../../store/todoListsSlice";
 
 const AuthenticatedRoutes = () => {
     const token = getToken();
     const user = useSelector(selectUser);
-    const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
 
@@ -16,8 +17,10 @@ const AuthenticatedRoutes = () => {
         try {
             const userData = await tokenLogin();
             // @ts-ignore
-            console.log(userData);
             dispatch(setUser(userData.data.data));
+            
+            const todoListData = await getTodoLists();
+            dispatch(setTodoLists(todoListData.data.data));
         } catch (error: any) {
             console.log(error);
             // logout();

@@ -105,7 +105,9 @@ const Register = () => {
                     />
                 </div>
 
-                <Button variant="white" value="Register" isLoading={isLoading} />
+                <div className="mt-6 flex justify-center">
+                    <Button variant="white" value="Register" isLoading={isLoading} />
+                </div>
             </form>
         </div>
     );
