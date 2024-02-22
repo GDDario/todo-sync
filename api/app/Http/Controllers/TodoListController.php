@@ -19,7 +19,7 @@ class TodoListController extends Controller
     ) {
     }
 
-    public function store(CreateTodoListRequest $request, CreateTodoList $useCase)
+    public function store(CreateTodoListRequest $request, CreateTodoList $useCase): TodoListPresenter
     {
         $userData = $this->userUseCase->handle(
             new GetUserByTokenInput($request->bearerToken())
@@ -28,16 +28,16 @@ class TodoListController extends Controller
         $response = $useCase->handle(
             new CreateTodoListInput(
                 userId: $userData->id,
-                name: $request->name,
-                isCollaborative: $request->is_collaborative,
-                collaboratorsUuids: $request->collaborators_uuids
+                name: $request->input('name'),
+                isCollaborative: $request->input('is_collaborative'),
+                collaboratorsUuids: $request->input('collaborators_uuids')
             )
         );
 
         return new TodoListPresenter($response);
     }
 
-    public function listByUserId(Request $request, TodoListLister $useCase)
+    public function listByUserId(Request $request, TodoListLister $useCase): array
     {
         $userData = $this->userUseCase->handle(
             new GetUserByTokenInput($request->bearerToken())

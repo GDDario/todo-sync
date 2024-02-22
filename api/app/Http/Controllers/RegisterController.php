@@ -13,10 +13,10 @@ class RegisterController extends Controller
     {
         $data = $useCase->handle(
             new RegisterUserInput(
-                username: $request->username,
-                email: $request->email,
-                password: $request->password,
-                confirmPassword: $request->password_confirmation
+                username: $request->input('username'),
+                email: $request->input('email'),
+                password: $request->input('password'),
+                confirmPassword: $request->input('password_confirmation')
             )
         );
 

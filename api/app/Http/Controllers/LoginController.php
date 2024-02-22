@@ -15,8 +15,8 @@ class LoginController extends Controller
     {
         $data = $useCase->handle(
             new LoginUserInput(
-                email: $request->email,
-                password: $request->password,
+                email: $request->input('email'),
+                password: $request->input('password'),
             )
         );
 

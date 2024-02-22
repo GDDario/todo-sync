@@ -16,6 +16,9 @@ class RegisterUser
     {
     }
 
+    /**
+     * @throws PasswordMatchingException
+     */
     public function handle(RegisterUserInput $input): RegisterUserOutput
     {
         if ($input->password !== $input->confirmPassword) {
