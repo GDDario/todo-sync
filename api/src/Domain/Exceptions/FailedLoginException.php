@@ -11,13 +11,4 @@ class FailedLoginException extends Exception
     ) {
         parent::__construct();
     }
-
-    public function render($request) {
-        return Response(
-            [
-                'Wrong credentials.'
-            ],
-            Response::HTTP_UNAUTHORIZED
-        );
-    }
 }

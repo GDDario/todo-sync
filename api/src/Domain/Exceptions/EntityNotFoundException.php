@@ -12,13 +12,4 @@ class EntityNotFoundException extends Exception
     ) {
         parent::__construct();
     }
-
-    public function render($request) {
-        return Response(
-            [
-                $this->message ??  'Entity not found.'
-            ],
-            Response::HTTP_NOT_FOUND
-        );
-    }
 }

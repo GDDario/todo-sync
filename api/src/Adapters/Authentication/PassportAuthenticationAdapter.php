@@ -5,7 +5,6 @@ namespace Src\Adapters\Authentication;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Token;
 use Src\Domain\Exceptions\FailedLoginException;
-use Src\Adapters\Authentication\AuthenticationInterface;
 use Src\Domain\ValueObjects\Email;
 use Src\Domain\ValueObjects\Uuid;
 use Src\UseCases\User\GetUserByToken\GetUserByTokenOutput;

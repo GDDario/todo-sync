@@ -11,10 +11,10 @@ use Src\Domain\Exceptions\ValueAlreadyTakenException;
 use Src\Domain\ValueObjects\Email;
 use Src\Domain\ValueObjects\Uuid;
 
-class UserRepository implements UserRepositoryInterface
+class UserEloquentRepository implements UserRepositoryInterface
 {
     public function findByEmail(string $email): UserEntity {
-        if (!$user = User::where('email', "$email")->first()) {
+        if (!$user = User::query()->where('email', "$email")->first()) {
             throw new EntityNotFoundException(
                 "User with email $email not found"
             );
@@ -25,14 +25,16 @@ class UserRepository implements UserRepositoryInterface
 
     public function insert(RegisterUserDTO $dto): UserEntity
     {
-        if (User::where('username', '=', $dto->username)->exists()) {
+        $query = User::query();
+
+        if ($query->where('username', '=', $dto->username)->exists()) {
             throw new ValueAlreadyTakenException('Username');
         }
-        if (User::where('email', '=', $dto->email)->exists()) {
+        if ($query->where('email', '=', $dto->email)->exists()) {
             throw new ValueAlreadyTakenException('Email');
         }
 
-        $user = User::create([
+        $user = $query->create([
             'uuid' => $dto->uuid,
             'username' => $dto->username,
             'email' => $dto->email,

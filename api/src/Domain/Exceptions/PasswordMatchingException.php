@@ -11,13 +11,4 @@ class PasswordMatchingException extends Exception
     ) {
         parent::__construct();
     }
-
-    public function render($request) {
-        return Response(
-            [
-                'The password do not match.'
-            ],
-            Response::HTTP_BAD_REQUEST
-        );
-    }
 }

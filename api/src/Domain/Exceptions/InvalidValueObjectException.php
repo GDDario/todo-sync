@@ -15,13 +15,4 @@ class InvalidValueObjectException extends Exception
         parent::__construct();
         $this->message = $message;
     }
-
-    public function render($request) {
-        return Response(
-            [
-                $this->message
-            ],
-            Response::HTTP_BAD_REQUEST
-        );
-    }
 }
