@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
-use App\Repositories\Eloquent\TodoListRepository;
+use App\Repositories\Eloquent\TodoEloquentRepository;
+use App\Repositories\Eloquent\TodoListEloquentRepository;
 use Src\Adapters\Authentication\PassportAuthenticationAdapter;
-use App\Repositories\Eloquent\UserRepository;
+use App\Repositories\Eloquent\UserEloquentRepository;
 use Illuminate\Support\ServiceProvider;
 use Src\Adapters\Authentication\AuthenticationInterface;
 use Src\Adapters\Repositories\TodoListRepository\TodoListRepositoryInterface;
+use Src\Adapters\Repositories\TodoRepository\TodoRepositoryInterface;
 use Src\Adapters\Repositories\UserRepository\UserRepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(
             UserRepositoryInterface::class,
-            UserRepository::class
+            UserEloquentRepository::class
         );
 
         $this->app->singleton(
@@ -29,7 +31,12 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             TodoListRepositoryInterface::class,
-            TodoListRepository::class
+            TodoListEloquentRepository::class
+        );
+
+        $this->app->singleton(
+            TodoRepositoryInterface::class,
+            TodoEloquentRepository::class
         );
     }
 

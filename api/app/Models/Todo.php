@@ -17,7 +17,9 @@ class Todo extends Model
         'title',
         'description',
         'due_date',
-        'scheduled'
+        'is_urgent',
+        'schedule_options',
+        'is_completed'
     ];
 
     public function tags(): BelongsToMany

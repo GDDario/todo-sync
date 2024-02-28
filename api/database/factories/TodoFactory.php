@@ -28,7 +28,9 @@ class TodoFactory extends Factory
             'title' => fake()->text(50),
             'description' => fake()->text(),
             'due_date' => fake()->date(),
-            'scheduled' => fake()->boolean(),
+            'is_urgent' => fake()->boolean(),
+            'schedule_options' => null,
+            'is_completed' => false,
         ];
     }
 }

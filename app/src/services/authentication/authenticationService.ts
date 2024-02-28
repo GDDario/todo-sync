@@ -1,4 +1,4 @@
-import { LoginCredentials, LoginResponse, RegisterCredentials, RegisterResponse, TokenLoginCredentials } from "./types";
+import { LoginCredentials, LoginResponse, RegisterCredentials, RegisterResponse } from "./types";
 import axiosInstance from "../../config/axiosConfig";
 
 const register = async (credentials: RegisterCredentials) => {

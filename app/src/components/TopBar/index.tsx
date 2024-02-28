@@ -1,8 +1,7 @@
 import { MdLogout } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { selectPage } from "../../store/pageSlice";
-import { selectUser } from "../../store/userSlice";
 import { logout } from "../../services/authentication/authenticationService";
 
 const TopBar = () => {

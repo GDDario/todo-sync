@@ -19,10 +19,11 @@ class TodoTagSeeder extends Seeder
         foreach ($todos as $todo) {
             $tags = Tag::inRandomOrder()->limit(rand(1, 3))->get();
 
-            foreach($tags as $tag) {
+            foreach ($tags as $tag) {
                 $uuid = Uuid::uuid4()->toString();
 
-                $todo->tags()->attach($tag, ['uuid' => $uuid]);
+                $date = fake()->date();
+                $todo->tags()->attach($tag, ['uuid' => $uuid, 'created_at' => $date]);
             }
         }
     }

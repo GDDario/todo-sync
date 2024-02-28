@@ -14,11 +14,13 @@ class Todo
         public string $title,
         public string $description,
         public DateTimeInterface $dueDate,
-        public bool $scheduled,
-        public ?User $user,
-        public ?TodoList $todoList,
-        public ?DateTimeInterface $createdAt,
-        public ?DateTimeInterface $updatedAt,
+        public bool $isUrgent,
+        public bool $isCompleted,
+        public ?string $scheduleOptions = null,
+        public ?User $user = null,
+        public ?TodoList $todoList = null,
+        public ?DateTimeInterface $createdAt = null,
+        public ?DateTimeInterface $updatedAt = null,
     ) {
     }
 }

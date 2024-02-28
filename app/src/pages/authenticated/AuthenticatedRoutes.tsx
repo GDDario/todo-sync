@@ -1,11 +1,11 @@
-import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { getToken, logout, tokenLogin } from "../../services/authentication/authenticationService";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUser, setUser } from "../../store/userSlice";
+import {Navigate, Outlet, useLocation} from "react-router-dom";
+import {getToken, tokenLogin} from "../../services/authentication/authenticationService";
+import {useDispatch, useSelector} from "react-redux";
+import {selectUser, setUser} from "../../store/userSlice";
 import MainLayout from "../../components/MainLayout";
-import { useEffect } from "react";
-import { getTodoLists } from "../../services/todo/todoListService";
-import { setTodoLists } from "../../store/todoListsSlice";
+import {useEffect} from "react";
+import {getTodoLists} from "../../services/todo/todoListService";
+import {setTodoLists} from "../../store/todoListsSlice";
 
 const AuthenticatedRoutes = () => {
     const token = getToken();
@@ -16,7 +16,6 @@ const AuthenticatedRoutes = () => {
     const doLogin = async () => {
         try {
             const userData = await tokenLogin();
-            // @ts-ignore
             dispatch(setUser(userData.data.data));
             
             const todoListData = await getTodoLists();

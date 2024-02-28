@@ -1,18 +1,18 @@
-import { z } from "zod";
+import {z} from "zod";
 import FormField from "../../Form/FormField";
 import ModalBase from "../ModalBase"
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
 import Button from "../../Button";
-import { IoMdClose, IoMdSearch, IoMdCloseCircle } from "react-icons/io";
-import { FaCheck } from "react-icons/fa6";
-import { useEffect, useState } from "react";
+import {IoMdClose, IoMdSearch} from "react-icons/io";
+import {FaCheck} from "react-icons/fa6";
+import React, {useEffect, useState} from "react";
 import CollaboratorContainer from "./CollaboratorContainer";
-import { searchUserByEmail } from "../../../services/user/userService";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from "../../../store/userSlice";
-import { createTodoList } from "../../../services/todo/todoListService";
-import { addTodoList, selectTodoLists } from "../../../store/todoListsSlice";
+import {searchUserByEmail} from "../../../services/user/userService";
+import {useDispatch, useSelector} from "react-redux";
+import {selectUser} from "../../../store/userSlice";
+import {createTodoList} from "../../../services/todo/todoListService";
+import {addTodoList} from "../../../store/todoListsSlice";
 
 type CreateTodoListModalProps = {
     onClose: () => void;
@@ -23,15 +23,15 @@ const schema = z.object({
     isCollaborative: z.boolean()
 });
 
-type createTodoListSchema = z.infer<typeof schema>;
+type CreateTodoListSchema = z.infer<typeof schema>;
 
-const CreateTodoListModal = ({ onClose }: CreateTodoListModalProps) => {
+const CreateTodoListModal = ({onClose}: CreateTodoListModalProps) => {
     const {
         register,
         handleSubmit,
         setError,
-        formState: { errors },
-    } = useForm<createTodoListSchema>({ resolver: zodResolver(schema) });
+        formState: {errors},
+    } = useForm<CreateTodoListSchema>({resolver: zodResolver(schema)});
     const [showCollaborators, setShowCollaborators] = useState<boolean>(false);
     const [collaborators, setCollaborators] = useState<User[]>([]);
     const [email, setEmail] = useState<string>('');
@@ -86,7 +86,7 @@ const CreateTodoListModal = ({ onClose }: CreateTodoListModalProps) => {
         setCollaborators(filteredCollaborators);
     }
 
-    const onSubmit = async ({ name, isCollaborative }: createTodoListSchema) => {
+    const onSubmit = async ({name, isCollaborative}: CreateTodoListSchema) => {
         let collaboratorsUuids: string[] = [];
 
         if (isCollaborative) {
@@ -96,7 +96,7 @@ const CreateTodoListModal = ({ onClose }: CreateTodoListModalProps) => {
         }
 
         try {
-            const todoListData = await createTodoList({ name, isCollaborative, collaboratorsUuids });
+            const todoListData = await createTodoList({name, isCollaborative, collaboratorsUuids});
             dispatch(addTodoList(todoListData.data.data));
             // TODO: Success message
             onClose();
@@ -104,8 +104,8 @@ const CreateTodoListModal = ({ onClose }: CreateTodoListModalProps) => {
             const errors = error?.response?.data?.errors;
             if (errors) {
                 for (const key in errors) {
-                    if (errors.hasOwnProperty(key)) {
-                        setError(key as keyof createTodoListSchema,
+                    if (Object.prototype.hasOwnProperty.call(errors, key)) {
+                        setError(key as keyof CreateTodoListSchema,
                             {
                                 type: 'manual',
                                 message: errors[key][0]
@@ -138,7 +138,7 @@ const CreateTodoListModal = ({ onClose }: CreateTodoListModalProps) => {
                         id="isCollaborative"
                         {...register("isCollaborative")}
                         onChange={(event) => setShowCollaborators(event?.target.checked)}
-                        className="block w-[16px] h-[16px]" />
+                        className="block w-[16px] h-[16px]"/>
                     <label htmlFor="isCollaborative" className="select-none">Collaborative</label>
                 </div>
 
@@ -151,8 +151,16 @@ const CreateTodoListModal = ({ onClose }: CreateTodoListModalProps) => {
                                 placeholder="Put the collaborator email here"
                                 className="px-2 py-1 border border-black rounded"
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
+                                onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                                    if (event.key == 'Enter') {
+                                        event.preventDefault();
+                                        setEmail(event.currentTarget.value);
+                                        handleSearchCollaborator();
+                                    }
+                                }}
                             />
-                            <Button id="searchButton" type="button" onClick={() => handleSearchCollaborator()} value="Search" isLoading={false} icon={<IoMdSearch size={20} />} />
+                            <Button id="searchButton" type="button" onClick={() => handleSearchCollaborator()}
+                                    value="Search" isLoading={false} icon={<IoMdSearch size={20}/>}/>
                         </div>
                         {searchError && <p className="text-red-500">{searchError}</p>}
 
@@ -174,13 +182,14 @@ const CreateTodoListModal = ({ onClose }: CreateTodoListModalProps) => {
                         value="Cancel"
                         type="button"
                         variant="danger"
-                        icon={<IoMdClose size={20} />}
-                        onClick={(e) => onClose()}
+                        icon={<IoMdClose size={20}/>}
+                        onClick={() => onClose()}
                     />
                     <Button
                         value="Confirm"
+                        isLoading={loading}
                         type="submit"
-                        icon={<FaCheck size={18} />}
+                        icon={<FaCheck size={18}/>}
                     />
                 </div>
             </form>

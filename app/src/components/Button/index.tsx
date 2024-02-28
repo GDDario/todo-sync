@@ -12,7 +12,7 @@ type ButtonProps = {
 
 const Button = ({ id, value, type, variant, icon, onClick, isLoading }: ButtonProps) => {
   const styleClasses = () => {
-    let classes = "py-1 px-2 rounded min-w-[100px] ";
+    let classes = "py-1 px-2 rounded min-w-[100px] disabled:opacity-80 ";
 
     if (icon) {
       classes += "flex justify-between items-center ";

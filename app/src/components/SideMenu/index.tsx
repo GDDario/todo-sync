@@ -8,7 +8,7 @@ const SideMenu = () => {
     const user = useSelector(selectUser);
 
     return (
-        <aside className="h-screen max-w-[320px] w-[20%] bg-mainColor p-2 text-appWhite shadow-sm shadow-black">
+        <aside className="h-screen max-w-[320px] w-[20%] min-w-[220px] bg-mainColor p-2 text-appWhite shadow-sm shadow-black">
             <div className="flex flex-col justify-between h-full">
                 <div className="h-[90%]">
                     <div className="flex justify-center items-center flex-col">

@@ -14,7 +14,7 @@ use Src\Domain\Exceptions\ValueAlreadyTakenException;
 use Ramsey\Uuid\Uuid as Uuidv4;
 use Src\Domain\ValueObjects\Uuid;
 
-class TodoListRepository implements TodoListRepositoryInterface
+class TodoListEloquentRepository implements TodoListRepositoryInterface
 {
     public function insert(InsertTodoListDTO $dto): TodoListEntity
     {

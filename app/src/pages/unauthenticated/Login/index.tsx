@@ -7,7 +7,7 @@ import Button from "../../../components/Button";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../store/userSlice";
-import { login, storeToken, tokenLogin } from "../../../services/authentication/authenticationService";
+import { login, storeToken } from "../../../services/authentication/authenticationService";
 import { getTodoLists } from "../../../services/todo/todoListService";
 import { setTodoLists } from "../../../store/todoListsSlice";
 

@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class TodoListPresenter extends JsonResource
 {
-    public function toArray($request)
+    public function toArray($request): array
     {
         $array = [
             'uuid' => is_object($this->uuid) ? $this->uuid->__toString() : $this->uuid,
