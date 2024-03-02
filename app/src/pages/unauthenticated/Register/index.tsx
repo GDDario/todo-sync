@@ -6,6 +6,8 @@ import FormField from "../../../components/Form/FormField";
 import Button from "../../../components/Button";
 import { register as authRegister } from "../../../services/authentication/authenticationService";
 import { useState } from "react";
+import {showMessage} from "../../../store/messageSlice.ts";
+import {useDispatch} from "react-redux";
 
 const schema = z
     .object({
@@ -26,6 +28,7 @@ type registerSchema = z.infer<typeof schema>;
 const Register = () => {
     const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const {
         register,
         handleSubmit,
@@ -39,10 +42,11 @@ const Register = () => {
             await authRegister({ username, email, password, password_confirmation: passwordConfirmation });
             navigate('/login');
         } catch (error: any) {
+            dispatch(showMessage({ message: 'Error, try again.', type: 'error' }));
             const errors = error?.response?.data?.errors;
             if (errors) {
                 for (const key in errors) {
-                    if (errors.hasOwnProperty(key)) {
+                    if (Object.prototype.hasOwnProperty.call(errors, key)) {
                         setError(key as keyof registerSchema,
                             {
                                 type: 'manual',

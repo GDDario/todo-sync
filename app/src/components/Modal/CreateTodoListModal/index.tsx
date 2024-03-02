@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectUser} from "../../../store/userSlice";
 import {createTodoList} from "../../../services/todo/todoListService";
 import {addTodoList} from "../../../store/todoListsSlice";
+import {showMessage} from "../../../store/messageSlice.ts";
 
 type CreateTodoListModalProps = {
     onClose: () => void;
@@ -98,7 +99,7 @@ const CreateTodoListModal = ({onClose}: CreateTodoListModalProps) => {
         try {
             const todoListData = await createTodoList({name, isCollaborative, collaboratorsUuids});
             dispatch(addTodoList(todoListData.data.data));
-            // TODO: Success message
+            dispatch(showMessage({ message: 'Todo list created successfully!', type: 'success' }));
             onClose();
         } catch (error: any) {
             const errors = error?.response?.data?.errors;
@@ -114,7 +115,7 @@ const CreateTodoListModal = ({onClose}: CreateTodoListModalProps) => {
                     }
                 }
             }
-            // TODO: Error message
+            dispatch(showMessage({ message: 'The Todo list could not be created.', type: 'error' }));
         } finally {
             setLoading(false);
         }

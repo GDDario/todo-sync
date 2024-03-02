@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Src\Adapters\Repositories\TodoListRepository\TodoListRepositoryInterface;
 use Src\Adapters\Repositories\TodoListRepository\InsertTodoListDTO;
 use Src\Domain\Entities\TodoList as TodoListEntity;
+use Src\Domain\Exceptions\EntityNotFoundException;
 use Src\Domain\Exceptions\ValueAlreadyTakenException;
 use Ramsey\Uuid\Uuid as Uuidv4;
 use Src\Domain\ValueObjects\Uuid;
@@ -34,7 +35,9 @@ class TodoListEloquentRepository implements TodoListRepositoryInterface
 
             if (count($dto->collaboratorsUuids) > 0) {
                 foreach ($dto->collaboratorsUuids as $collaboratorUuid) {
-                    $user = User::where('uuid', $collaboratorUuid)->first();
+                    if (!$user = User::where('uuid', $collaboratorUuid)->first()) {
+                        throw new EntityNotFoundException("User with uuid $collaboratorUuid not found.");
+                    }
 
                     TodoListUser::create([
                         'uuid' => Uuidv4::uuid4()->__toString(),

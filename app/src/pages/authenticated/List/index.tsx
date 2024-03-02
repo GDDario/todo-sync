@@ -3,20 +3,20 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { changePageName } from "../../../store/pageSlice";
 
-const List = () => {
+const TodoList = () => {
     const [isLoading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(changePageName('List'));
+        dispatch(changePageName('Todo list'));
     }, []);
 
     return (
         <div>
-            <p>Hello, welcome to Todo screen.</p>
+            <p>Hello, welcome to TodoList screen.</p>
             <Link to='/dashboard'>To Dashboard</Link>
         </div>
     );
 };
 
-export default List;
+export default TodoList;

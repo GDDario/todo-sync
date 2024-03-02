@@ -1,12 +1,14 @@
-import { Provider } from "react-redux";
+import {Provider} from "react-redux";
 import store from "./store";
 import router from "./router";
-import { RouterProvider } from "react-router-dom";
+import {RouterProvider} from "react-router-dom";
+import Message from "./components/Message";
 
 const App = () => {
     return (
         <Provider store={store}>
-            <RouterProvider router={router} />
+            <Message />
+            <RouterProvider router={router}/>
         </Provider>
     );
 }

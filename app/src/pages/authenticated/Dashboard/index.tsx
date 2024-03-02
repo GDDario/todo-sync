@@ -49,7 +49,6 @@ const defaultChartData = {
         }
     ],
     toolbar: {
-
         show: false
     }
 };
@@ -87,7 +86,6 @@ const Dashboard = () => {
 
         setTodos(dashboardData.todos);
         setCommitments(commitments);
-        console.log(commitments);
         setTags(dashboardData.most_used_tags);
     }
 

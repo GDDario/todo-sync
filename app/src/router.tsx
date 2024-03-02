@@ -4,7 +4,7 @@ import Login from "./pages/unauthenticated/Login";
 import Register from "./pages/unauthenticated/Register";
 import AuthenticatedRoutes from "./pages/authenticated/AuthenticatedRoutes";
 import Dashboard from "./pages/authenticated/Dashboard";
-import List from "./pages/authenticated/List";
+import TodoList from "./pages/authenticated/List";
 
 
 const router = createBrowserRouter([
@@ -33,9 +33,8 @@ const router = createBrowserRouter([
                 element: <Dashboard />,
             },
             {
-                index: true,
-                path: "/list",
-                element: <List />,
+                path: "/todo-list/:uuid",
+                element: <TodoList />,
             },
         ],
     },

@@ -1,4 +1,4 @@
-import { MouseEvent, ReactNode } from "react";
+import {MouseEvent, ReactNode, useEffect} from "react";
 
 type ModalBaseProps = {
     title: string;
@@ -12,6 +12,14 @@ const ModalBase = ({ children, title, onClose }: ModalBaseProps) => {
             onClose();
         }
     }
+
+    useEffect(() => {
+        document.addEventListener('keydown', (event: KeyboardEvent) => {
+            if (event.key == 'Escape') {
+                onClose();
+            }
+        });
+    }, []);
 
     return (
         <div className="absolute top-0 left-0 z-[1000] w-screen h-screen overflow-hidden flex justify-center items-center bg-black bg-opacity-55 text-black"
