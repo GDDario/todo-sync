@@ -1,4 +1,4 @@
-import { LoginCredentials, LoginResponse, RegisterCredentials, RegisterResponse } from "./types";
+import {LoginCredentials, LoginResponse, RegisterCredentials, RegisterResponse} from "./types";
 import axiosInstance from "../../config/axiosConfig";
 
 const register = async (credentials: RegisterCredentials) => {
@@ -21,7 +21,7 @@ const getToken = (): string | null => {
     return localStorage.getItem('token');
 };
 
-const logout = async () => {
+const logout = async (): Promise<void> => {
     await axiosInstance.post('/logout');
     localStorage.clear();
     sessionStorage.clear();

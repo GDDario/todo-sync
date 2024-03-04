@@ -39,6 +39,7 @@ const Register = () => {
     const onSubmit = async ({ username, email, password, passwordConfirmation }) => {
         setLoading(true);
         try {
+            dispatch(showMessage({message: 'Logged in. Welcome.', type: 'error'}));
             await authRegister({ username, email, password, password_confirmation: passwordConfirmation });
             navigate('/login');
         } catch (error: any) {

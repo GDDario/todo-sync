@@ -1,15 +1,16 @@
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate } from "react-router-dom";
+import {useForm} from "react-hook-form";
+import {z} from "zod";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {Link, useNavigate} from "react-router-dom";
 import FormField from "../../../components/Form/FormField";
 import Button from "../../../components/Button";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../../store/userSlice";
-import { login, storeToken } from "../../../services/authentication/authenticationService";
-import { getTodoLists } from "../../../services/todo/todoListService";
-import { setTodoLists } from "../../../store/todoListsSlice";
+import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {setUser} from "../../../store/userSlice";
+import {login, storeToken} from "../../../services/authentication/authenticationService";
+import {getTodoLists} from "../../../services/todo/todoListService";
+import {setTodoLists} from "../../../store/todoListsSlice";
+import {showMessage} from "../../../store/messageSlice.ts";
 
 
 const schema = z.object({
@@ -42,6 +43,7 @@ const Login = () => {
 
             navigate('/dashboard');
         } catch (error: any) {
+            dispatch(showMessage({ message: 'Error, try again.', type: 'error' }));
             console.log('errorrr', error)
         } finally {
             setLoading(false);

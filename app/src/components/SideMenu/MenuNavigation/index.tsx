@@ -1,28 +1,25 @@
 import {useLocation, useNavigate} from "react-router-dom";
 import {MdDashboard} from "react-icons/md";
-import {FaThList} from "react-icons/fa";
-import {FaPlus} from "react-icons/fa";
+import {FaPlus, FaThList} from "react-icons/fa";
 import {GoDotFill} from "react-icons/go";
 import {useState} from "react";
 import CreateTodoListModal from "../../Modal/CreateTodoListModal";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {selectTodoLists} from "../../../store/todoListsSlice";
 import "./style.css";
-import {showMessage} from "../../../store/messageSlice.ts";
 
 const MenuNavigation = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [modal, setModal] = useState<boolean>(false);
     const todoLists = useSelector(selectTodoLists);
-    const dispatch = useDispatch();
 
     return (
         <div className="overflow-y-scroll overflow-x-hidden h-[63%]">
             <ul className="flex flex-col gap-3 w-[95%]">
                 <li className="w-full">
                     <button
-                        className={`flex w-full items-center gap-2 text-appWhite p-2 rounded-[4px] ${location.pathname == '/dashboard' && 'selected'}`}
+                        className={`flex w-full items-center gap-2 text-appWhite p-2 rounded-[4px] ${location.pathname == '/dashboard' && 'selected'} hover-button`}
                         onClick={() => navigate('/dashboard')}
                     >
                         <MdDashboard size={24}/>
@@ -41,8 +38,7 @@ const MenuNavigation = () => {
                                 Lists
                             </div>
                             <button className="rounded-[4px] p-1 hover-button" onClick={() => {
-                                dispatch(showMessage({ message: 'Todo list created successfully!', type: 'error' }));
-                                // setModal(true)
+                                setModal(true)
                             }}><FaPlus
                                 size={16}/></button>
                         </div>
