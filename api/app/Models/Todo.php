@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Todo extends Model
@@ -19,11 +20,16 @@ class Todo extends Model
         'due_date',
         'is_urgent',
         'schedule_options',
-        'is_completed'
+        'is_completed',
+        'todo_group_id',
     ];
 
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'todo_tag');
+    }
+
+    public function group(): BelongsTo {
+        return $this->belongsTo(TodoGroup::class, 'todo_groups');
     }
 }

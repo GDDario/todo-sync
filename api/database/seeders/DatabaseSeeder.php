@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             TodoListSeeder::class,
+            TodoGroupSeeder::class,
             TodoSeeder::class,
             TagSeeder::class,
             TodoTagSeeder::class,
