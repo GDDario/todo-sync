@@ -24,6 +24,11 @@ class Todo extends Model
         'todo_group_id',
     ];
 
+    protected $casts = [
+        'due_date' => 'datetime',
+        'updated_at' => 'datetime'
+    ];
+
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'todo_tag');

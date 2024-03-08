@@ -3,7 +3,7 @@ import FormField from "../../Form/FormField";
 import ModalBase from "../ModalBase"
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import Button from "../../Button";
+import Button from "../../Button/Button.tsx";
 import {IoMdClose, IoMdSearch} from "react-icons/io";
 import {FaCheck} from "react-icons/fa6";
 import React, {useEffect, useState} from "react";

@@ -3,8 +3,8 @@ import UnauthenticatedRoutes from "./pages/unauthenticated/UnauthenticatedRoutes
 import Login from "./pages/unauthenticated/Login";
 import Register from "./pages/unauthenticated/Register";
 import AuthenticatedRoutes from "./pages/authenticated/AuthenticatedRoutes";
-import Dashboard from "./pages/authenticated/Dashboard";
-import TodoList from "./pages/authenticated/List";
+import Dashboard from "./pages/authenticated/Dashboard/Dashboard.tsx";
+import TodoList from "./pages/authenticated/TodoList/TodoList.tsx";
 
 
 const router = createBrowserRouter([

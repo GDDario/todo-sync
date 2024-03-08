@@ -3,7 +3,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import FormField from "../../../components/Form/FormField";
-import Button from "../../../components/Button";
+import Button from "../../../components/Button/Button.tsx";
 import { register as authRegister } from "../../../services/authentication/authenticationService";
 import { useState } from "react";
 import {showMessage} from "../../../store/messageSlice.ts";

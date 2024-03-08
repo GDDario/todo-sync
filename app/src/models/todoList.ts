@@ -4,4 +4,4 @@ interface TodoList {
     is_collaborative: boolean,
     created_at: string,
     collaborators?: User[];
-};
+}

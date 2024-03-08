@@ -2,15 +2,40 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\Models\Tag;
 use App\Models\Todo;
+use App\Models\TodoList;
 use Illuminate\Support\Facades\DB;
 use Src\Adapters\Repositories\TodoRepository\DashboardDTO;
 use Src\Adapters\Repositories\TodoRepository\TodoRepositoryInterface;
+use Src\Adapters\Repositories\TodoRepository\TodosDTO;
 use Src\Domain\Entities\Todo as TodoEntity;
+use Src\Domain\Entities\Tag as TagEntity;
+use Src\Domain\Exceptions\EntityNotFoundException;
 use Src\Domain\ValueObjects\Uuid;
 
 class TodoEloquentRepository implements TodoRepositoryInterface
 {
+    public function findByTodoList(Uuid $todoListUuid): TodosDTO
+    {
+        if (!$todoList = TodoList::where('uuid', $todoListUuid)->first()) {
+            throw new EntityNotFoundException("TodoList with uuid $todoListUuid not found");
+        }
+
+        $ungroupedTodos = Todo::where('todo_list_id', $todoList->id)
+            ->whereNull('todo_group_id')->get();
+        $groupedTodos = Todo::where('todo_list_id', $todoList->id)
+            ->whereNotNull('todo_group_id')->get();
+
+        $ungroupedTodos = $ungroupedTodos->map(fn(Todo $todo) => $this->hydrateEntity($todo))->toArray();
+        $groupedTodos = $groupedTodos->map(fn(Todo $todo) => $this->hydrateEntity($todo))->toArray();
+
+        return new TodosDTO(
+            $groupedTodos,
+            $ungroupedTodos
+        );
+    }
+
     public function getDashboard(int $userId): DashboardDTO
     {
         $todosData = DB::table('todos')
@@ -47,13 +72,19 @@ class TodoEloquentRepository implements TodoRepositoryInterface
 
     private function hydrateEntity(Todo $todo): TodoEntity
     {
+        $tags = $todo->tags()->get()
+            ->map(fn(Tag $tag) => TagEntity::createFromModel($tag))
+            ->toArray();
+
         return new TodoEntity(
             id: $todo->id,
             uuid: new Uuid($todo->uuid),
             title: $todo->title,
-            description: $todo->description,
             dueDate: $todo->due_date,
             isUrgent: $todo->is_urgent,
+            tags: $tags,
+            isCompleted: $todo->is_completed,
+            description: $todo->description,
             scheduleOptions: $todo->schedule_options,
         );
     }
