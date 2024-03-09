@@ -1,17 +1,15 @@
 import {Link, useParams} from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { changePageName } from "../../../store/pageSlice";
+import {useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
+import {changePageName} from "../../../store/pageSlice";
 import CreateGroupButton from "../../../components/CreateGroupButton/CreateGroupButton.tsx";
 
-const TodosMock: Todo[] = [
-
-];
+const TodosMock: Todo[] = [];
 
 const TodoList = () => {
     const [isLoading, setLoading] = useState(false);
     const dispatch = useDispatch();
-    const { uuid } = useParams();
+    const {uuid} = useParams();
 
     useEffect(() => {
         dispatch(changePageName('Todo list'));
@@ -20,7 +18,9 @@ const TodoList = () => {
 
     return (
         <div>
-            <CreateGroupButton onClick={() => {}} />
+            <CreateGroupButton onClick={() => {
+            }}/>
+
             <p>Hello, welcome to TodoList screen.</p>
             <Link to='/dashboard'>To Dashboard</Link>
         </div>

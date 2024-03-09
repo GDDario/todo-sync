@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import TopBar from "../TopBar";
-import SideMenu from "../SideMenu";
+import TopBar from "../TopBar/TopBar.tsx";
+import SideMenu from "../SideMenu/SideMenu.tsx";
 
 type MainLayoutProps = {
     children: ReactNode

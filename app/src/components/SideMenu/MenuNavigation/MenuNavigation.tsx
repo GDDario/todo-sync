@@ -3,7 +3,7 @@ import {MdDashboard} from "react-icons/md";
 import {FaPlus, FaThList} from "react-icons/fa";
 import {GoDotFill} from "react-icons/go";
 import {useState} from "react";
-import CreateTodoListModal from "../../Modal/CreateTodoListModal";
+import CreateTodoListModal from "../../Modal/CreateTodoListModal/CreateTodoListModal.tsx";
 import {useSelector} from "react-redux";
 import {selectTodoLists} from "../../../store/todoListsSlice";
 import "./style.css";

@@ -2,7 +2,7 @@ import {Provider} from "react-redux";
 import store from "./store";
 import router from "./router";
 import {RouterProvider} from "react-router-dom";
-import Message from "./components/Message";
+import Message from "./components/Message/Message.tsx";
 
 const App = () => {
     return (

@@ -1,13 +1,13 @@
 import {z} from "zod";
-import FormField from "../../Form/FormField";
-import ModalBase from "../ModalBase"
+import FormField from "../../Form/FormField/FormField.tsx";
+import ModalBase from "../ModalBase/ModalBase.tsx"
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import Button from "../../Button/Button.tsx";
 import {IoMdClose, IoMdSearch} from "react-icons/io";
 import {FaCheck} from "react-icons/fa6";
 import React, {useEffect, useState} from "react";
-import CollaboratorContainer from "./CollaboratorContainer";
+import CollaboratorContainer from "./CollaboratorContainer/CollaboratorContainer.tsx";
 import {searchUserByEmail} from "../../../services/user/userService";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUser} from "../../../store/userSlice";

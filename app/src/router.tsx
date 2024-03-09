@@ -1,7 +1,7 @@
 import { RouteObject, createBrowserRouter } from "react-router-dom";
 import UnauthenticatedRoutes from "./pages/unauthenticated/UnauthenticatedRoutes";
-import Login from "./pages/unauthenticated/Login";
-import Register from "./pages/unauthenticated/Register";
+import Login from "./pages/unauthenticated/Login/Login.tsx";
+import Register from "./pages/unauthenticated/Register/Register.tsx";
 import AuthenticatedRoutes from "./pages/authenticated/AuthenticatedRoutes";
 import Dashboard from "./pages/authenticated/Dashboard/Dashboard.tsx";
 import TodoList from "./pages/authenticated/TodoList/TodoList.tsx";

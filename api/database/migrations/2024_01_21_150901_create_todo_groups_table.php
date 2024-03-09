@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid();
             $table->bigInteger('user_id');
-            $table->string('title');
+            $table->string('name');
             $table->bigInteger('todo_list_id');
             $table->timestamps();
 

@@ -2,7 +2,7 @@ import { HiUserCircle } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/userSlice";
 import { IoSettingsSharp } from "react-icons/io5";
-import MenuNavigation from "./MenuNavigation";
+import MenuNavigation from "./MenuNavigation/MenuNavigation.tsx";
 
 const SideMenu = () => {
     const user = useSelector(selectUser);

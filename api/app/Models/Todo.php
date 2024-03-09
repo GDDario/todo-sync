@@ -35,6 +35,6 @@ class Todo extends Model
     }
 
     public function group(): BelongsTo {
-        return $this->belongsTo(TodoGroup::class, 'todo_groups');
+        return $this->belongsTo(TodoGroup::class, 'todo_group_id');
     }
 }

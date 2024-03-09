@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {changePageName} from "../../../store/pageSlice";
-import Block from "./Block";
+import DashboardBlock from "./Block/DashboardBlock.tsx";
 import {
     BsEmojiDizzyFill,
     BsEmojiSunglassesFill,
@@ -100,12 +100,12 @@ const Dashboard = () => {
     return (
         <div className="flex flex-col gap-12 max-w-[1920px]">
             <div className="flex gap-12">
-                <Block emoji={BsFillEmojiWinkFill} number={todos?.total} text="Total Todos"/>
-                <Block emoji={BsEmojiSunglassesFill} number={todos?.completed} text="Completed Todos"/>
-                <Block emoji={BsFillEmojiSmileUpsideDownFill} number={todos?.pending}
-                       text="Pending Todos"/>
-                <Block emoji={BsEmojiSurpriseFill} number={todos?.urgent} text="Urgent"/>
-                <Block emoji={BsEmojiDizzyFill} number={todos?.timed_out} text="Timed out"/>
+                <DashboardBlock emoji={BsFillEmojiWinkFill} number={todos?.total} text="Total Todos"/>
+                <DashboardBlock emoji={BsEmojiSunglassesFill} number={todos?.completed} text="Completed Todos"/>
+                <DashboardBlock emoji={BsFillEmojiSmileUpsideDownFill} number={todos?.pending}
+                                text="Pending Todos"/>
+                <DashboardBlock emoji={BsEmojiSurpriseFill} number={todos?.urgent} text="Urgent"/>
+                <DashboardBlock emoji={BsEmojiDizzyFill} number={todos?.timed_out} text="Timed out"/>
             </div>
 
             {!isLoading &&

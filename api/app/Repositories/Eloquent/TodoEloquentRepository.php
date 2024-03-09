@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Tag;
 use App\Models\Todo;
+use App\Models\TodoGroup;
 use App\Models\TodoList;
 use Illuminate\Support\Facades\DB;
 use Src\Adapters\Repositories\TodoRepository\DashboardDTO;
@@ -11,6 +12,7 @@ use Src\Adapters\Repositories\TodoRepository\TodoRepositoryInterface;
 use Src\Adapters\Repositories\TodoRepository\TodosDTO;
 use Src\Domain\Entities\Todo as TodoEntity;
 use Src\Domain\Entities\Tag as TagEntity;
+use Src\Domain\Entities\TodoGroup as TodoGroupEntity;
 use Src\Domain\Exceptions\EntityNotFoundException;
 use Src\Domain\ValueObjects\Uuid;
 
@@ -24,11 +26,14 @@ class TodoEloquentRepository implements TodoRepositoryInterface
 
         $ungroupedTodos = Todo::where('todo_list_id', $todoList->id)
             ->whereNull('todo_group_id')->get();
-        $groupedTodos = Todo::where('todo_list_id', $todoList->id)
-            ->whereNotNull('todo_group_id')->get();
+        $todoGroups = TodoGroup::where('todo_list_id', $todoList->id)->with('todos')->get();
+
 
         $ungroupedTodos = $ungroupedTodos->map(fn(Todo $todo) => $this->hydrateEntity($todo))->toArray();
-        $groupedTodos = $groupedTodos->map(fn(Todo $todo) => $this->hydrateEntity($todo))->toArray();
+        $groupedTodos = [];
+        foreach ($todoGroups as $todoGroup) {
+            $groupedTodos[] = $this->hydrateTodoGroupEntity($todoGroup);
+        }
 
         return new TodosDTO(
             $groupedTodos,
@@ -86,6 +91,18 @@ class TodoEloquentRepository implements TodoRepositoryInterface
             isCompleted: $todo->is_completed,
             description: $todo->description,
             scheduleOptions: $todo->schedule_options,
+        );
+    }
+
+    private function hydrateTodoGroupEntity(TodoGroup $todoGroup): TodoGroupEntity {
+        $todos = $todoGroup->todos()->get()->map(fn(Todo $todo) => $this->hydrateEntity($todo))->toArray();
+
+        return new TodoGroupEntity(
+            id: $todoGroup->id,
+            uuid: new Uuid($todoGroup->uuid),
+            name: $todoGroup->name,
+            todos: $todos,
+            createdAt: $todoGroup->created_at,
         );
     }
 }

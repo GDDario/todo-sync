@@ -9,13 +9,15 @@ use Src\Domain\ValueObjects\Uuid;
 class TodoGroup
 {
     public function __construct(
-        public int $id,
-        public Uuid $uuid,
-        public string $title,
-        public ?User $user = null,
-        public ?TodoList $todoList = null,
+        public int                $id,
+        public Uuid               $uuid,
+        public string             $name,
+        public ?array             $todos,
+        public ?User              $user = null,
+        public ?TodoList          $todoList = null,
         public ?DateTimeInterface $createdAt = null,
         public ?DateTimeInterface $updatedAt = null,
-    ) {
+    )
+    {
     }
 }

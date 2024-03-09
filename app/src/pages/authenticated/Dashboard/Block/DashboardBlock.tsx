@@ -7,7 +7,7 @@ type BlockProps = {
     textSize?: number;
 };
 
-const Block: React.FC<BlockProps> = ({ emoji: Emoji, number, text, textSize }) => {
+const DashboardBlock: React.FC<BlockProps> = ({ emoji: Emoji, number, text, textSize }) => {
     return (
         <div className="border-mainColor border-2 p-4 rounded-[4px] h-[170px] w-[200px] flex flex-col justify-between relative overflow-hidden">
             <div className="absolute top-[-45%] left-[-45%] bg-mainColor w-full h-full rounded-full"></div>
@@ -18,4 +18,4 @@ const Block: React.FC<BlockProps> = ({ emoji: Emoji, number, text, textSize }) =
     );
 };
 
-export default Block;
+export default DashboardBlock;

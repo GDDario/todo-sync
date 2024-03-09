@@ -18,7 +18,7 @@ class TodoGroupFactory extends Factory
 
         return [
             'uuid' => fake()->uuid(),
-            'title' => fake()->sentence(),
+            'name' => fake()->sentence(),
             'user_id' => $userId,
             'todo_list_id' => $todoListId,
             'created_at' => fake()->dateTime()

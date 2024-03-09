@@ -2,7 +2,7 @@ import {Navigate, Outlet, useLocation, useNavigate} from "react-router-dom";
 import {getToken, logout, tokenLogin} from "../../services/authentication/authenticationService";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUser, setUser} from "../../store/userSlice";
-import MainLayout from "../../components/MainLayout";
+import MainLayout from "../../components/MainLayout/MainLayout.tsx";
 import {useEffect} from "react";
 import {getTodoLists} from "../../services/todo/todoListService";
 import {setTodoLists} from "../../store/todoListsSlice";
