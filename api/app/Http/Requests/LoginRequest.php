@@ -43,7 +43,7 @@ class LoginRequest extends FormRequest
     /**
      * Handle a failed validation attempt.
      *
-     * @param  Validator  $validator
+     * @param Validator $validator
      * @return void
      *
      * @throws HttpResponseException

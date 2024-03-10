@@ -8,7 +8,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Src\Adapters\Repositories\TodoListRepository\TodoListRepositoryInterface;
-use Src\Adapters\Repositories\TodoListRepository\InsertTodoListDTO;
+use Src\Adapters\Repositories\TodoListRepository\StoreTodoListDTO;
 use Src\Domain\Entities\TodoList as TodoListEntity;
 use Src\Domain\Exceptions\EntityNotFoundException;
 use Src\Domain\Exceptions\ValueAlreadyTakenException;
@@ -17,7 +17,7 @@ use Src\Domain\ValueObjects\Uuid;
 
 class TodoListEloquentRepository implements TodoListRepositoryInterface
 {
-    public function insert(InsertTodoListDTO $dto): TodoListEntity
+    public function insert(StoreTodoListDTO $dto): TodoListEntity
     {
         DB::beginTransaction();
 

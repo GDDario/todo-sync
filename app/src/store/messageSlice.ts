@@ -9,7 +9,7 @@ export const messageSlice = createSlice({
     },
     reducers: {
         showMessage: (state, action) => {
-            state.message = action.payload.message;
+            state.message = action.payload!.message;
             state.type = action.payload.type;
             if (action.payload.duration) {
                 state.duration = action.payload.duration;

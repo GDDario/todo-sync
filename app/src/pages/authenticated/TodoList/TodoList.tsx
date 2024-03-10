@@ -3,11 +3,13 @@ import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {changePageName} from "../../../store/pageSlice";
 import CreateGroupButton from "../../../components/CreateGroupButton/CreateGroupButton.tsx";
+import CreateTodoGroupModal from "../../../components/Modal/CreateTodoGroupModal/CreateTodoGroupModal.tsx";
 
 const TodosMock: Todo[] = [];
 
 const TodoList = () => {
-    const [isLoading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState<boolean>(false);
+    const [modal, setModal] = useState<boolean>(false);
     const dispatch = useDispatch();
     const {uuid} = useParams();
 
@@ -18,11 +20,22 @@ const TodoList = () => {
 
     return (
         <div>
-            <CreateGroupButton onClick={() => {
-            }}/>
+            <CreateGroupButton onClick={() => setModal(true)}/>
 
             <p>Hello, welcome to TodoList screen.</p>
             <Link to='/dashboard'>To Dashboard</Link>
+
+            {
+                (modal && uuid) && (
+                    <CreateTodoGroupModal
+                        todoListUuid={uuid}
+                        onClose={() => setModal(false)}
+                        onSuccess={(todoGroup: TodoGroup) => {
+                            console.log("The todogroup " + todoGroup.name + " has ben transferred to TodoList page.");
+                        }}
+                    />
+                )
+            }
         </div>
     );
 };

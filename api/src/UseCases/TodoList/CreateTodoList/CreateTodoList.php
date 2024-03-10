@@ -2,7 +2,7 @@
 
 namespace Src\UseCases\TodoList\CreateTodoList;
 
-use Src\Adapters\Repositories\TodoListRepository\InsertTodoListDTO;
+use Src\Adapters\Repositories\TodoListRepository\StoreTodoListDTO;
 use Src\Adapters\Repositories\TodoListRepository\TodoListRepositoryInterface;
 use Src\Domain\ValueObjects\Uuid;
 use Ramsey\Uuid\Uuid as Uuidv4;
@@ -17,7 +17,7 @@ class CreateTodoList
 
     public function handle(CreateTodoListInput $input): CreateTodoListOutput
     {
-        $dto = new InsertTodoListDTO(
+        $dto = new StoreTodoListDTO(
             userId: $input->userId,
             uuid: new Uuid(Uuidv4::uuid4()->toString()),
             name: $input->name,

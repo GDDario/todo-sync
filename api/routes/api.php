@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\TodoGroupController;
 use App\Http\Controllers\TodoListController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,10 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('/todo')->group(function () {
         Route::get('/{todoListUuid}', [TodoController::class, 'index']);
+    });
+
+    Route::prefix('/todo-group')->group(function () {
+        Route::post('', [TodoGroupController::class, 'store']);
     });
 });
 

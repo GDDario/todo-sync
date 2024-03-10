@@ -5,7 +5,7 @@ namespace Src\Domain\Exceptions;
 use Exception;
 use Illuminate\Http\Response;
 
-class FailedLoginException extends Exception
+class FailedLoginException  extends Exception
 {
     public function __construct(
     ) {

@@ -4,7 +4,7 @@ namespace Src\Adapters\Repositories\TodoListRepository;
 
 use Src\Domain\ValueObjects\Uuid;
 
-class InsertTodoListDTO
+class StoreTodoListDTO
 {
     public function __construct(
         public int $userId,

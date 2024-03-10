@@ -14,6 +14,7 @@ import {selectUser} from "../../../store/userSlice";
 import {createTodoList} from "../../../services/todo/todoListService";
 import {addTodoList} from "../../../store/todoListsSlice";
 import {showMessage} from "../../../store/messageSlice.ts";
+import ModalButtons from "../ModalButtons.tsx";
 
 type CreateTodoListModalProps = {
     onClose: () => void;
@@ -122,7 +123,7 @@ const CreateTodoListModal = ({onClose}: CreateTodoListModalProps) => {
     }
 
     return (
-        <ModalBase title="Create Todo List" onClose={() => onClose()}>
+        <ModalBase title="Create List" onClose={() => onClose()}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormField
                     type="text"
@@ -178,21 +179,7 @@ const CreateTodoListModal = ({onClose}: CreateTodoListModalProps) => {
                     </div>
                 }
 
-                <div className="flex justify-end items-end gap-2 mt-6">
-                    <Button
-                        value="Cancel"
-                        type="button"
-                        variant="danger"
-                        icon={<IoMdClose size={20}/>}
-                        onClick={() => onClose()}
-                    />
-                    <Button
-                        value="Confirm"
-                        isLoading={loading}
-                        type="submit"
-                        icon={<FaCheck size={18}/>}
-                    />
-                </div>
+                <ModalButtons loading={loading} onClose={() => onClose()} />
             </form>
         </ModalBase>
     );

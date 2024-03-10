@@ -11,6 +11,6 @@ class ValueAlreadyTakenException extends Exception
         public $value,
     )
     {
-        parent::__construct();
+        parent::__construct($value);
     }
 }

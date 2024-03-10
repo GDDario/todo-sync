@@ -45,6 +45,27 @@ type GetDashboardResponse = {
     data: DashboardType
 };
 
+type GetTodosResponse = {
+  data: {
+      groups: TodoGroup[]
+      ungroupedTodos: Todo[]
+  }
+};
+
+type CreateTodoGroupValues = {
+    name: string;
+    todoListUuid: string;
+};
+
+type CreateTodoGroupResponse = {
+    data: {
+        uuid: string;
+        name: string;
+        created_at: Date;
+        updated_at: Date;
+    }
+};
+
 export type {
     CreateTodoListValues,
     CreateTodoListResponse,
@@ -53,5 +74,8 @@ export type {
     DashboardTodos,
     DashboardCommitment,
     DashboardTag,
-    DashboardType
+    DashboardType,
+    GetTodosResponse,
+    CreateTodoGroupValues,
+    CreateTodoGroupResponse
 };

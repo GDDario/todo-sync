@@ -12,7 +12,7 @@ class TodoGroup
         public int                $id,
         public Uuid               $uuid,
         public string             $name,
-        public ?array             $todos,
+        public ?array             $todos = null,
         public ?User              $user = null,
         public ?TodoList          $todoList = null,
         public ?DateTimeInterface $createdAt = null,
