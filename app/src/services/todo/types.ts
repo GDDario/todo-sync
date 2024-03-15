@@ -1,3 +1,23 @@
+type TodoResponse = {
+    uuid: string;
+    title: string;
+    due_date: Date;
+    is_urgent: boolean;
+    tags: Tag[];
+    is_completed: boolean;
+    description?: string;
+    schedule_options?: string;
+    created_at?: Date;
+    updated_at?: Date;
+}
+
+type TodoGroupResponse = {
+    uuid: string;
+    name: string;
+    created_at: string;
+    todos?: TodoResponse[]
+}
+
 type CreateTodoListValues = {
     name: string;
     isCollaborative: boolean;
@@ -13,8 +33,12 @@ type CreateTodoListResponse = {
     }
 };
 
-type GetTodoListResponse = {
+type GetTodoListsResponse = {
     data: TodoList[]
+};
+
+type GetTodoListResponse = {
+    data: TodoList;
 };
 
 type DashboardTodos = {
@@ -47,8 +71,8 @@ type GetDashboardResponse = {
 
 type GetTodosResponse = {
   data: {
-      groups: TodoGroup[]
-      ungroupedTodos: Todo[]
+      groups: TodoGroupResponse[]
+      ungrouped_todos: TodoResponse[]
   }
 };
 
@@ -67,9 +91,11 @@ type CreateTodoGroupResponse = {
 };
 
 export type {
+    TodoResponse,
+    TodoGroupResponse,
     CreateTodoListValues,
     CreateTodoListResponse,
-    GetTodoListResponse,
+    GetTodoListsResponse,
     GetDashboardResponse,
     DashboardTodos,
     DashboardCommitment,
@@ -77,5 +103,6 @@ export type {
     DashboardType,
     GetTodosResponse,
     CreateTodoGroupValues,
-    CreateTodoGroupResponse
+    CreateTodoGroupResponse,
+    GetTodoListResponse
 };

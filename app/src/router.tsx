@@ -1,10 +1,10 @@
 import { RouteObject, createBrowserRouter } from "react-router-dom";
 import UnauthenticatedRoutes from "./pages/unauthenticated/UnauthenticatedRoutes";
-import Login from "./pages/unauthenticated/Login/Login.tsx";
-import Register from "./pages/unauthenticated/Register/Register.tsx";
+import LoginPage from "./pages/unauthenticated/LoginPage/LoginPage.tsx";
+import RegisterPage from "./pages/unauthenticated/RegisterPage/RegisterPage.tsx";
 import AuthenticatedRoutes from "./pages/authenticated/AuthenticatedRoutes";
-import Dashboard from "./pages/authenticated/Dashboard/Dashboard.tsx";
-import TodoList from "./pages/authenticated/TodoList/TodoList.tsx";
+import DashboardPage from "./pages/authenticated/DashboardPage/DashboardPage.tsx";
+import TodoListPage from "./pages/authenticated/TodoListPage/TodoListPage.tsx";
 
 
 const router = createBrowserRouter([
@@ -15,11 +15,11 @@ const router = createBrowserRouter([
             {
                 index: true,
                 path: "/login",
-                element: <Login />,
+                element: <LoginPage />,
             },
             {
                 path: "/register",
-                element: <Register />,
+                element: <RegisterPage />,
             },
         ],
     },
@@ -30,11 +30,11 @@ const router = createBrowserRouter([
             {
                 index: true,
                 path: "/dashboard",
-                element: <Dashboard />,
+                element: <DashboardPage />,
             },
             {
                 path: "/todo-list/:uuid",
-                element: <TodoList />,
+                element: <TodoListPage />,
             },
         ],
     },

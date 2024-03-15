@@ -25,7 +25,7 @@ const schema = z
 
 type registerSchema = z.infer<typeof schema>;
 
-const Register = () => {
+const RegisterPage = () => {
     const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -64,7 +64,7 @@ const Register = () => {
 
     return (
         <div className="max-w-[300px] mx-auto">
-            <h1 className="text-center text-2xl">Register</h1>
+            <h1 className="text-center text-2xl">RegisterPage</h1>
 
             <p className="my-4">
                 Already have an account?{" "}
@@ -111,11 +111,11 @@ const Register = () => {
                 </div>
 
                 <div className="mt-6 flex justify-center">
-                    <Button variant="white" value="Register" isLoading={isLoading} />
+                    <Button variant="white" value="RegisterPage" isLoading={isLoading} />
                 </div>
             </form>
         </div>
     );
 };
 
-export default Register;
+export default RegisterPage;

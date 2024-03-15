@@ -29,7 +29,8 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('/todo-list')->group(function () {
         Route::post('', [TodoListController::class, 'store']);
-        Route::get('', [TodoListController::class, 'listByUserId']);
+        Route::get('', [TodoListController::class, 'index']);
+        Route::get('/{uuid}', [TodoListController::class, 'show']);
     });
 
     Route::prefix('/user')->group(function () {

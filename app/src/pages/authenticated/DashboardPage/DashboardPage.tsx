@@ -53,7 +53,7 @@ const defaultChartData = {
     }
 };
 
-const Dashboard = () => {
+const DashboardPage = () => {
     const [isLoading, setLoading] = useState(true);
     const dispatch = useDispatch();
     const [todos, setTodos] = useState<DashboardTodos>(initialDashboardState.todos);
@@ -90,7 +90,7 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
-        dispatch(changePageName('Dashboard'));
+        dispatch(changePageName('DashboardPage'));
 
         getData().then(() => {
             setLoading(false);
@@ -126,4 +126,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default DashboardPage;

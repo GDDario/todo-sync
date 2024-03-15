@@ -1,10 +1,10 @@
 import {ReactNode} from "react";
 
 type ButtonProps = {
-    id?: string;
     value: string;
+    id?: string;
     type?: "button" | "submit" | "reset" | undefined;
-    variant?: string;
+    variant?: "default"|"white"|"danger"|"underline";
     icon?: ReactNode;
     onClick?: (e?) => void
     isLoading?: boolean;
@@ -28,6 +28,9 @@ const Button = ({id, value, type, variant, icon, onClick, isLoading}: ButtonProp
                 break;
             case "danger":
                 classes += "bg-appRed hover:bg-appRedDarker text-appWhite";
+                break;
+            case "underline":
+                classes += "bg-transparent hover:bg-black hover:bg-opacity-10 border-b-2 border-gray-800";
                 break;
         }
 

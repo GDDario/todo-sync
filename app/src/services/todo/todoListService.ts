@@ -1,5 +1,5 @@
 import axiosInstance from "../../config/axiosConfig";
-import { CreateTodoListResponse, CreateTodoListValues, GetTodoListResponse } from "./types";
+import {CreateTodoListResponse, CreateTodoListValues, GetTodoListResponse, GetTodoListsResponse} from "./types";
 
 const createTodoList = async (values: CreateTodoListValues) => {
     const jsonData = {
@@ -12,9 +12,13 @@ const createTodoList = async (values: CreateTodoListValues) => {
 }
 
 const getTodoLists = async () => {
-    return await axiosInstance.get<GetTodoListResponse>('todo-list');
+    return await axiosInstance.get<GetTodoListsResponse>('todo-list');
 }
 
+const getTodoList = async (uuid: string) => {
+    const url = `todo-list/${uuid}`;
 
+    return await axiosInstance.get<GetTodoListResponse>(url);
+}
 
-export { createTodoList, getTodoLists };
+export { createTodoList, getTodoLists, getTodoList };

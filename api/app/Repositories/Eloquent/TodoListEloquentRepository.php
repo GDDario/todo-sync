@@ -17,6 +17,24 @@ use Src\Domain\ValueObjects\Uuid;
 
 class TodoListEloquentRepository implements TodoListRepositoryInterface
 {
+    public function findByUuid(Uuid $uuid): TodoListEntity
+    {
+        if (!$todoList = TodoList::where('uuid', $uuid)->first()) {
+            throw new EntityNotFoundException("TodoList with uuid {$uuid} not found.");
+        }
+
+        return $this->hydrateEntity($todoList);
+    }
+
+    public function findByUserId(int $userId): array
+    {
+        $todoLists = TodoList::where('user_id', $userId)->get();
+
+        return $todoLists->map(function($todoList) {
+            return $this->hydrateEntity($todoList);
+        })->toArray();
+    }
+
     public function insert(StoreTodoListDTO $dto): TodoListEntity
     {
         DB::beginTransaction();
@@ -54,15 +72,6 @@ class TodoListEloquentRepository implements TodoListRepositoryInterface
             DB::rollback();
             throw $e;
         }
-    }
-
-    public function findByUserId(int $userId): array
-    {
-        $todoLists = TodoList::where('user_id', $userId)->get();
-
-        return $todoLists->map(function($todoList) {
-            return $this->hydrateEntity($todoList);
-        })->toArray();
     }
 
     private function hydrateEntity(TodoList $todoList): TodoListEntity

@@ -12,11 +12,9 @@ class TodoListPresenter extends JsonResource
             'uuid' => is_object($this->uuid) ? $this->uuid->__toString() : $this->uuid,
             'name' => $this->name,
             'is_collaborative' => $this->isCollaborative,
+            'created_at' => $this->createdAt ?? null,
+            'updated_at' => $this->updatedAt ?? null
         ];
-
-        if (isset($this->createdAt)) {
-            $array['created_at'] =  $this->createdAt;
-        }
 
         return $array;
     }

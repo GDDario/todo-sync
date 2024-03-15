@@ -21,7 +21,7 @@ class TodoEloquentRepository implements TodoRepositoryInterface
     public function findByTodoList(Uuid $todoListUuid): TodosDTO
     {
         if (!$todoList = TodoList::where('uuid', $todoListUuid)->first()) {
-            throw new EntityNotFoundException("TodoList with uuid $todoListUuid not found");
+            throw new EntityNotFoundException("TodoListPage with uuid $todoListUuid not found");
         }
 
         $ungroupedTodos = Todo::where('todo_list_id', $todoList->id)
@@ -85,9 +85,9 @@ class TodoEloquentRepository implements TodoRepositoryInterface
             id: $todo->id,
             uuid: new Uuid($todo->uuid),
             title: $todo->title,
-            dueDate: $todo->due_date,
             isUrgent: $todo->is_urgent,
             tags: $tags,
+            dueDate: $todo->due_date,
             isCompleted: $todo->is_completed,
             description: $todo->description,
             scheduleOptions: $todo->schedule_options,
