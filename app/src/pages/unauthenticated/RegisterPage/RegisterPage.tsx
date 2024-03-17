@@ -64,7 +64,7 @@ const RegisterPage = () => {
 
     return (
         <div className="max-w-[300px] mx-auto">
-            <h1 className="text-center text-2xl">RegisterPage</h1>
+            <h1 className="text-center text-2xl">Register</h1>
 
             <p className="my-4">
                 Already have an account?{" "}
@@ -111,7 +111,7 @@ const RegisterPage = () => {
                 </div>
 
                 <div className="mt-6 flex justify-center">
-                    <Button variant="white" value="RegisterPage" isLoading={isLoading} />
+                    <Button variant="white" value="Register" isLoading={isLoading} />
                 </div>
             </form>
         </div>

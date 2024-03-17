@@ -12,6 +12,7 @@ class TodoList
         public Uuid $uuid,
         public string $name,
         public bool $isCollaborative = false,
+        public string $positions = '[]',
         public ?User $user = null,
         public ?array $todos = null,
         public ?DateTimeInterface $createdAt = null,

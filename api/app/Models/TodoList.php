@@ -13,6 +13,7 @@ class TodoList extends Model
         'uuid',
         'name',
         'is_collaborative',
-        'user_id'
+        'user_id',
+        'positions'
     ];
 }

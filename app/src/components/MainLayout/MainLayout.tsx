@@ -9,7 +9,7 @@ type MainLayoutProps = {
 const MainLayout = ({ children }: MainLayoutProps) => {
 
     return (
-        <div id="MainLayout" className="h-screen flex overflow-hidden">
+        <div id="MainLayout" className="h-screen flex overflow-hidden bg-appWhite">
             <SideMenu />
             <div className="inline-block w-full">
                 <TopBar />

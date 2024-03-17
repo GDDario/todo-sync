@@ -25,7 +25,7 @@ Route::post('/login', [LoginController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout']);
-    Route::get('/authenticated-user', [UserController::class, 'getByToken']);
+//    Route::get('/authenticated-user', [UserController::class, 'getByToken']);
 
     Route::prefix('/todo-list')->group(function () {
         Route::post('', [TodoListController::class, 'store']);
@@ -42,10 +42,12 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('/todo')->group(function () {
         Route::get('/{todoListUuid}', [TodoController::class, 'index']);
+        Route::put('/toggle/{uuid}', [TodoController::class, 'toggleState']);
+        Route::put('/title/{uuid}', [TodoController::class, 'changeTitle']);
     });
 
     Route::prefix('/todo-group')->group(function () {
-        Route::post('', [TodoGroupController::class, 'store']);
+        Route::put('', [TodoGroupController::class, 'store']);
     });
 });
 

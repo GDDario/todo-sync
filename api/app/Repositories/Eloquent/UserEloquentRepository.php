@@ -14,7 +14,7 @@ use Src\Domain\ValueObjects\Uuid;
 class UserEloquentRepository implements UserRepositoryInterface
 {
     public function findByEmail(string $email): UserEntity {
-        if (!$user = User::query()->where('email', "$email")->first()) {
+        if (!$user = User::where('email', $email)->first()) {
             throw new EntityNotFoundException(
                 "User with email $email not found"
             );
@@ -27,10 +27,10 @@ class UserEloquentRepository implements UserRepositoryInterface
     {
         $query = User::query();
 
-        if ($query->where('username', '=', $dto->username)->exists()) {
+        if (User::where('username', '=', $dto->username)->exists()) {
             throw new ValueAlreadyTakenException('Username');
         }
-        if ($query->where('email', '=', $dto->email)->exists()) {
+        if (User::where('email', '=', $dto->email)->exists()) {
             throw new ValueAlreadyTakenException('Email');
         }
 

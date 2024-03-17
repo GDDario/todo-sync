@@ -4,8 +4,7 @@ import ModalBase from "../ModalBase/ModalBase.tsx"
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import Button from "../../Button/Button.tsx";
-import {IoMdClose, IoMdSearch} from "react-icons/io";
-import {FaCheck} from "react-icons/fa6";
+import {IoMdSearch} from "react-icons/io";
 import React, {useEffect, useState} from "react";
 import CollaboratorContainer from "./CollaboratorContainer/CollaboratorContainer.tsx";
 import {searchUserByEmail} from "../../../services/user/userService";
@@ -14,7 +13,9 @@ import {selectUser} from "../../../store/userSlice";
 import {createTodoList} from "../../../services/todo/todoListService";
 import {addTodoList} from "../../../store/todoListsSlice";
 import {showMessage} from "../../../store/messageSlice.ts";
-import ModalButtons from "../ModalButtons.tsx";
+import ModalButtons from "../ModalButtons/ModalButtons.tsx";
+import {User} from "../../../models/user.ts";
+// import ModalButtons from "../ModalButtons.tsx";
 
 type CreateTodoListModalProps = {
     onClose: () => void;
@@ -100,7 +101,7 @@ const CreateTodoListModal = ({onClose}: CreateTodoListModalProps) => {
         try {
             const todoListData = await createTodoList({name, isCollaborative, collaboratorsUuids});
             dispatch(addTodoList(todoListData.data.data));
-            dispatch(showMessage({ message: 'Todo list created successfully!', type: 'success' }));
+            dispatch(showMessage({message: 'Todo list created successfully!', type: 'success'}));
             onClose();
         } catch (error: any) {
             const errors = error?.response?.data?.errors;
@@ -116,7 +117,7 @@ const CreateTodoListModal = ({onClose}: CreateTodoListModalProps) => {
                     }
                 }
             }
-            dispatch(showMessage({ message: 'The Todo list could not be created.', type: 'error' }));
+            dispatch(showMessage({message: 'The Todo list could not be created.', type: 'error'}));
         } finally {
             setLoading(false);
         }
@@ -179,7 +180,7 @@ const CreateTodoListModal = ({onClose}: CreateTodoListModalProps) => {
                     </div>
                 }
 
-                <ModalButtons loading={loading} onClose={() => onClose()} />
+                <ModalButtons loading={loading} onClose={() => onClose()}/>
             </form>
         </ModalBase>
     );

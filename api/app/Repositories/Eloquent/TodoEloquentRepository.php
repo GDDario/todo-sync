@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Src\Adapters\Repositories\TodoRepository\DashboardDTO;
 use Src\Adapters\Repositories\TodoRepository\TodoRepositoryInterface;
 use Src\Adapters\Repositories\TodoRepository\TodosDTO;
-use Src\Domain\Entities\Todo as TodoEntity;
 use Src\Domain\Entities\Tag as TagEntity;
+use Src\Domain\Entities\Todo as TodoEntity;
 use Src\Domain\Entities\TodoGroup as TodoGroupEntity;
 use Src\Domain\Exceptions\EntityNotFoundException;
 use Src\Domain\ValueObjects\Uuid;
@@ -26,18 +26,21 @@ class TodoEloquentRepository implements TodoRepositoryInterface
 
         $ungroupedTodos = Todo::where('todo_list_id', $todoList->id)
             ->whereNull('todo_group_id')->get();
-        $todoGroups = TodoGroup::where('todo_list_id', $todoList->id)->with('todos')->get();
-
+        $groupedTodos = TodoGroup::where('todo_list_id', $todoList->id)->with('todos')->get();
 
         $ungroupedTodos = $ungroupedTodos->map(fn(Todo $todo) => $this->hydrateEntity($todo))->toArray();
-        $groupedTodos = [];
-        foreach ($todoGroups as $todoGroup) {
-            $groupedTodos[] = $this->hydrateTodoGroupEntity($todoGroup);
+
+        $todoGroups = [];
+        foreach ($groupedTodos as $todoGroup) {
+            $todoGroups[] = $this->hydrateTodoGroupEntity($todoGroup);
         }
 
+        $json = $todoList->positions;
+
         return new TodosDTO(
-            $groupedTodos,
-            $ungroupedTodos
+            $todoGroups,
+            $ungroupedTodos,
+            $json
         );
     }
 
@@ -75,6 +78,31 @@ class TodoEloquentRepository implements TodoRepositoryInterface
         );
     }
 
+    public function toggleState(Uuid $uuid): bool
+    {
+        if (!$todo = Todo::where('uuid', $uuid)->first()) {
+            throw new EntityNotFoundException("Todo with uuid $uuid not found");
+        }
+
+        $todo->update([
+            'is_completed' => !$todo->is_completed
+        ]);
+        $todo->refresh();
+
+        return $todo->is_completed;
+    }
+
+    public function updateTitle(Uuid $uuid, string $title): void
+    {
+        if (!$todo = Todo::where('uuid', $uuid)->first()) {
+            throw new EntityNotFoundException("Todo with uuid $uuid not found");
+        }
+
+        $todo->update([
+            'title' => $title
+        ]);
+    }
+
     private function hydrateEntity(Todo $todo): TodoEntity
     {
         $tags = $todo->tags()->get()
@@ -94,7 +122,8 @@ class TodoEloquentRepository implements TodoRepositoryInterface
         );
     }
 
-    private function hydrateTodoGroupEntity(TodoGroup $todoGroup): TodoGroupEntity {
+    private function hydrateTodoGroupEntity(TodoGroup $todoGroup): TodoGroupEntity
+    {
         $todos = $todoGroup->todos()->get()->map(fn(Todo $todo) => $this->hydrateEntity($todo))->toArray();
 
         return new TodoGroupEntity(

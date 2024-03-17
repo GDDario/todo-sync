@@ -1,14 +1,14 @@
 type TodoResponse = {
     uuid: string;
     title: string;
-    due_date: Date;
+    due_date: string;
     is_urgent: boolean;
     tags: Tag[];
     is_completed: boolean;
     description?: string;
     schedule_options?: string;
-    created_at?: Date;
-    updated_at?: Date;
+    created_at?: string;
+    updated_at?: string;
 }
 
 type TodoGroupResponse = {
@@ -72,7 +72,8 @@ type GetDashboardResponse = {
 type GetTodosResponse = {
   data: {
       groups: TodoGroupResponse[]
-      ungrouped_todos: TodoResponse[]
+      ungrouped_todos: TodoResponse[],
+      positions: any
   }
 };
 
@@ -90,6 +91,12 @@ type CreateTodoGroupResponse = {
     }
 };
 
+type ToggleTodoResponse = {
+    data: {
+        is_completed: boolean;
+    }
+};
+
 export type {
     TodoResponse,
     TodoGroupResponse,
@@ -104,5 +111,6 @@ export type {
     GetTodosResponse,
     CreateTodoGroupValues,
     CreateTodoGroupResponse,
-    GetTodoListResponse
+    GetTodoListResponse,
+    ToggleTodoResponse
 };

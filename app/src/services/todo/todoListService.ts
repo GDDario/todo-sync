@@ -1,5 +1,10 @@
 import axiosInstance from "../../config/axiosConfig";
-import {CreateTodoListResponse, CreateTodoListValues, GetTodoListResponse, GetTodoListsResponse} from "./types";
+import {
+    CreateTodoListResponse,
+    CreateTodoListValues,
+    GetTodoListResponse,
+    GetTodoListsResponse,
+} from "./types";
 
 const createTodoList = async (values: CreateTodoListValues) => {
     const jsonData = {
@@ -7,7 +12,7 @@ const createTodoList = async (values: CreateTodoListValues) => {
         is_collaborative: values.isCollaborative,
         collaborators_uuids: values.collaboratorsUuids
     };
-    
+
     return await axiosInstance.post<CreateTodoListResponse>('todo-list', jsonData);
 }
 
@@ -16,9 +21,9 @@ const getTodoLists = async () => {
 }
 
 const getTodoList = async (uuid: string) => {
-    const url = `todo-list/${uuid}`;
+    const url: string = `todo-list/${uuid}`;
 
     return await axiosInstance.get<GetTodoListResponse>(url);
 }
 
-export { createTodoList, getTodoLists, getTodoList };
+export {createTodoList, getTodoLists, getTodoList};

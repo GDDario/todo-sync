@@ -2,11 +2,10 @@ import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {changePageName} from "../../../store/pageSlice";
-import CreateGroupButton from "../../../components/CreateGroupButton/CreateGroupButton.tsx";
-import CreateTodoGroupModal from "../../../components/Modal/CreateTodoGroupModal/CreateTodoGroupModal.tsx";
-import TodoListComponent from "./TodoList/TodoList.tsx";
 import {getTodoList} from "../../../services/todo/todoListService.ts";
 import {getDateFromUTC} from "../../../utils/dateUtil.ts";
+import CreateTodoGroupButton from "./CreateTodoGroupButton.tsx";
+import TodoListComponent from "../../../components/TodoList/TodoList.tsx";
 
 const TodoListPage = () => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -43,23 +42,23 @@ const TodoListPage = () => {
 
     return (
         <div>
-            <CreateGroupButton onClick={() => setModal(true)}/>
+            <CreateTodoGroupButton onClick={() => setModal(true)}/>
 
-            <div className="mt-12"></div>
+            <div className="mt-4"></div>
 
             <TodoListComponent uuid={uuid}/>
 
-            {
-                (modal && uuid) && (
-                    <CreateTodoGroupModal
-                        todoListUuid={uuid}
-                        onClose={() => setModal(false)}
-                        onSuccess={(todoGroup: TodoGroup) => {
-                            console.log("The todogroup " + todoGroup.name + " has ben transferred to TodoListPage page.");
-                        }}
-                    />
-                )
-            }
+            {/*{*/}
+            {/*    (modal && uuid) && (*/}
+            {/*        <CreateTodoGroupModal*/}
+            {/*            todoListUuid={uuid}*/}
+            {/*            onClose={() => setModal(false)}*/}
+            {/*            onSuccess={(todoGroup: TodoGroup) => {*/}
+            {/*                console.log("The todogroup " + todoGroup.name + " has ben transferred to TodoListPage page.");*/}
+            {/*            }}*/}
+            {/*        />*/}
+            {/*    )*/}
+            {/*}*/}
         </div>
     );
 };

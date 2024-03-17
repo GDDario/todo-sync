@@ -1,10 +1,13 @@
-type FindUserByEmailResponse = {
-    data: {
-        uuid: string,
-        username: string,
-        email: string,
-        created_at: string
-    }
+type UserJSON = {
+    uuid: string;
+    username: string;
+    email: string;
+    created_at: string;
 };
 
-export type { FindUserByEmailResponse };
+type FindUserByEmailResponse = {
+    data: UserJSON
+
+};
+
+export type {FindUserByEmailResponse, UserJSON};
