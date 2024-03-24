@@ -6,10 +6,14 @@ use App\Models\Tag;
 use App\Models\Todo;
 use App\Models\TodoGroup;
 use App\Models\TodoList;
+use Exception;
 use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Uuid as Uuidv4;
 use Src\Adapters\Repositories\TodoRepository\DashboardDTO;
+use Src\Adapters\Repositories\TodoRepository\StoreTodoDTO;
 use Src\Adapters\Repositories\TodoRepository\TodoRepositoryInterface;
 use Src\Adapters\Repositories\TodoRepository\TodosDTO;
+use Src\Adapters\Repositories\TodoRepository\UpdateTodoDTO;
 use Src\Domain\Entities\Tag as TagEntity;
 use Src\Domain\Entities\Todo as TodoEntity;
 use Src\Domain\Entities\TodoGroup as TodoGroupEntity;
@@ -21,7 +25,7 @@ class TodoEloquentRepository implements TodoRepositoryInterface
     public function findByTodoList(Uuid $todoListUuid): TodosDTO
     {
         if (!$todoList = TodoList::where('uuid', $todoListUuid)->first()) {
-            throw new EntityNotFoundException("TodoListPage with uuid $todoListUuid not found");
+            throw new EntityNotFoundException("TodoList with uuid $todoListUuid not found");
         }
 
         $ungroupedTodos = Todo::where('todo_list_id', $todoList->id)
@@ -42,6 +46,15 @@ class TodoEloquentRepository implements TodoRepositoryInterface
             $ungroupedTodos,
             $json
         );
+    }
+
+    public function findByUuid(Uuid $uuid): TodoEntity
+    {
+        if (!$todo = Todo::where('uuid', $uuid)->first()) {
+            throw new EntityNotFoundException("Todo with uuid $uuid not found");
+        }
+
+        return $this->hydrateEntity($todo);
     }
 
     public function getDashboard(int $userId): DashboardDTO
@@ -78,6 +91,93 @@ class TodoEloquentRepository implements TodoRepositoryInterface
         );
     }
 
+    public function insert(StoreTodoDTO $dto): TodoEntity
+    {
+        DB::beginTransaction();
+
+        try {
+            if (!$todoList = TodoList::where('uuid', $dto->todoListUuid)->first()) {
+                throw new EntityNotFoundException("TodoList with uuid $dto->todoListUuid not found");
+            }
+
+            if ($dto->todoGroupUuid && !$todoGroup = TodoGroup::where('uuid', $dto->todoGroupUuid)->first()) {
+                throw new EntityNotFoundException("TodoGroup with uuid $dto->todoGroupUuid not found");
+            }
+
+            $insertData = [
+                'uuid' => $dto->uuid,
+                'title' => $dto->title,
+                'is_completed' => false,
+                'user_id' => $dto->userId,
+                'todo_list_id' => $todoList->id,
+                'due_date' => $dto->dueDate,
+                'todo_group_id' => isset($todoGroup->id) ? $todoGroup->id : null,
+                'description' => $dto->description,
+                'is_urgent' => $dto->isUrgent,
+                'schedule_options' => $dto->scheduleOptions
+            ];
+
+            $todo = Todo::create($insertData);
+            if ($todo && !empty($dto->tags)) {
+                foreach ($dto->tags as $tagUuid) {
+                    if (!$tag = Tag::where('uuid', $tagUuid)->first()) {
+                        throw new EntityNotFoundException("Tag with uuid $tagUuid not found");
+                    }
+
+                    $todo->tags()->attach($tag->id, ['uuid' => Uuidv4::uuid4()]);
+                }
+            }
+
+            DB::commit();
+
+            return $this->hydrateEntity($todo);
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+    }
+
+    public function update(UpdateTodoDTO $dto): TodoEntity
+    {
+        DB::beginTransaction();
+
+        try {
+            if (!$todo = Todo::where('uuid', $dto->uuid)->first()) {
+                throw new EntityNotFoundException("Todo with uuid $dto->todoListUuid not found");
+            }
+
+            if (!$todoList = TodoList::where('uuid', $dto->todoListUuid)->first()) {
+                throw new EntityNotFoundException("TodoList with uuid $dto->todoListUuid not found");
+            }
+
+            if ($dto->todoGroupUuid && !$todoGroup = TodoGroup::where('uuid', $dto->todoGroupUuid)->first()) {
+                throw new EntityNotFoundException("TodoGroup with uuid $dto->todoGroupUuid not found");
+            }
+
+            $updateData = [
+                'title' => $dto->title,
+                'is_completed' => false,
+                'user_id' => $dto->userId,
+                'todo_list_id' => $todoList->id,
+                'due_date' => $dto->dueDate,
+                'todo_group_id' => isset($todoGroup->id) ? $todoGroup->id : null,
+                'description' => $dto->description,
+                'is_urgent' => $dto->isUrgent,
+                'schedule_options' => $dto->scheduleOptions
+            ];
+
+            $todo->update($updateData);
+            $todo->refresh();
+
+            DB::commit();
+
+            return $this->hydrateEntity($todo);
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+    }
+
     public function toggleState(Uuid $uuid): bool
     {
         if (!$todo = Todo::where('uuid', $uuid)->first()) {
@@ -109,6 +209,9 @@ class TodoEloquentRepository implements TodoRepositoryInterface
             ->map(fn(Tag $tag) => TagEntity::createFromModel($tag))
             ->toArray();
 
+        $todoGroup = $todo->group()->first();
+        $todoGroupUuid = $todoGroup ? new Uuid($todoGroup->uuid) : null;
+
         return new TodoEntity(
             id: $todo->id,
             uuid: new Uuid($todo->uuid),
@@ -119,6 +222,7 @@ class TodoEloquentRepository implements TodoRepositoryInterface
             isCompleted: $todo->is_completed,
             description: $todo->description,
             scheduleOptions: $todo->schedule_options,
+            todoGroupUuid: $todoGroupUuid,
         );
     }
 

@@ -12,28 +12,33 @@ type props = {
 };
 
 const TextField = ({title, uuid, loadingCallback}: props) => {
-    const [changed, setChanged] = useState(false);
-    const [firstState, setFirstState] = useState(title);
+    const [options, setOptions] = useState(false);
+    const [firstValue, setFirstValue] = useState(title);
     const [value, setValue] = useState(title);
     const dispatch = useDispatch();
 
     const handleOnChange = (e: any) => {
-        setChanged(true);
         setValue(e.target.value)
+        setOptions(e.target.value !== firstValue);
     }
 
     const handleCancel = (e: any) => {
-        setValue(firstState);
+        setValue(firstValue);
         closeInput(e);
     }
 
     const handleSave = async (e: any) => {
+        if (value === firstValue) {
+            closeInput(e);
+            return;
+        }
+
         loadingCallback(true);
         closeInput(e);
 
         try {
             await updatedTodoTitle(uuid, value);
-            setFirstState(value);
+            setFirstValue(value);
         } catch (e: any) {
             dispatch(showMessage({message: 'Error, try again later.', type: 'error'}))
         } finally {
@@ -43,23 +48,24 @@ const TextField = ({title, uuid, loadingCallback}: props) => {
     }
 
     const closeInput = (e: any) => {
-        setChanged(false);
+        setOptions(false);
         e.currentTarget.blur();
     }
 
     return (
         <div className="w-full flex justify-center items-center">
             <div className="w-[650px]">
-                <input className="px-1 w-full bg-transparent" value={value} onChange={handleOnChange} onKeyDown={(e: any) => {
-                    if (e.key == 'Escape') {
-                        handleCancel(e);
-                    } else if (e.key == 'Enter') {
-                        handleSave(e);
-                    }
-                }}/>
+                <input className="px-1 w-full bg-transparent" value={value} onChange={handleOnChange}
+                       onKeyDown={(e: any) => {
+                           if (e.key == 'Escape') {
+                               handleCancel(e);
+                           } else if (e.key == 'Enter') {
+                               handleSave(e);
+                           }
+                       }}/>
             </div>
             <div className="pl-2 w-[50px]">
-                {changed &&
+                {options &&
                     <div className="flex items-center">
                         <button onClick={handleSave}>
                             <IoIosCheckmarkCircle size={22} className="text-mainColor"/>

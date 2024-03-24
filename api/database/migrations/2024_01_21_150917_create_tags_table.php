@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid();
             $table->string('name');
+            $table->string('color')->default('#0C88A4');
             $table->bigInteger('user_id')->nullable();
             $table->timestamps();
 

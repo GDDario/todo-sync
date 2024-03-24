@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {changePageName} from "../../../store/pageSlice";
 import {getTodoList} from "../../../services/todo/todoListService.ts";
-import {getDateFromUTC} from "../../../utils/dateUtil.ts";
+import {getDateStringFromUTC} from "../../../utils/dateUtil.ts";
 import CreateTodoGroupButton from "./CreateTodoGroupButton.tsx";
 import TodoListComponent from "../../../components/TodoList/TodoList.tsx";
 
@@ -16,11 +16,11 @@ const TodoListPage = () => {
     const mountPageName = (todoList: TodoList): string => {
         const createdAt: Date = new Date(todoList.created_at);
 
-        let pageName: string = `${todoList.name} - created at: ${getDateFromUTC(createdAt)}`;
+        let pageName: string = `${todoList.name} - created at: ${getDateStringFromUTC(createdAt)}`;
 
         if (todoList.updated_at != null) {
             const updatedAt: Date = new Date(todoList.updated_at);
-            pageName += ` - updated at: ${getDateFromUTC(updatedAt)}`;
+            pageName += ` - updated at: ${getDateStringFromUTC(updatedAt)}`;
         }
 
         return pageName;

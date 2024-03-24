@@ -13,7 +13,8 @@ class Tag extends Model
     protected $fillable = [
         'uuid',
         'name',
-        'user_id'
+        'user_id',
+        'color'
     ];
 
     public function todos(): BelongsToMany

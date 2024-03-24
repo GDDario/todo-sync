@@ -21,7 +21,7 @@ class Todo
         public ?string            $scheduleOptions = null,
         public ?User              $user = null,
         public ?TodoList          $todoList = null,
-        public ?TodoGroup         $todoGroup = null,
+        public ?Uuid              $todoGroupUuid = null,
         public ?DateTimeInterface $createdAt = null,
         public ?DateTimeInterface $updatedAt = null,
     )

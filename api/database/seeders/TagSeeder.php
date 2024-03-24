@@ -14,10 +14,9 @@ class TagSeeder extends Seeder
      */
     public function run(): void
     {
-        Tag::factory()->create(['name' => 'family']);
-        Tag::factory()->create(['name' => 'friends']);
-        Tag::factory()->create(['name' => 'work']);
-        Tag::factory()->create(['name' => 'family']);
+        Tag::factory()->create(['name' => 'family', 'color' => '#3471eb']);
+        Tag::factory()->create(['name' => 'friends', 'color' => '#b7eb34']);
+        Tag::factory()->create(['name' => 'work', 'color' => '#381610']);
         Tag::factory()->create([
             'name' => 'programming',
             'user_id' => User::all()->first()->id

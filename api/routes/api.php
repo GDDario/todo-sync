@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\TodoGroupController;
 use App\Http\Controllers\TodoListController;
@@ -41,9 +42,18 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     Route::prefix('/todo')->group(function () {
-        Route::get('/{todoListUuid}', [TodoController::class, 'index']);
+        Route::get('/{uuid}', [TodoController::class, 'get']);
+        Route::get('/todo-list/{todoListUuid}', [TodoController::class, 'getByTodoList']);
+
+        Route::post('', [TodoController::class, 'store']);
+
+        Route::put('/{uuid}', [TodoController::class, 'update']);
         Route::put('/toggle/{uuid}', [TodoController::class, 'toggleState']);
         Route::put('/title/{uuid}', [TodoController::class, 'changeTitle']);
+    });
+
+    Route::prefix('/tag')->group(function () {
+        Route::get('', [TagController::class, 'index']);
     });
 
     Route::prefix('/todo-group')->group(function () {

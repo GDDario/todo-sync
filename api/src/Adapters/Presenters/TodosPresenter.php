@@ -45,7 +45,8 @@ class TodosPresenter extends JsonResource
     {
         return [
             'uuid' => $tag->uuid->__toString(),
-            'name' => $tag->name
+            'name' => $tag->name,
+            'color' => $tag->color,
         ];
     }
 }

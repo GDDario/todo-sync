@@ -1,7 +1,7 @@
 type TodoResponse = {
     uuid: string;
     title: string;
-    due_date: string;
+    due_date?: string;
     is_urgent: boolean;
     tags: Tag[];
     is_completed: boolean;
@@ -97,6 +97,28 @@ type ToggleTodoResponse = {
     }
 };
 
+type GetTodoResponse = {
+    data: TodoResponse;
+};
+
+type CreateTodoData = {
+    title: string;
+    is_urgent: boolean;
+    todo_list_uuid: string;
+    todo_group_uuid?: string;
+    due_date?: string;
+    schedule_options?: string;
+};
+
+type UpdateTodoData = {
+    title: string;
+    is_urgent: boolean;
+    todo_list_uuid: string;
+    todo_group_uuid?: string;
+    due_date?: string;
+    schedule_options?: string;
+};
+
 export type {
     TodoResponse,
     TodoGroupResponse,
@@ -112,5 +134,8 @@ export type {
     CreateTodoGroupValues,
     CreateTodoGroupResponse,
     GetTodoListResponse,
-    ToggleTodoResponse
+    ToggleTodoResponse,
+    GetTodoResponse,
+    CreateTodoData,
+    UpdateTodoData
 };

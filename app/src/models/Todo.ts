@@ -28,6 +28,5 @@ export default class Todo {
             response.created_at,
             response.updated_at
         )
-            ;
     }
 }

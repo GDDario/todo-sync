@@ -10,6 +10,7 @@ class Tag
         public int    $id,
         public Uuid   $uuid,
         public string $name,
+        public string $color = '#0C88A4',
         public ?int   $userId = null
     )
     {
@@ -21,6 +22,7 @@ class Tag
             id: $model->id,
             uuid: new Uuid($model->uuid),
             name: $model->name,
+            color: $model->color,
         );
     }
 }

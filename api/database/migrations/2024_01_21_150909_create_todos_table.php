@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->date('due_date')->nullable();
-            $table->boolean('is_urgent')->nullable();
+            $table->boolean('is_urgent')->default(false);
             $table->string('schedule_options')->nullable();
             $table->boolean('is_completed');
             $table->bigInteger('todo_list_id');

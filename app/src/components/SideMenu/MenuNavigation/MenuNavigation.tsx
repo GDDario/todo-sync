@@ -11,7 +11,7 @@ import "./style.css";
 const MenuNavigation = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [modal, setModal] = useState<boolean>(false);
+    const [modalOpened, setModalOpened] = useState<boolean>(false);
     const todoLists = useSelector(selectTodoLists);
 
     return (
@@ -38,7 +38,7 @@ const MenuNavigation = () => {
                                 Lists
                             </div>
                             <button className="rounded-[4px] p-1 hover-button" onClick={() => {
-                                setModal(true)
+                                setModalOpened(true)
                             }}><FaPlus
                                 size={16}/></button>
                         </div>
@@ -66,7 +66,7 @@ const MenuNavigation = () => {
                 </li>
 
                 {
-                    modal && <CreateTodoListModal onClose={() => setModal(false)}/>
+                    modalOpened && <CreateTodoListModal onClose={() => setModalOpened(false)}/>
                 }
             </ul>
         </div>

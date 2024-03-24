@@ -15,7 +15,6 @@ import {addTodoList} from "../../../store/todoListsSlice";
 import {showMessage} from "../../../store/messageSlice.ts";
 import ModalButtons from "../ModalButtons/ModalButtons.tsx";
 import {User} from "../../../models/user.ts";
-// import ModalButtons from "../ModalButtons.tsx";
 
 type CreateTodoListModalProps = {
     onClose: () => void;
@@ -29,161 +28,166 @@ const schema = z.object({
 type CreateTodoListSchema = z.infer<typeof schema>;
 
 const CreateTodoListModal = ({onClose}: CreateTodoListModalProps) => {
-    const {
-        register,
-        handleSubmit,
-        setError,
-        formState: {errors},
-    } = useForm<CreateTodoListSchema>({resolver: zodResolver(schema)});
-    const [showCollaborators, setShowCollaborators] = useState<boolean>(false);
-    const [collaborators, setCollaborators] = useState<User[]>([]);
-    const [email, setEmail] = useState<string>('');
-    const [loading, setLoading] = useState<boolean>(false);
-    const [searchError, setSearchError] = useState<string>('');
-    const user = useSelector(selectUser);
-    const dispatch = useDispatch();
+        const {
+            register,
+            handleSubmit,
+            setError,
+            formState: {errors},
+        } = useForm<CreateTodoListSchema>({resolver: zodResolver(schema)});
+        const [showCollaborators, setShowCollaborators] = useState<boolean>(false);
+        const [collaborators, setCollaborators] = useState<User[]>([]);
+        const [email, setEmail] = useState<string>('');
+        const [loading, setLoading] = useState<boolean>(false);
+        const [searchError, setSearchError] = useState<string>('');
+        const user = useSelector(selectUser);
+        const dispatch = useDispatch();
 
-    useEffect(() => {
-        document.addEventListener('click', (e) => {
+        useEffect(() => {
+            document.addEventListener('click', onClick);
+
+            return () => document.removeEventListener('click', onClick);
+        }, []);
+
+        const onClick = (e) => {
             const target = e.target as HTMLElement; // Converte o tipo genérico para HTMLElement
             const id = target.id; // Obtém o ID do elemento alvo
 
             if (id !== 'searchButton') {
                 setSearchError('');
             }
-        });
-    }, []);
+        };
 
-    const handleSearchCollaborator = async () => {
-        setLoading(true);
+        const handleSearchCollaborator = async () => {
+            setLoading(true);
 
-        if (email === user.email) {
-            setSearchError('You cannot add yourself.');
-            return;
-        }
-
-        try {
-            const collaboratorData = await searchUserByEmail(email);
-            const collaborator: User = collaboratorData.data.data;
-
-            for (let i = 0; i < collaborators.length; i++) {
-                if (collaborator.uuid == collaborators[i].uuid) {
-                    setSearchError('Collaborator already in.');
-                    return;
-                }
+            if (email === user.email) {
+                setSearchError('You cannot add yourself.');
+                return;
             }
 
-            setCollaborators(collaborators => [...collaborators, collaborator]);
-        } catch (error: any) {
-            setSearchError('Collaborator not found.');
-        } finally {
-            setLoading(false);
-        }
-    };
+            try {
+                const collaboratorData = await searchUserByEmail(email);
+                const collaborator: User = collaboratorData.data.data;
 
-    const handleRemoveCollaborator = (uuid: string) => {
-        const filteredCollaborators = collaborators.filter((collaborator: User) => {
-            return collaborator.uuid != uuid;
-        });
-
-        setCollaborators(filteredCollaborators);
-    }
-
-    const onSubmit = async ({name, isCollaborative}: CreateTodoListSchema) => {
-        let collaboratorsUuids: string[] = [];
-
-        if (isCollaborative) {
-            collaboratorsUuids = collaborators.map((collaborator: User) => {
-                return collaborator.uuid;
-            });
-        }
-
-        try {
-            const todoListData = await createTodoList({name, isCollaborative, collaboratorsUuids});
-            dispatch(addTodoList(todoListData.data.data));
-            dispatch(showMessage({message: 'Todo list created successfully!', type: 'success'}));
-            onClose();
-        } catch (error: any) {
-            const errors = error?.response?.data?.errors;
-            if (errors) {
-                for (const key in errors) {
-                    if (Object.prototype.hasOwnProperty.call(errors, key)) {
-                        setError(key as keyof CreateTodoListSchema,
-                            {
-                                type: 'manual',
-                                message: errors[key][0]
-                            }
-                        );
+                for (let i = 0; i < collaborators.length; i++) {
+                    if (collaborator.uuid == collaborators[i].uuid) {
+                        setSearchError('Collaborator already in.');
+                        return;
                     }
                 }
+
+                setCollaborators(collaborators => [...collaborators, collaborator]);
+            } catch (error: any) {
+                setSearchError('Collaborator not found.');
+            } finally {
+                setLoading(false);
             }
-            dispatch(showMessage({message: 'The Todo list could not be created.', type: 'error'}));
-        } finally {
-            setLoading(false);
+        };
+
+        const handleRemoveCollaborator = (uuid: string) => {
+            const filteredCollaborators = collaborators.filter((collaborator: User) => {
+                return collaborator.uuid != uuid;
+            });
+
+            setCollaborators(filteredCollaborators);
         }
-    }
 
-    return (
-        <ModalBase title="Create List" onClose={() => onClose()}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <FormField
-                    type="text"
-                    label="Name"
-                    name="name"
-                    variant="bordered"
-                    register={register}
-                    error={errors.name}
-                />
+        const onSubmit = async ({name, isCollaborative}: CreateTodoListSchema) => {
+            let collaboratorsUuids: string[] = [];
 
-                <div className="flex items-center gap-2 mt-2">
-                    <input
-                        type="checkbox"
-                        id="isCollaborative"
-                        {...register("isCollaborative")}
-                        onChange={(event) => setShowCollaborators(event?.target.checked)}
-                        className="block w-[16px] h-[16px]"/>
-                    <label htmlFor="isCollaborative" className="select-none">Collaborative</label>
-                </div>
+            if (isCollaborative) {
+                collaboratorsUuids = collaborators.map((collaborator: User) => {
+                    return collaborator.uuid;
+                });
+            }
 
-                {
-                    showCollaborators &&
-                    <div className="mt-4">
-                        <div className="flex gap-2 items-center justify-start">
-                            <input
-                                type="text"
-                                placeholder="Put the collaborator email here"
-                                className="px-2 py-1 border border-black rounded"
-                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
-                                onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-                                    if (event.key == 'Enter') {
-                                        event.preventDefault();
-                                        setEmail(event.currentTarget.value);
-                                        handleSearchCollaborator();
-                                    }
-                                }}
-                            />
-                            <Button id="searchButton" type="button" onClick={() => handleSearchCollaborator()}
-                                    value="Search" isLoading={false} icon={<IoMdSearch size={20}/>}/>
-                        </div>
-                        {searchError && <p className="text-red-500">{searchError}</p>}
-
-                        <div className="mt-3">
-                            {
-                                collaborators.map((collaborator: User) =>
-                                    <CollaboratorContainer
-                                        key={collaborator.uuid}
-                                        collaborator={collaborator}
-                                        onRemove={handleRemoveCollaborator}
-                                    />)
-                            }
-                        </div>
-                    </div>
+            try {
+                const todoListData = await createTodoList({name, isCollaborative, collaboratorsUuids});
+                dispatch(addTodoList(todoListData.data.data));
+                dispatch(showMessage({message: 'Todo list created successfully!', type: 'success'}));
+                onClose();
+            } catch (error: any) {
+                const errors = error?.response?.data?.errors;
+                if (errors) {
+                    for (const key in errors) {
+                        if (Object.prototype.hasOwnProperty.call(errors, key)) {
+                            setError(key as keyof CreateTodoListSchema,
+                                {
+                                    type: 'manual',
+                                    message: errors[key][0]
+                                }
+                            );
+                        }
+                    }
                 }
+                dispatch(showMessage({message: 'The Todo list could not be created.', type: 'error'}));
+            } finally {
+                setLoading(false);
+            }
+        }
 
-                <ModalButtons loading={loading} onClose={() => onClose()}/>
-            </form>
-        </ModalBase>
-    );
-};
+        return (
+            <ModalBase title="Create List" onClose={() => onClose()}>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <FormField
+                        type="text"
+                        label="Name"
+                        name="name"
+                        variant="bordered"
+                        register={register}
+                        error={errors.name}
+                    />
+
+                    <div className="flex items-center gap-2 mt-2">
+                        <input
+                            type="checkbox"
+                            id="isCollaborative"
+                            {...register("isCollaborative")}
+                            onChange={(event) => setShowCollaborators(event?.target.checked)}
+                            className="block w-[16px] h-[16px]"/>
+                        <label htmlFor="isCollaborative" className="select-none">Collaborative</label>
+                    </div>
+
+                    {
+                        showCollaborators &&
+                        <div className="mt-4">
+                            <div className="flex gap-2 items-center justify-start">
+                                <input
+                                    type="text"
+                                    placeholder="Put the collaborator email here"
+                                    className="px-2 py-1 border border-black rounded"
+                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
+                                    onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                                        if (event.key == 'Enter') {
+                                            event.preventDefault();
+                                            setEmail(event.currentTarget.value);
+                                            handleSearchCollaborator();
+                                        }
+                                    }}
+                                />
+                                <Button id="searchButton" type="button" onClick={() => handleSearchCollaborator()}
+                                        value="Search" isLoading={false} icon={<IoMdSearch size={20}/>}/>
+                            </div>
+                            {searchError && <p className="text-red-500">{searchError}</p>}
+
+                            <div className="mt-3">
+                                {
+                                    collaborators.map((collaborator: User) =>
+                                        <CollaboratorContainer
+                                            key={collaborator.uuid}
+                                            collaborator={collaborator}
+                                            onRemove={handleRemoveCollaborator}
+                                        />)
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <ModalButtons loading={loading} onClose={() => onClose()}/>
+                </form>
+            </ModalBase>
+        );
+    }
+;
 
 export default CreateTodoListModal;
