@@ -12,6 +12,7 @@ export default class Todo {
         public schedule_options?: string,
         public created_at?: string,
         public updated_at?: string,
+        public todo_group_uuid?: string,
     ) {
     }
 
@@ -26,7 +27,8 @@ export default class Todo {
             response.description,
             response.schedule_options,
             response.created_at,
-            response.updated_at
+            response.updated_at,
+            response.todo_group_uuid,
         )
     }
 }

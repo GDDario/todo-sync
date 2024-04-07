@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import {ReactNode} from "react";
 import TopBar from "../TopBar/TopBar.tsx";
 import SideMenu from "../SideMenu/SideMenu.tsx";
 
@@ -6,15 +6,15 @@ type MainLayoutProps = {
     children: ReactNode
 };
 
-const MainLayout = ({ children }: MainLayoutProps) => {
+const MainLayout = ({children}: MainLayoutProps) => {
 
     return (
         <div id="MainLayout" className="h-screen flex overflow-hidden bg-appWhite">
-            <SideMenu />
+            <SideMenu/>
             <div className="inline-block w-full">
-                <TopBar />
+                <TopBar/>
                 <div className="overflow-y-auto max-h-[calc(100%-60px)]">
-                   {children}
+                    {children}
                 </div>
             </div>
 

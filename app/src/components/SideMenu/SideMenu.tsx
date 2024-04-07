@@ -1,38 +1,47 @@
-import { HiUserCircle } from "react-icons/hi2";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../store/userSlice";
-import { IoSettingsSharp } from "react-icons/io5";
+import {HiUserCircle} from "react-icons/hi2";
+import {useSelector} from "react-redux";
+import {selectUser} from "../../store/userSlice";
+import {IoSettingsSharp} from "react-icons/io5";
 import MenuNavigation from "./MenuNavigation/MenuNavigation.tsx";
+import {useState} from "react";
+import SettingsModal from "../Modal/SettingsModal/SettingsModal.tsx";
 
 const SideMenu = () => {
     const user = useSelector(selectUser);
+    const [modalOpen, setModalOpen] = useState(false);
 
     return (
         <aside className="h-screen min-w-[320px] bg-mainColor p-2 text-appWhite shadow-sm shadow-black">
             <div className="flex flex-col justify-between h-full">
                 <div className="h-[90%]">
                     <div className="flex justify-center items-center flex-col">
-                        <HiUserCircle size={180} />
+                        <HiUserCircle size={180}/>
                         <p className="text-lg">{user.username}</p>
-                        <hr className="my-8 w-full" />
+                        <hr className="my-8 w-full"/>
                     </div>
 
-                    <MenuNavigation />
+                    <MenuNavigation/>
                 </div>
 
                 <div>
-                    <button className={`flex w-full items-center gap-2 text-appWhite p-2 rounded-[4px] hover-button`}>
+                    <button
+                        className={`flex w-full items-center gap-2 text-appWhite p-2 rounded-[4px] hover-button`}
+                        onClick={() => setModalOpen(true)}
+                    >
                         <span>
-                            <IoSettingsSharp size={18} />
+                            <IoSettingsSharp size={18}/>
                         </span>
                         <p className="text-nowrap">Settings</p>
                     </button>
                 </div>
             </div>
+
+            {
+                modalOpen && <SettingsModal onClose={() => setModalOpen(false)}/>
+            }
         </aside>
     );
 };
-
 
 
 export default SideMenu;

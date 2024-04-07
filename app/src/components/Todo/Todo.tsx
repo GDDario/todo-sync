@@ -3,14 +3,15 @@ import Checkbox from "./Checkbox.tsx";
 import {useState} from "react";
 import TextField from "./TextField.tsx";
 import Chip from "../Chip/Chip.tsx";
-import {CiWarning} from "react-icons/ci";
+import {CiCalendar, CiWarning} from "react-icons/ci";
 import {GrFormSchedule} from "react-icons/gr";
 import {getDateFromAmericanFormat, isTomorrow} from "../../utils/dateUtil.ts";
-import {CiCalendar} from "react-icons/ci";
 import {SlOptionsVertical} from "react-icons/sl";
-import CreateTodoListModal from "../Modal/CreateTodoListModal/CreateTodoListModal.tsx";
 import TodoModal from "../Modal/TodoModal/TodoModal.tsx";
 import TagChip from "../Modal/TodoModal/TagChip.tsx";
+import {useSortable} from "@dnd-kit/sortable";
+import {CSS} from "@dnd-kit/utilities";
+import {MdDragIndicator} from "react-icons/md";
 
 type props = {
     todo: TodoClass;
@@ -23,9 +24,52 @@ const Todo = ({todo, todoListUuid, todoGroupUuid}: props) => {
     const [isHovering, setIsHovering] = useState(false);
     const [modalOpened, setModalOpened] = useState(false);
 
-    return (
-        <div>
+    const {
+        setNodeRef,
+        attributes,
+        listeners,
+        transform,
+        transition,
+        isDragging,
+    } = useSortable({
+        id: todo.uuid,
+        data: {
+            type: "Todo",
+            todo,
+        },
+        // disabled: editMode,
+    });
+
+    const style = {
+        transition,
+        transform: CSS.Transform.toString(transform),
+    };
+
+    if (isDragging) {
+        return (
             <div
+                ref={setNodeRef}
+                style={style}
+                className="
+                    opacity-40
+                    border-2
+                    border-mainColor
+                    w-[450px]
+                    h-[70px]
+                    max-h-[500px]
+                    rounded-md
+                    flex
+                    flex-col
+                "
+            ></div>
+        );
+    }
+
+    return (
+        <div ref={setNodeRef}>
+            <div
+                //{...attributes}
+                // {...listeners}
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
                 className={`relative flex gap-1 p-1 ${loading && 'bg-black bg-opacity-5'} w-full max-w-[800px]`}>
@@ -33,6 +77,13 @@ const Todo = ({todo, todoListUuid, todoGroupUuid}: props) => {
                     className={`absolute w-full h-full bg-black bg-opacity-5 rounded-[4px] ${!loading && 'hidden'} flex justify-center items-center z-[1000]`}>
                     Loading...
                 </div>
+
+                <MdDragIndicator
+                    {...attributes}
+                    {...listeners}
+                    size={22}
+                    className={`cursor-grab ${!isHovering ? "opacity-0" : "opacity-100"}`}
+                />
 
                 <div className="mt-[2px]">
                     <Checkbox uuid={todo.uuid} isCompleted={todo.is_completed}
@@ -58,10 +109,10 @@ const Todo = ({todo, todoListUuid, todoGroupUuid}: props) => {
 
                         {
                             todo.tags.length > 0 && <div className="flex">
-                                <div className="">|</div>
+                                {(todo.is_urgent || todo.due_date || todo.schedule_options) && <div className="">|</div>}
                                 <div className="flex items-center gap-2 ml-2">
                                     {
-                                        todo.tags.map((tag: Tag) => <TagChip tag={tag} mini={true} />)
+                                        todo.tags.map((tag: Tag) => <TagChip key={tag.uuid} tag={tag} mini={true}/>)
                                     }
                                 </div>
                             </div>

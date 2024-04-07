@@ -37,6 +37,7 @@ class TodosPresenter extends JsonResource
             'due_date' => $todo->dueDate,
             'is_completed' => $todo->isCompleted,
             'schedule_options' => $todo->scheduleOptions,
+            'todo_group_uuid' => $todo->todoGroupUuid?->__toString(),
             'tags' => $tags
         ];
     }

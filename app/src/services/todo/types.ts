@@ -9,6 +9,7 @@ type TodoResponse = {
     schedule_options?: string;
     created_at?: string;
     updated_at?: string;
+    todo_group_uuid?: string;
 }
 
 type TodoGroupResponse = {
