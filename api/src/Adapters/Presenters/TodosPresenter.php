@@ -8,8 +8,8 @@ class TodosPresenter extends JsonResource
 {
     public function toArray($request): array
     {
-        $array['groups'] = array_map(fn($todo) => $this->mapTodoGroupToJson($todo), $this->todoGroups);
-        $array['ungrouped_todos'] = array_map(fn($todo) => $this->mapTodoToJson($todo), $this->ungroupedTodos);
+//        $array['groups'] = array_map(fn($todo) => $this->mapTodoGroupToJson($todo), $this->todoGroups);
+        $array['todos'] = array_map(fn($todo) => $this->mapTodoToJson($todo), $this->todos);
         $array['positions'] = json_decode($this->positions);
 
         return $array;

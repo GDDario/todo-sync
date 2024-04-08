@@ -12,4 +12,6 @@ interface TodoListRepositoryInterface
     public function findByUserId(int $userId): array;
 
     public function insert(StoreTodoListDTO $dto): TodoList;
+
+    public function changePositions(Uuid $todoListUuid, array $positions): bool;
 }

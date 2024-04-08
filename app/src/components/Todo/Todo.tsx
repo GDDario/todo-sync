@@ -48,28 +48,32 @@ const Todo = ({todo, todoListUuid, todoGroupUuid}: props) => {
     if (isDragging) {
         return (
             <div
+                {...attributes}
+                {...listeners}
                 ref={setNodeRef}
                 style={style}
                 className="
                     opacity-40
                     border-2
                     border-mainColor
-                    w-[450px]
+                    w-full
                     h-[70px]
                     max-h-[500px]
                     rounded-md
                     flex
                     flex-col
                 "
-            ></div>
+            >
+            </div>
         );
     }
 
     return (
-        <div ref={setNodeRef}>
+        <div
+            ref={setNodeRef}
+            style={style}
+        >
             <div
-                //{...attributes}
-                // {...listeners}
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
                 className={`relative flex gap-1 p-1 ${loading && 'bg-black bg-opacity-5'} w-full max-w-[800px]`}>

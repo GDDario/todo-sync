@@ -32,6 +32,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('', [TodoListController::class, 'store']);
         Route::get('', [TodoListController::class, 'index']);
         Route::get('/{uuid}', [TodoListController::class, 'show']);
+        Route::put('/{uuid}/positions', [TodoListController::class, 'changePositions']);
     });
 
     Route::prefix('/user')->group(function () {

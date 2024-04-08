@@ -8,11 +8,26 @@ import TodoGroup from "../../models/TodoGroup.ts";
 import {DndContext, DragEndEvent, DragOverlay, DragStartEvent} from "@dnd-kit/core";
 import {arrayMove, SortableContext} from "@dnd-kit/sortable";
 import {createPortal} from "react-dom";
+import {changePositions} from "../../services/todo/todoListService.ts";
+import {useDispatch} from "react-redux";
+import {showMessage} from "../../store/messageSlice.ts";
 
 const TodoList = ({uuid}) => {
-    const [items, setItems] = useState<any[]>([]);
-    const itemsIds = useMemo(() => items.map((item) => item.uuid), [items]);
-    const [activeItem, setActiveItem] = useState<any | null>(null);
+    const dispatch = useDispatch();
+    const [todos, setTodos] = useState<Todo[]>([]);
+    const [positions, setPositions] = useState<string[]>([]);
+    const [activeTodo, setActiveTodo] = useState<any | null>(null);
+    const todosUuids = useMemo(() => {
+        const filteredAndOrderedUuids = positions.filter(p => todos.some(t => t.uuid === p));
+
+        todos.forEach(todo => {
+            if (!filteredAndOrderedUuids.includes(todo.uuid)) {
+                filteredAndOrderedUuids.push(todo.uuid);
+            }
+        });
+
+        return filteredAndOrderedUuids;
+    }, [todos, positions]);
 
     useEffect((): void => {
         fetchItems();
@@ -21,26 +36,28 @@ const TodoList = ({uuid}) => {
     const fetchItems = async () => {
         await geTodosByTodoList(uuid).then((response) => {
             const jsonResponse = response.data.data;
+            const todos = jsonResponse.todos.map((todoResponse: TodoResponse) => Todo.fromResponse(todoResponse));
 
-            const ungroupedTodos = jsonResponse.ungrouped_todos.map((todo: TodoResponse) => Todo.fromResponse(todo));
-            const todoGroups = jsonResponse.groups.map((group: TodoGroupResponse) => TodoGroup.fromResponse(group));
+            const todosMap = new Map(todos.map(todo => [todo.uuid, todo]));
 
-            setItems([...todoGroups, ...ungroupedTodos]);
-            // setItems([...ungroupedTodos]);
-            // setItems(todoGroups);
+            const orderedTodos: Todo[] = jsonResponse.positions
+                .map(uuid => todosMap.get(uuid))
+                .filter(todo => todo !== undefined) as Todo[];
+
+            setTodos(orderedTodos);
+            setPositions(jsonResponse.positions);
         });
     };
 
     const onDragStart = (event: DragStartEvent) => {
-        console.log(event)
-        if (event.active.data.current?.type === "Group") {
-            setActiveItem(event.active.data.current.group);
+        if (event.active.data.current?.type === "Todo") {
+            setActiveTodo(event.active.data.current.todo);
             return;
         }
     };
 
     const onDragEnd = (event: DragEndEvent) => {
-        const { active, over } = event;
+        const {active, over} = event;
 
         if (!over) {
             return;
@@ -53,15 +70,24 @@ const TodoList = ({uuid}) => {
             return;
         }
 
-        setItems((items) => {
-            const activeItemIndex = items.findIndex(item => item.uuid == activeItemId);
-            const overItemIndex = items.findIndex(item => item.uuid == overItemId);
+        setTodos((todos) => {
+            const activeItemIndex = todos.findIndex(item => item.uuid == activeItemId);
+            const overItemIndex = todos.findIndex(item => item.uuid == overItemId);
 
-            console.log('activeItemIndex', activeItemIndex)
-            console.log('overItemIndex', overItemIndex)
+            const newArray = arrayMove(todos, activeItemIndex, overItemIndex);
+            updatePositions(newArray.map((todo: Todo) => todo.uuid));
 
-            return arrayMove(items, activeItemIndex, overItemIndex);
+            return newArray;
         })
+    }
+
+    const updatePositions = async (newPositions: string[]) => {
+        try {
+            await changePositions(uuid, newPositions);
+            setPositions(newPositions);
+        } catch (e: any) {
+            dispatch(showMessage({message: "Could not change the positions", type: "error"}))
+        }
     }
 
     return (
@@ -70,14 +96,10 @@ const TodoList = ({uuid}) => {
             onDragEnd={onDragEnd}
         >
             <div className="flex flex-col gap-2">
-                <SortableContext items={itemsIds}>
-                    {items &&
-                        items.map((item: any) => {
-                            if (item instanceof Todo) {
-                                return <TodoComponent key={item.uuid} todoListUuid={uuid} todo={item}/>;
-                            }
-
-                            return <TodoGroupComponent key={item.uuid} todoListUuid={uuid} group={item}/>;
+                <SortableContext items={todosUuids}>
+                    {todos &&
+                        todos.map((todo: any) => {
+                            return <TodoComponent key={todo.uuid} todoListUuid={uuid} todo={todo}/>;
                         })
 
                     }
@@ -87,12 +109,8 @@ const TodoList = ({uuid}) => {
             {createPortal(
                 <DragOverlay>
                     {
-                        activeItem instanceof Todo &&
-                        <TodoComponent todoListUuid={uuid} todo={activeItem}/>
-                    }
-                    {
-                        activeItem instanceof TodoGroup &&
-                        <TodoGroupComponent todoListUuid={uuid} group={activeItem}/>
+                        activeTodo &&
+                        <TodoComponent todoListUuid={uuid} todo={activeTodo}/>
                     }
                 </DragOverlay>, document.body
             )}

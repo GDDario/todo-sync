@@ -18,8 +18,8 @@ class GetTodosByTodoListUuid
         $response = $this->repository->findByTodoList($input->todoListUuid);
 
         return new GetTodosByTodoListUuidOutput(
-            todoGroups: $response->todoGroups,
-            ungroupedTodos: $response->ungroupedTodos,
+//            todoGroups: $response->todoGroups,
+            todos: $response->todos,
             positions: $response->positions
         );
     }

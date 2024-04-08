@@ -39,12 +39,12 @@ class TodoEloquentRepository implements TodoRepositoryInterface
             $todoGroups[] = $this->hydrateTodoGroupEntity($todoGroup);
         }
 
-        $json = $todoList->positions;
+        $positions = $todoList->positions;
 
         return new TodosDTO(
-            $todoGroups,
+//            $todoGroups,
             $ungroupedTodos,
-            $json
+            $positions
         );
     }
 

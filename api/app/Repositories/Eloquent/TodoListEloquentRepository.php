@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\Models\Todo;
 use App\Models\TodoList;
 use App\Models\Pivots\TodoListUser;
 use App\Models\User;
@@ -72,6 +73,25 @@ class TodoListEloquentRepository implements TodoListRepositoryInterface
             DB::rollback();
             throw $e;
         }
+    }
+
+    public function changePositions(Uuid $todoListUuid, array $positions): bool
+    {
+        if (!$todoList = TodoList::where('uuid', $todoListUuid)->first()) {
+            throw new EntityNotFoundException("Todo List with uuid $todoListUuid not found.");
+        }
+
+        foreach($positions as $todoUuid) {
+            if (!Todo::where('uuid', $todoUuid)->first()) {
+                throw new EntityNotFoundException("Todo with uuid $todoUuid not found.");
+            }
+        }
+
+        $result = $todoList->update([
+            'positions' => $positions
+        ]);
+
+        return $result;
     }
 
     private function hydrateEntity(TodoList $todoList): TodoListEntity

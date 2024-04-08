@@ -72,9 +72,8 @@ type GetDashboardResponse = {
 
 type GetTodosResponse = {
   data: {
-      groups: TodoGroupResponse[]
-      ungrouped_todos: TodoResponse[],
-      positions: any
+      todos: TodoResponse[],
+      positions: string[]
   }
 };
 

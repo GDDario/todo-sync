@@ -26,4 +26,13 @@ const getTodoList = async (uuid: string) => {
     return await axiosInstance.get<GetTodoListResponse>(url);
 }
 
-export {createTodoList, getTodoLists, getTodoList};
+const changePositions = async (uuid: string, positions: string[]) => {
+    const url: string = `todo-list/${uuid}/positions`;
+
+    const body = {positions};
+    console.log('Sending body', positions)
+
+    return await axiosInstance.put<null>(url, body);
+}
+
+export {createTodoList, getTodoLists, getTodoList, changePositions};
