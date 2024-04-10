@@ -81,6 +81,7 @@ const RegisterPage = () => {
                     name="username"
                     register={register}
                     error={errors.username}
+                    fullWidth
                 />
                 <div className="mt-3">
                     <FormField
@@ -89,6 +90,7 @@ const RegisterPage = () => {
                         name="email"
                         register={register}
                         error={errors.email}
+                        fullWidth
                     />
                 </div>
                 <div className="mt-3">
@@ -98,6 +100,7 @@ const RegisterPage = () => {
                         name="password"
                         register={register}
                         error={errors.password}
+                        fullWidth
                     />
                 </div>
                 <div className="mt-3">
@@ -107,6 +110,7 @@ const RegisterPage = () => {
                         name="passwordConfirmation"
                         register={register}
                         error={errors.passwordConfirmation}
+                        fullWidth
                     />
                 </div>
 

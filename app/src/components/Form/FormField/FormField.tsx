@@ -5,6 +5,7 @@ type FormProps = {
     register: any;
     error: any;
     variant?: string;
+    fullWidth?: boolean;
 };
 
 const FormField = (
@@ -14,12 +15,13 @@ const FormField = (
         name,
         register,
         error,
-        variant
+        variant,
+        fullWidth
     }: FormProps) => {
     const id: string = label + "_" + name;
 
     const styleClasses = () => {
-        let classes = "text-black p-1 w-full rounded mt-1 ";
+        let classes = "text-black p-1 rounded mt-1 block ";
 
         switch (variant) {
             case undefined:
@@ -28,6 +30,10 @@ const FormField = (
             case "bordered":
                 classes += "border border-black";
                 break;
+        }
+
+        if (fullWidth) {
+            classes += " w-full";
         }
 
         return classes;

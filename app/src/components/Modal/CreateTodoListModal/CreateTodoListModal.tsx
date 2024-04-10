@@ -136,6 +136,7 @@ const CreateTodoListModal = ({onClose}: CreateTodoListModalProps) => {
                         variant="bordered"
                         register={register}
                         error={errors.name}
+                        fullWidth
                     />
 
                     <div className="flex items-center gap-2 mt-2">

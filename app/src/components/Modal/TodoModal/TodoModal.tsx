@@ -127,6 +127,7 @@ const TodoModal = ({uuid, todoListUuid, groupUuid, onClose}: props) => {
                     register={register}
                     error={errors.title}
                     variant="bordered"
+                    fullWidth
                 />
 
                 <FormField
@@ -136,6 +137,7 @@ const TodoModal = ({uuid, todoListUuid, groupUuid, onClose}: props) => {
                     register={register}
                     error={errors.dueDate}
                     variant="bordered"
+                    fullWidth
                 />
 
                 <TagsSelect todoTags={tags} callback={(tag: Tag) => {
@@ -164,8 +166,12 @@ const TodoModal = ({uuid, todoListUuid, groupUuid, onClose}: props) => {
                         <FaCheck size={14} className="text-appWhite"/>
                     </label>
                     Is urgent
-                    <input id={"checkbox_"} type="checkbox" checked={isUrgent} onChange={() => setIsUrgent(!isUrgent)}
-                           className="hidden"/>
+                    <input
+                        id={"checkbox_"}
+                        type="checkbox"
+                        checked={isUrgent}
+                        onChange={() => setIsUrgent(!isUrgent)}
+                        className="hidden"/>
                 </div>
 
                 <FormField
@@ -175,6 +181,7 @@ const TodoModal = ({uuid, todoListUuid, groupUuid, onClose}: props) => {
                     register={register}
                     error={errors.scheduleOptions}
                     variant="bordered"
+                    fullWidth
                 />
 
                 <ModalButtons loading={loading} onClose={() => onClose()}/>

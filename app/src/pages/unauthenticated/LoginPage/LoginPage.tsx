@@ -12,7 +12,6 @@ import {getTodoLists} from "../../../services/todo/todoListService";
 import {setTodoLists} from "../../../store/todoListsSlice";
 import {showMessage} from "../../../store/messageSlice.ts";
 
-
 const schema = z.object({
     email: z.string().email('Invalid email.'),
     password: z.string().min(1, "Field required."),
@@ -69,6 +68,7 @@ const LoginPage = () => {
                     name="email"
                     register={register}
                     error={errors.email}
+                    fullWidth
                 />
                 <div className="mt-2">
                     <FormField
@@ -77,6 +77,7 @@ const LoginPage = () => {
                         name="password"
                         register={register}
                         error={errors.password}
+                        fullWidth
                     />
                 </div>
 
