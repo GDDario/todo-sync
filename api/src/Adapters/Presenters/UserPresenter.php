@@ -12,6 +12,7 @@ class UserPresenter extends JsonResource
             'uuid' => is_object($this->uuid) ? $this->uuid->__toString() : $this->uuid,
             'username' => $this->username,
             'email' => is_object($this->email) ? $this->email->__toString() : $this->email,
+            'picture_path' => $this->picturePath,
         ];
 
         if (isset($this->createdAt)) {

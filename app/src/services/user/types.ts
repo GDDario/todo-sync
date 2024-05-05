@@ -7,7 +7,6 @@ type UserJSON = {
 
 type FindUserByEmailResponse = {
     data: UserJSON
-
-};
+}
 
 export type {FindUserByEmailResponse, UserJSON};

@@ -12,7 +12,8 @@ class RegisterUserOutput
         public Uuid $uuid,
         public string $username,
         public Email $email,
-        public DateTime $createdAt
+        public DateTime $createdAt,
+        public ?string $picturePath = null,
     ) {
     }
 }

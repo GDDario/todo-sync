@@ -3,6 +3,7 @@ import userReducer from "./userSlice";
 import pageReducer from "./pageSlice";
 import todoListsSlice from "./todoListsSlice";
 import messageSlice from "./messageSlice";
+import preferencesSlice from "./preferencesSlice.ts";
 
 const store = configureStore(
     {
@@ -10,7 +11,8 @@ const store = configureStore(
             user: userReducer,
             todoLists: todoListsSlice,
             page: pageReducer,
-            message: messageSlice
+            message: messageSlice,
+            preferences: preferencesSlice
         }
     }
 );

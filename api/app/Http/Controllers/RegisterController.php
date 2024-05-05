@@ -11,6 +11,8 @@ class RegisterController extends Controller
 {
     public function store(RegisterRequest $request, RegisterUser $useCase)
     {
+
+
         $data = $useCase->handle(
             new RegisterUserInput(
                 username: $request->input('username'),

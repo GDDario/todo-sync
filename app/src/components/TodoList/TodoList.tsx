@@ -1,10 +1,8 @@
 import {useEffect, useMemo, useState} from "react";
 import {geTodosByTodoList} from "../../services/todo/todoService.ts";
 import Todo from "../../models/Todo.ts";
-import {TodoGroupResponse, TodoResponse} from "../../services/todo/types.ts";
+import {TodoResponse} from "../../services/todo/types.ts";
 import TodoComponent from "../Todo/Todo.tsx"
-import TodoGroupComponent from "../TodoGroup/TodoGroup.tsx"
-import TodoGroup from "../../models/TodoGroup.ts";
 import {DndContext, DragEndEvent, DragOverlay, DragStartEvent} from "@dnd-kit/core";
 import {arrayMove, SortableContext} from "@dnd-kit/sortable";
 import {createPortal} from "react-dom";
@@ -44,8 +42,12 @@ const TodoList = ({uuid}) => {
                 .map(uuid => todosMap.get(uuid))
                 .filter(todo => todo !== undefined) as Todo[];
 
-            setTodos(orderedTodos);
+            console.log(todos.map(todo => todo.uuid))
+
+            setTodos(orderedTodos ? orderedTodos: todos);
             setPositions(jsonResponse.positions);
+            console.log('Ordered todos', orderedTodos)
+            console.log('todos', todos)
         });
     };
 

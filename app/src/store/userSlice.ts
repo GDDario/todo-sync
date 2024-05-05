@@ -4,7 +4,8 @@ import {User} from "../models/user.ts";
 const initialState: User = {
     uuid: '',
     username: '',
-    email: ''
+    email: '',
+    picture_path: '',
 };
 
 const userSlice = createSlice({
@@ -12,6 +13,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, {payload}) => {
+            console.log('user payload', payload)
             return payload;
         },
     }

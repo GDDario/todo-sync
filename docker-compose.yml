@@ -1,4 +1,4 @@
-version: "3.8"
+#version: "3.8"
 
 services:
   # PHP
@@ -12,7 +12,7 @@ services:
     volumes:
       - ./:/var/www
     ports:
-      - 8000:8000
+      - "8000:8000"
     depends_on:
         - database
     networks:
@@ -23,7 +23,7 @@ services:
     container_name: todo-sync-postgres
     image: postgres:16.1
     ports:
-      - 5432:5432
+      - "5432:5432" # Outside:inside
     environment:
       - POSTGRES_DB=todosync
       - POSTGRES_USER=postgres

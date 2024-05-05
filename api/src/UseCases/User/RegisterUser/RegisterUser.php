@@ -38,7 +38,8 @@ class RegisterUser
             uuid: $user->uuid,
             username: $user->username,
             email: $user->email,
-            createdAt: $user->createdAt
+            createdAt: $user->createdAt,
+            picturePath: $user->picturePath,
         );
     }
 }

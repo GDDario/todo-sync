@@ -134,6 +134,7 @@ const Todo = ({todo, todoListUuid, todoGroupUuid}: props) => {
                     </div>
                 }
             </div>
+
             {
                 modalOpened && <TodoModal todoListUuid={todoListUuid} groupUuid={todoGroupUuid} uuid={todo.uuid}
                                           onClose={() => setModalOpened(false)}/>

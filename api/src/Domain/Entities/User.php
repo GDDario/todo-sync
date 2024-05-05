@@ -14,6 +14,7 @@ class User
         public Uuid $uuid,
         public string $username,
         public Email $email,
+        public ?string $picturePath = null,
         public ?string $password = null,
         public ?DateTimeInterface $createdAt = null,
         public ?DateTimeInterface $editedAt = null

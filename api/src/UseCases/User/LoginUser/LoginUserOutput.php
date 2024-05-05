@@ -11,7 +11,8 @@ class LoginUserOutput
         public Uuid $uuid,
         public string $username,
         public Email $email,
-        public string $token
+        public string $token,
+        public ?string $picturePath = null
     ) {
 
     }

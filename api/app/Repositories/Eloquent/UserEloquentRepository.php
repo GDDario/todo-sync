@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\User;
 use Src\Adapters\Repositories\UserRepository\RegisterUserDTO;
+use Src\Adapters\Repositories\UserRepository\UpdateUsernameAndPictureDTO;
 use Src\Adapters\Repositories\UserRepository\UserRepositoryInterface;
 use Src\Domain\Entities\User as UserEntity;
 use Src\Domain\Exceptions\EntityNotFoundException;
@@ -13,7 +14,19 @@ use Src\Domain\ValueObjects\Uuid;
 
 class UserEloquentRepository implements UserRepositoryInterface
 {
-    public function findByEmail(string $email): UserEntity {
+    public function findById(int $id): UserEntity
+    {
+        if (!$user = User::find( $id)->first()) {
+            throw new EntityNotFoundException(
+                "User not found"
+            );
+        }
+
+        return $this->hydrateEntity($user);
+    }
+
+    public function findByEmail(string $email): UserEntity
+    {
         if (!$user = User::where('email', $email)->first()) {
             throw new EntityNotFoundException(
                 "User with email $email not found"
@@ -44,6 +57,23 @@ class UserEloquentRepository implements UserRepositoryInterface
         return $this->hydrateEntity($user);
     }
 
+    public function updateUsernameAndPicture(UpdateUsernameAndPictureDTO $dto): UserEntity
+    {
+        if (!$user = User::find($dto->userId)) {
+            throw new EntityNotFoundException('User not found');
+        }
+
+
+
+        $user->update([
+            'username' => $dto->username,
+            'picture_path' => $dto->picturePath
+        ]);
+        $user->refresh();
+
+        return $this->hydrateEntity($user);
+    }
+
     private function hydrateEntity(User $user): UserEntity
     {
         return new UserEntity(
@@ -51,8 +81,9 @@ class UserEloquentRepository implements UserRepositoryInterface
             uuid: new Uuid($user->uuid),
             username: $user->username,
             email: new Email($user->email),
+            picturePath: $user->picture_path,
             createdAt: $user->created_at,
-            editedAt: $user->editedAt
+            editedAt: $user->edited_at
         );
     }
 }

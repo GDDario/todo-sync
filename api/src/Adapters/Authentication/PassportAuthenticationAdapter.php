@@ -36,7 +36,8 @@ class PassportAuthenticationAdapter implements AuthenticationInterface
                 uuid: new Uuid($user->uuid),
                 username: $user->username,
                 email: new Email($user->email),
-                token: $accessToken
+                token: $accessToken,
+                picturePath: $user->picture_path
             );
         }
 
@@ -54,6 +55,7 @@ class PassportAuthenticationAdapter implements AuthenticationInterface
             uuid: new Uuid($user->uuid),
             username: $user->username,
             email: new Email($user->email),
+            picturePath: $user->picture_path,
         );
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PreferencesController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TodoController;
@@ -38,6 +39,7 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('/user')->group(function () {
         Route::get('/authenticated', [UserController::class, 'getByToken']);
         Route::get('/email', [UserController::class, 'getByEmail']);
+        Route::put('', [UserController::class, 'update']);
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
@@ -59,6 +61,12 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('/todo-group')->group(function () {
         Route::put('', [TodoGroupController::class, 'store']);
+    });
+
+    Route::prefix('/preferences')->group(function () {
+        Route::get('', [PreferencesController::class, 'index']);
+        Route::get('/logged-user', [PreferencesController::class, 'get']);
+        Route::put('', [PreferencesController::class, 'update']);
     });
 });
 

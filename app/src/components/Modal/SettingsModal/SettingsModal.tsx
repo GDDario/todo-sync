@@ -4,8 +4,11 @@ import {MenuItem} from "./types.ts";
 import {FaUser} from "react-icons/fa";
 import {IoApps} from "react-icons/io5";
 import {IoMdClose} from "react-icons/io";
-import AppSettings from "./Pages/AppSettings/AppSettings.tsx";
+import AppPreferences from "./Pages/AppSettings/AppPreferences.tsx";
 import UserSettings from "./Pages/UserSettings/UserSettings.tsx";
+import {getAllPreferences} from "../../../services/preferences/preferencesService.ts";
+import {showMessage} from "../../../store/messageSlice.ts";
+import {useDispatch} from "react-redux";
 
 const menuItems: MenuItem[] = [
     {
@@ -26,6 +29,9 @@ type Props = {
 
 const SettingsModal = ({onClose}: Props) => {
     const [items, setItems] = useState<MenuItem[]>(menuItems);
+    const [preferences, setPreferences] = useState({});
+    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
     const selectedItem = useMemo(() => {
         return items.filter((item) => item.isSelected)[0];
     }, items);
@@ -36,7 +42,26 @@ const SettingsModal = ({onClose}: Props) => {
                 onClose();
             }
         });
+
+        fetchAllPreferences();
     }, []);
+
+    const fetchAllPreferences = async () => {
+        await getAllPreferences().then((response: any) => {
+            const responseData = response.data.data;
+            const preferences = {
+                ...responseData,
+                fontFactors: responseData.font_factors
+            };
+
+            setPreferences(preferences);
+        }).catch((_: any) => {
+            dispatch(showMessage({message: 'Could not get the preferences', type: 'error'}))
+            onClose();
+        }).finally(() => {
+            setLoading(false);
+        });
+    }
 
     const handleSelect = (clickedItem: MenuItem) => {
         setItems(items.map(item => item.title === clickedItem.title ? {...item, isSelected: true} : {
@@ -69,7 +94,8 @@ const SettingsModal = ({onClose}: Props) => {
                     {
                         selectedItem.title === "User settings"
                             ? <UserSettings/>
-                            : <AppSettings/>
+                            : <AppPreferences themes={preferences.themes} fontFactors={preferences.font_factors}
+                                              languages={preferences.languages}/>
                     }
                 </div>
             </div>

@@ -12,6 +12,7 @@ class GetUserByTokenOutput
         public Uuid $uuid,
         public string $username,
         public Email $email,
+        public ?string $picturePath = null,
     ) {
     }
 }

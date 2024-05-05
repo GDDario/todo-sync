@@ -7,6 +7,8 @@ import {useEffect} from "react";
 import {getTodoLists} from "../../services/todo/todoListService";
 import {setTodoLists} from "../../store/todoListsSlice";
 import {showMessage} from "../../store/messageSlice.ts";
+import {getUserPreferences} from "../../services/preferences/preferencesService.ts";
+import {setPreferences} from "../../store/preferencesSlice.ts";
 
 const AuthenticatedRoutes = () => {
     const token = getToken();
@@ -22,6 +24,9 @@ const AuthenticatedRoutes = () => {
             
             const todoListData = await getTodoLists();
             dispatch(setTodoLists(todoListData.data.data));
+
+            const preferencesData = await getUserPreferences();
+            dispatch(setPreferences(preferencesData.data.data))
         } catch (error: any) {
             dispatch(showMessage({ message: 'Error on auto login.', type: 'error' }));
             console.log(error);
