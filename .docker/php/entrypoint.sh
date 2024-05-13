@@ -1,23 +1,25 @@
 #! /bin/bash
 
 # Defina o diretório de trabalho para o diretório do Laravel
-WORKDIR=/var/www/api
+WORKDIR="/var/www/api"
 
-chown -R www-data:www-data "/var/www/api"
+chown -R www-data:www-data "${WORKDIR}"
 
-if [ ! -f "$WORKDIR/vendor/autoload.php" ]; then
-    composer install --no-progress --no-interaction
+# Garanta que o Composer esteja no diretório correto para instalar as dependências
+if [ ! -f "${WORKDIR}/vendor/autoload.php" ]; then
+    echo "Installing composer dependencies..."
+    cd "${WORKDIR}" && composer install --no-progress --no-interaction
 fi
 
-if [ ! -f "$WORKDIR/.env" ]; then
+if [ ! -f "${WORKDIR}/.env" ]; then
     echo "Creating env file"
-    cp $WORKDIR/.env.example $WORKDIR/.env
+    cp "${WORKDIR}/.env.example" "${WORKDIR}/.env"
 else
-    echo "env file exists."
+    echo "Env file exists."
 fi
 
 # Mude para o diretório do Laravel
-cd $WORKDIR
+cd "${WORKDIR}"
 
 php artisan migrate
 php artisan key:generate

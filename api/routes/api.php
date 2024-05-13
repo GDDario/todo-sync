@@ -30,10 +30,10 @@ Route::middleware('auth:api')->group(function () {
 //    Route::get('/authenticated-user', [UserController::class, 'getByToken']);
 
     Route::prefix('/todo-list')->group(function () {
-        Route::post('', [TodoListController::class, 'store']);
         Route::get('', [TodoListController::class, 'index']);
         Route::get('/{uuid}', [TodoListController::class, 'show']);
         Route::put('/{uuid}/positions', [TodoListController::class, 'changePositions']);
+        Route::post('', [TodoListController::class, 'store']);
     });
 
     Route::prefix('/user')->group(function () {
