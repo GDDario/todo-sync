@@ -1,10 +1,10 @@
-const themes = [
+const themes: string[] = [
     "Cyan blue",
     "Brown",
     "Leaf green"
 ];
 
-const fontSizes = [
+const fontFactors: string[] = [
     "50%",
     "75%",
     "100%",
@@ -12,10 +12,31 @@ const fontSizes = [
     "150%",
 ];
 
-const languages = [
+const languages: string[] = [
     "English",
     "Português",
     "Español",
 ];
 
-export {themes, fontSizes, languages};
+const getConfig = (configName: 'theme' | 'fontFactor' | 'language'): string => {
+    const configs = {
+        'theme': themes,
+        'fontFactor': fontFactors,
+        'language': languages
+    };
+
+    const config = configs[configName];
+
+    console.log('configName', configName)
+    const item = localStorage.getItem(configName);
+
+    if (!item || !(configName in configs)) {
+        localStorage.removeItem(configName);
+        localStorage.setItem(configName, config[0]);
+        return config[0];
+    }
+
+    return item;
+}
+
+export {themes, fontFactors, languages, getConfig};

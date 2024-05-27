@@ -6,7 +6,6 @@ import {useState} from "react";
 import CreateTodoListModal from "../../Modal/CreateTodoListModal/CreateTodoListModal.tsx";
 import {useSelector} from "react-redux";
 import {selectTodoLists} from "../../../store/todoListsSlice";
-import "./style.css";
 
 const MenuNavigation = () => {
     const navigate = useNavigate();
@@ -19,7 +18,7 @@ const MenuNavigation = () => {
             <ul className="flex flex-col gap-3 w-[95%]">
                 <li className="w-full">
                     <button
-                        className={`flex w-full items-center gap-2 text-appWhite p-2 rounded-[4px] ${location.pathname == '/dashboard' && 'selected'} hover-button`}
+                        className={`flex w-full items-center gap-2 text-appWhite p-2 rounded-[4px] ${location.pathname == '/dashboard' && 'bg-appWhite text-mainColor'} hover:bg-appWhite hover:text-mainColor`}
                         onClick={() => navigate('/dashboard')}
                     >
                         <MdDashboard size={24}/>
@@ -37,7 +36,7 @@ const MenuNavigation = () => {
                                 <FaThList size={20}/>
                                 Lists
                             </div>
-                            <button className="rounded-[4px] p-1 hover-button" onClick={() => {
+                            <button className="rounded-[4px] p-1 hover:bg-appWhite hover:text-mainColor" onClick={() => {
                                 setModalOpen(true)
                             }}><FaPlus
                                 size={16}/></button>
@@ -50,7 +49,7 @@ const MenuNavigation = () => {
                                     <li key={todoList.uuid} className="pl-8 flex items-center gap-1">
                                         <button
                                             onClick={() => navigate(path)}
-                                            className={`flex w-full items-center gap-2 text-appWhite p-1 rounded-[4px] ${location.pathname == path && 'selected'} hover-button`}>
+                                            className={`flex w-full items-center gap-2 text-appWhite p-1 rounded-[4px] ${location.pathname == path && 'bg-appWhite text-mainColor'} hover:bg-appWhite hover:text-mainColor`}>
                                             <span>
                                                 <GoDotFill size={12}/>
                                             </span>

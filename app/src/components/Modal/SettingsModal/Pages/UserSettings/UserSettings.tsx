@@ -4,18 +4,17 @@ import FormField from "../../../../Form/FormField/FormField.tsx";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {FaKey} from "react-icons/fa";
+import {FaCamera, FaKey} from "react-icons/fa";
 import {IoSend} from "react-icons/io5";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUser, setUser} from "../../../../../store/userSlice.ts";
 import {useEffect, useState} from "react";
 import {updateUsernameAndProfilePicture} from "../../../../../services/user/userService.ts";
 import {showMessage} from "../../../../../store/messageSlice.ts";
-import {FaCamera} from "react-icons/fa";
 import {MdDelete} from "react-icons/md";
+import {MdEmail} from "react-icons/md";
 
 const apiPath = import.meta.env.VITE_API_BASE_PATH;
-
 const MAX_FILE_SIZE = 500000;
 
 const schema = z.object({
@@ -23,7 +22,7 @@ const schema = z.object({
     profilePicture: z
         .custom<FileList>()
         .transform((list) => list && list[0])
-        .superRefine(file => file?.size <= MAX_FILE_SIZE, 'The max file size is 5MB')
+        .superRefine(file => file?.size <= MAX_FILE_SIZE)
 });
 
 type updateUserSchema = z.infer<typeof schema>;
@@ -37,22 +36,27 @@ const UserSettings = () => {
         formState: {errors},
     } = useForm<updateUserSchema>({resolver: zodResolver(schema)});
     const userData = useSelector(selectUser);
-    const [image, setImage] = useState<string|null>(null);
+    const [image, setImage] = useState<string | null | undefined>(null);
 
     useEffect(() => {
         setValue('username', userData.username);
-        setImage(apiPath + "/" + userData.picture_path);
+        setImage(userData.picture_path ? `${apiPath}${userData.picture_path}` : undefined);
     }, [userData]);
 
-    const onSubmit = async (data: any) => {
-        const formData = new FormData();
+    useEffect(() => {
+        console.log('Image value', image)
+    }, [image]);
 
+    const onSubmit = async (data: any) => {
+
+        const formData = new FormData();
+        // Needs to be a string because the FormData object only accepts string or blob types.
+        const changingPicture: string = data.profilePicture !== undefined ? 'true' : 'false';
         formData.append("username", data.username);
         formData.append('_method', 'PUT');
-        formData.append("profile_picture", data.profilePicture ?? null);
+        formData.append('changing_picture', changingPicture);
 
-        console.log('The profile picture is', data.profilePicture ?? null)
-
+        formData.append("profile_picture", data.profilePicture);
         updateUsernameAndProfilePicture(formData).then((userData: any) => {
             dispatch(showMessage({message: 'Data updated successfully!', type: 'success'}))
             dispatch(setUser(userData.data.data))
@@ -61,22 +65,30 @@ const UserSettings = () => {
             console.error(error)
             dispatch(showMessage({message: 'Error: could not update the user data.', type: 'error'}))
         });
-    }
 
+    }
     const onError = (error: any) => {
         console.log('Error haha', error)
-    }
 
+    }
     const handleImageInput = (event) => {
         if (event.target.files && event.target.files[0]) {
             setImage(URL.createObjectURL(event.target.files[0]));
+
         }
 
     }
-
     const removePicture = () => {
         setImage(null);
         setValue('profilePicture', null);
+    }
+
+    const sendEmailChangeEmail = () => {
+        dispatch(showMessage({message: 'Check your e-mail for further steps.', type: 'info'}))
+    }
+
+    const sendPasswordChangeEmail = () => {
+        dispatch(showMessage({message: 'Check your e-mail for further steps.', type: 'info'}))
     }
 
     return (
@@ -92,8 +104,9 @@ const UserSettings = () => {
                                onInput={(e) => handleImageInput(e)} className="hidden"/>
                         <div className="relative">
                             {image
-                                ? <div className="w-[180px] h-[180px] rounded-full bg-cover" style={{background: `url(${image}) center`}} />
-                                : <HiUserCircle size={180}/>
+                                ? <div className="w-[180px] h-[180px] rounded-full bg-cover"
+                                       style={{background: `url(${image}) center`}}/>
+                                : <div><HiUserCircle size={180}/></div>
                             }
                             <div
                                 className="
@@ -128,14 +141,16 @@ const UserSettings = () => {
 
                     <hr/>
 
-
                     <div className="flex flex-col gap-2 items-start">
                         {/* TODO: Changing email should send an email to actually change it */}
-                        <Button value="Change email" variant="white" type="button"/>
+                        <Button className="w-[213px]" value="Change email" variant="white" type="button"
+                                icon={<MdEmail size={20} className="ml-2 text-mainColor"/>}
+                                onClick={() => sendEmailChangeEmail()}/>
 
                         {/* TODO: The same here, but with password */}
-                        <Button value="Change password" variant="white" type="button"
-                                icon={<FaKey className="ml-2 text-mainColor"/>}/>
+                        <Button className="w-[213px]" value="Change password" variant="white" type="button"
+                                icon={<FaKey className="ml-2 text-mainColor"/>}
+                                onClick={() => sendPasswordChangeEmail()}/>
                     </div>
                 </div>
 

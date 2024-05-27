@@ -11,7 +11,7 @@ axiosInstance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    config.baseURL = import.meta.env.VITE_API_BASE_PATH;
+    config.baseURL = import.meta.env.VITE_API_BASE_PATH + "api";
     return config;
   },
   (error) => {

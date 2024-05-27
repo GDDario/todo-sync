@@ -34,11 +34,12 @@ class UpdateUsernameAndPictureRequest extends FormRequest
                 'required',
                 'min:4'
             ],
-//            'profile_picture' => [
-//                'sometimes',
-//                'nullable',
-//                'mimes:png,jpg,jpeg,webp'
-//            ]
+            'changing_picture' => [
+                'required'
+            ],
+            'profile_picture' => [
+                'nullable',
+            ]
         ];
     }
 

@@ -18,7 +18,7 @@ const TopBar = () => {
             
             <span className="text-appWhite">{page.name}</span>
 
-            <button onClick={() => handleLogout()} className="flex justify-center items-center gap-2 rounded-[4px] text-appWhite hover-button p-4">
+            <button onClick={() => handleLogout()} className="flex justify-center items-center gap-2 rounded-[4px] text-appWhite hover:bg-appWhite hover:text-mainColor p-4">
                 <MdLogout size={24} />
                 Logout
             </button>

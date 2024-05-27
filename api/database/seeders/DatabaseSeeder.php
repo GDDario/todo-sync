@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\FontFactor;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,10 +21,6 @@ class DatabaseSeeder extends Seeder
             TodoGroupSeeder::class,
             TodoSeeder::class,
             TagSeeder::class,
-            ThemeSeeder::class,
-            LanguageSeeder::class,
-            FontFactorSeeder::class,
-            ApplicationPreferencesSeeder::class
         ]);
     }
 }

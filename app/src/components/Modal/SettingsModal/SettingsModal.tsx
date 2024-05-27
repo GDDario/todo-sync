@@ -4,9 +4,8 @@ import {MenuItem} from "./types.ts";
 import {FaUser} from "react-icons/fa";
 import {IoApps} from "react-icons/io5";
 import {IoMdClose} from "react-icons/io";
-import AppPreferences from "./Pages/AppSettings/AppPreferences.tsx";
+import AppPreferences from "./Pages/AppPreferences/AppPreferences.tsx";
 import UserSettings from "./Pages/UserSettings/UserSettings.tsx";
-import {getAllPreferences} from "../../../services/preferences/preferencesService.ts";
 import {showMessage} from "../../../store/messageSlice.ts";
 import {useDispatch} from "react-redux";
 
@@ -42,26 +41,7 @@ const SettingsModal = ({onClose}: Props) => {
                 onClose();
             }
         });
-
-        fetchAllPreferences();
     }, []);
-
-    const fetchAllPreferences = async () => {
-        await getAllPreferences().then((response: any) => {
-            const responseData = response.data.data;
-            const preferences = {
-                ...responseData,
-                fontFactors: responseData.font_factors
-            };
-
-            setPreferences(preferences);
-        }).catch((_: any) => {
-            dispatch(showMessage({message: 'Could not get the preferences', type: 'error'}))
-            onClose();
-        }).finally(() => {
-            setLoading(false);
-        });
-    }
 
     const handleSelect = (clickedItem: MenuItem) => {
         setItems(items.map(item => item.title === clickedItem.title ? {...item, isSelected: true} : {
@@ -94,8 +74,7 @@ const SettingsModal = ({onClose}: Props) => {
                     {
                         selectedItem.title === "User settings"
                             ? <UserSettings/>
-                            : <AppPreferences themes={preferences.themes} fontFactors={preferences.font_factors}
-                                              languages={preferences.languages}/>
+                            : <AppPreferences />
                     }
                 </div>
             </div>

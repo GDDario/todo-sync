@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUsernameAndPictureRequest;
 use Illuminate\Http\Request;
-use Log;
 use Src\Adapters\Presenters\UserPresenter;
-use Src\UseCases\User\GetUserByToken\GetUserByToken;
-use Src\UseCases\User\GetUserByToken\GetUserByTokenInput;
 use Src\UseCases\User\GetUserByEmail\GetUserByEmail;
 use Src\UseCases\User\GetUserByEmail\GetUserByEmailInput;
+use Src\UseCases\User\GetUserByToken\GetUserByToken;
+use Src\UseCases\User\GetUserByToken\GetUserByTokenInput;
 use Src\UseCases\User\UpdateUsernameAndProfilePicture\UpdateUsernameAndProfilePicture;
 use Src\UseCases\User\UpdateUsernameAndProfilePicture\UpdateUsernameAndProfilePictureInput;
 
@@ -35,6 +34,8 @@ class UserController extends Controller
 
     public function update(UpdateUsernameAndPictureRequest $request, UpdateUsernameAndProfilePicture $useCase, GetUserByToken $userUseCase)
     {
+        $changingPicture = $request->changing_picture === 'true';
+
         $userData = $userUseCase->handle(
             new GetUserByTokenInput($request->bearerToken())
         );
@@ -43,6 +44,7 @@ class UserController extends Controller
             new UpdateUsernameAndProfilePictureInput(
                 $userData->id,
                 $request->username,
+                $changingPicture,
                 $request->file('profile_picture')
             )
         );

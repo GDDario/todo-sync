@@ -11,7 +11,6 @@ import {login, storeToken} from "../../../services/authentication/authentication
 import {getTodoLists} from "../../../services/todo/todoListService";
 import {setTodoLists} from "../../../store/todoListsSlice";
 import {showMessage} from "../../../store/messageSlice.ts";
-import {getUserPreferences} from "../../../services/preferences/preferencesService.ts";
 import {setPreferences} from "../../../store/preferencesSlice.ts";
 
 const schema = z.object({
@@ -42,8 +41,8 @@ const LoginPage = () => {
             const todoListData = await getTodoLists();
             dispatch(setTodoLists(todoListData.data.data));
 
-            const preferencesData = await getUserPreferences();
-            dispatch(setPreferences(preferencesData.data.data))
+            // TODO: setPreferences
+            // dispatch(setPreferences(preferencesData.data.data))
 
             navigate('/dashboard');
         } catch (error: any) {

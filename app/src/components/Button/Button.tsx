@@ -8,9 +8,10 @@ type ButtonProps = {
     icon?: ReactNode;
     onClick?: (e?) => void
     isLoading?: boolean;
+    className?: string;
 };
 
-const Button = ({id, value, type, variant, icon, onClick, isLoading}: ButtonProps) => {
+const Button = ({id, value, type, variant, icon, onClick, isLoading, className}: ButtonProps) => {
     const styleClasses = () => {
         let classes = "py-1 px-2 rounded min-w-[100px] disabled:opacity-80 ";
 
@@ -34,7 +35,7 @@ const Button = ({id, value, type, variant, icon, onClick, isLoading}: ButtonProp
                 break;
         }
 
-        return classes;
+        return classes + " " + className;
     };
 
     return (

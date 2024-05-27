@@ -2,21 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Defining themes */
+@layer base {
+    :root {
+        --color-main: 12 136 164;
+        --color-main-darker: 11 112 135;
+    }
+
+    .theme-cyan-blue {
+        --color-main: 12 136 164;
+        --color-main-darker: 11 112 135;
+    }
+
+    .theme-brown {
+        --color-main: 87 65 50;
+        --color-main-darker: 61 46 35;
+    }
+
+    .theme-leaf-green {
+        --color-main: 71 87 38;
+        --color-main-darker: 56 69 30;
+    }
+}
+
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body, #root {
-  min-height: 100vh;
+    min-height: 100vh;
 }
 
 .hover-button {
-  transition: 0.2s;
-}
-
-.hover-button:hover {
-  background-color: #F1F5F9;
-  color: #0C88A4;
+    transition: 0.2s;
 }

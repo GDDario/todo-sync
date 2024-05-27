@@ -12,10 +12,6 @@ const SideMenu = () => {
     const user = useSelector(selectUser);
     const [modalOpen, setModalOpen] = useState(true);
 
-    useEffect(() => {
-        console.log(user.picture_path)
-    }, []);
-
     return (
         <aside className="h-screen min-w-[320px] bg-mainColor p-2 text-appWhite shadow-sm shadow-black">
             <div className="flex flex-col justify-between h-full">
@@ -23,12 +19,12 @@ const SideMenu = () => {
                     <div className="flex justify-center items-center flex-col">
                         {
                             user.picture_path ? <div className="w-[180px] h-[180px] rounded-full bg-cover"
-                                                     style={{background: `url(${apiPath}/${user.picture_path}) center`}}/> :
+                                                     style={{background: `url(${apiPath}${user.picture_path}) center`}}/> :
                                 <HiUserCircle size={180}/>
                         }
 
-                        <p className="text-lg">{user.username}</p>
-                        <hr className="my-8 w-full"/>
+                        <p className="text-lg mt-4">{user.username}</p>
+                        <hr className="mb-8 mt-4 w-full"/>
                     </div>
 
                     <MenuNavigation/>
@@ -36,7 +32,7 @@ const SideMenu = () => {
 
                 <div>
                     <button
-                        className={`flex w-full items-center gap-2 text-appWhite p-2 rounded-[4px] hover-button`}
+                        className={`flex w-full items-center gap-2 text-appWhite p-2 rounded-[4px] hover:bg-appWhite hover:text-mainColor`}
                         onClick={() => setModalOpen(true)}
                     >
                         <span>

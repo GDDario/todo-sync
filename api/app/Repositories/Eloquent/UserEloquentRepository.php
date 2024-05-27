@@ -63,12 +63,13 @@ class UserEloquentRepository implements UserRepositoryInterface
             throw new EntityNotFoundException('User not found');
         }
 
+        $newUserData = ['username' => $dto->username];
 
+        if ($dto->changingPicture) {
+            $newUserData['picture_path'] = $dto->picturePath;
+        }
 
-        $user->update([
-            'username' => $dto->username,
-            'picture_path' => $dto->picturePath
-        ]);
+        $user->update($newUserData);
         $user->refresh();
 
         return $this->hydrateEntity($user);

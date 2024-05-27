@@ -47,12 +47,10 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('/todo')->group(function () {
         Route::get('/{uuid}', [TodoController::class, 'get']);
         Route::get('/todo-list/{todoListUuid}', [TodoController::class, 'getByTodoList']);
-
-        Route::post('', [TodoController::class, 'store']);
-
         Route::put('/{uuid}', [TodoController::class, 'update']);
         Route::put('/toggle/{uuid}', [TodoController::class, 'toggleState']);
         Route::put('/title/{uuid}', [TodoController::class, 'changeTitle']);
+        Route::post('', [TodoController::class, 'store']);
     });
 
     Route::prefix('/tag')->group(function () {
