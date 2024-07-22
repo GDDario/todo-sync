@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Repositories\Eloquent\ApplicationPreferencesEloquentRepository;
+use App\Repositories\Eloquent\EmailResetTokenEloquentRepository;
 use App\Repositories\Eloquent\TagEloquentRepository;
 use App\Repositories\Eloquent\TodoEloquentRepository;
 use App\Repositories\Eloquent\TodoGroupEloquentRepository;
@@ -11,6 +12,7 @@ use App\Repositories\Eloquent\UserEloquentRepository;
 use Illuminate\Support\ServiceProvider;
 use Src\Adapters\Authentication\AuthenticationInterface;
 use Src\Adapters\Authentication\PassportAuthenticationAdapter;
+use Src\Adapters\Repositories\EmailResetTokenRepository\EmailResetTokenRepositoryInterface;
 use Src\Adapters\Repositories\PreferencesRepository\ApplicationPreferencesRepositoryInterface;
 use Src\Adapters\Repositories\TagRepository\TagRepositoryInterface;
 use Src\Adapters\Repositories\TodoGroupRepository\TodoGroupRepositoryInterface;
@@ -53,6 +55,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             ApplicationPreferencesRepositoryInterface::class,
             ApplicationPreferencesEloquentRepository::class,
+        );
+
+        $this->app->singleton(
+            EmailResetTokenRepositoryInterface::class,
+            EmailResetTokenEloquentRepository::class
         );
 
 //        $this->app->singleton(

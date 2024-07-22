@@ -27,7 +27,6 @@ const getConfig = (configName: 'theme' | 'fontFactor' | 'language'): string => {
 
     const config = configs[configName];
 
-    console.log('configName', configName)
     const item = localStorage.getItem(configName);
 
     if (!item || !(configName in configs)) {

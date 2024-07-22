@@ -13,7 +13,7 @@ interface TodoRepositoryInterface
 
     public function getDashboard(int $userId): DashboardDTO;
 
-    public function insert(StoreTodoDTO $dto): Todo;
+    public function store(StoreTodoDTO $dto): Todo;
 
     public function update(UpdateTodoDTO $dto): Todo;
 

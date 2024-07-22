@@ -8,9 +8,8 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Src\Domain\ValueObjects\Email;
 
-class ChangeEmail extends Mailable
+class UpdateEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,7 +17,8 @@ class ChangeEmail extends Mailable
      * Create a new message instance.
      */
     public function __construct(
-        private Email $address
+        public string $username,
+        public string $token
     )
     {
         //
@@ -30,7 +30,7 @@ class ChangeEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Change Email',
+            subject: 'Update Email',
         );
     }
 
@@ -40,7 +40,7 @@ class ChangeEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.update-email',
         );
     }
 

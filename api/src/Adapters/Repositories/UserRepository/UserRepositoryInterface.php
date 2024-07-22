@@ -10,7 +10,8 @@ interface UserRepositoryInterface
 
     public function findByEmail(string $email): User;
 
-    public function insert(RegisterUserDTO $dto): User;
+    public function store(RegisterUserDTO $dto): User;
 
     public function updateUsernameAndPicture(UpdateUsernameAndPictureDTO $dto): User;
+    public function updateEmailByUserId(int $userId, string $email): void;
 }

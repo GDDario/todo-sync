@@ -36,7 +36,7 @@ class UserEloquentRepository implements UserRepositoryInterface
         return $this->hydrateEntity($user);
     }
 
-    public function insert(RegisterUserDTO $dto): UserEntity
+    public function store(RegisterUserDTO $dto): UserEntity
     {
         $query = User::query();
 
@@ -73,6 +73,17 @@ class UserEloquentRepository implements UserRepositoryInterface
         $user->refresh();
 
         return $this->hydrateEntity($user);
+    }
+
+    public function updateEmailByUserId(int $userId, string $email): void
+    {
+        if (!$user = User::find($userId)) {
+            throw new EntityNotFoundException('User not found');
+        }
+
+        $newUserData = ['email' => $email];
+
+        $user->update($newUserData);
     }
 
     private function hydrateEntity(User $user): UserEntity

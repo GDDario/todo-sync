@@ -20,7 +20,7 @@ const AuthenticatedRoutes = () => {
         try {
             const userData = await tokenLogin();
             dispatch(setUser(userData.data.data));
-            
+
             const todoListData = await getTodoLists();
             dispatch(setTodoLists(todoListData.data.data));
 
@@ -28,17 +28,21 @@ const AuthenticatedRoutes = () => {
             // const preferencesData = await getUserPreferences();
             // dispatch(setPreferences(preferencesData.data.data))
         } catch (error: any) {
-            dispatch(showMessage({ message: 'Error on auto login.', type: 'error' }));
-            console.log(error);
-            logout();
+            dispatch(showMessage({message: 'Error on auto login.', type: 'error'}));
+            // console.log(error);
+            // await logout().then(() => {
+            localStorage.clear();
+            sessionStorage.clear();
+            console.log('Logged out')
             navigate('/login');
+            // });
         }
     }
 
     if (!token) {
-        return <Navigate to="/login" />;
+        return <Navigate to="/login"/>;
     } else if (location.pathname == "/") {
-        return <Navigate to="/dashboard" />;
+        return <Navigate to="/dashboard"/>;
     }
 
     useEffect(() => {
@@ -50,7 +54,7 @@ const AuthenticatedRoutes = () => {
     return (
         <MainLayout>
             <div className="p-12">
-                <Outlet />
+                <Outlet/>
             </div>
         </MainLayout>
     );

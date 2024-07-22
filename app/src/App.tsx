@@ -1,9 +1,8 @@
-import {Provider, useDispatch, useSelector} from "react-redux";
-import store from "./store";
+import {useDispatch, useSelector} from "react-redux";
 import router from "./router";
 import {RouterProvider} from "react-router-dom";
 import Message from "./components/Message/Message.tsx";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {themes} from "./config/appConfig.ts";
 import {selectPreferences, updateTheme} from "./store/preferencesSlice.ts";
 
@@ -12,8 +11,8 @@ const normalizeTheme = (theme: string) => {
 }
 
 const getStoredTheme = (): string | null => {
-    const storagedTheme = localStorage.getItem('theme');
-    return storagedTheme && themes.includes(storagedTheme) ? storagedTheme : null;
+    const storedTheme = localStorage.getItem('theme');
+    return storedTheme && themes.includes(storedTheme) ? storedTheme : null;
 }
 
 const App = () => {
@@ -21,9 +20,9 @@ const App = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const storagedTheme = getStoredTheme();
+        const storedTheme = getStoredTheme();
 
-        if (!storagedTheme) {
+        if (!storedTheme) {
             const defaultTheme = themes[0];
             localStorage.setItem('theme', defaultTheme);
 
@@ -31,18 +30,29 @@ const App = () => {
                 dispatch(updateTheme(defaultTheme));
             }
         } else {
-            if (preferences.theme !== storagedTheme) {
-                dispatch(updateTheme(storagedTheme));
+            if (preferences.theme !== storedTheme) {
+                dispatch(updateTheme(storedTheme));
             }
         }
-    }, [preferences, dispatch]);
+    }, [preferences.theme, dispatch]);
+
+    useEffect(() => {
+        const appRoot = document.getElementById('app-root');
+
+        if (appRoot) {
+            appRoot.className.replace('theme-brown', '');
+            appRoot.className.replace('theme-cyan-blue', '');
+            appRoot.className.replace('theme-leaf-green', '');
+            appRoot.classList.add(`theme-${normalizeTheme(preferences.theme)}`);
+        }
+    }, [preferences.theme]);
 
     return (
         <>
-            <Message />
+            <Message/>
             {preferences && (
-                <div className={`theme-${normalizeTheme(preferences.theme)}`}>
-                    <RouterProvider router={router} />
+                <div id="app-root" className={`theme-${normalizeTheme(preferences.theme)}`}>
+                    <RouterProvider router={router}/>
                 </div>
             )}
         </>

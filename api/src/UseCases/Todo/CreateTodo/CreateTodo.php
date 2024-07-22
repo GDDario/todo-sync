@@ -30,7 +30,7 @@ class CreateTodo
             scheduleOptions: $input->scheduleOptions
         );
 
-        $todo = $this->repository->insert($dto);
+        $todo = $this->repository->store($dto);
 
         return new CreateTodoOutput(
             uuid: $todo->uuid,

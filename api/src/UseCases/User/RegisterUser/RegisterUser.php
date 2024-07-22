@@ -32,7 +32,7 @@ class RegisterUser
             password: Hash::make($input->password)
         );
 
-        $user = $this->repository->insert($registerUserDto);
+        $user = $this->repository->store($registerUserDto);
 
         return new RegisterUserOutput(
             uuid: $user->uuid,

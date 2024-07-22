@@ -91,7 +91,7 @@ class TodoEloquentRepository implements TodoRepositoryInterface
         );
     }
 
-    public function insert(StoreTodoDTO $dto): TodoEntity
+    public function store(StoreTodoDTO $dto): TodoEntity
     {
         DB::beginTransaction();
 

@@ -9,8 +9,13 @@ const TopBar = () => {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        await logout();
-        navigate('/login');
+        console.log('Before logout')
+        await logout().then(_ => {
+            localStorage.clear();
+            sessionStorage.clear();
+            navigate('/login');
+        });
+        console.log('After logout')
     }
 
     return (

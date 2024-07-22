@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectUser, setUser} from "../../../../../store/userSlice.ts";
 import {useEffect, useState} from "react";
 import {updateUsernameAndProfilePicture} from "../../../../../services/user/userService.ts";
+import {sendResetEmail as sendEmail} from "../../../../../services/email/emailService.ts";
 import {showMessage} from "../../../../../store/messageSlice.ts";
 import {MdDelete} from "react-icons/md";
 import {MdEmail} from "react-icons/md";
@@ -43,10 +44,6 @@ const UserSettings = () => {
         setImage(userData.picture_path ? `${apiPath}${userData.picture_path}` : undefined);
     }, [userData]);
 
-    useEffect(() => {
-        console.log('Image value', image)
-    }, [image]);
-
     const onSubmit = async (data: any) => {
 
         const formData = new FormData();
@@ -69,22 +66,28 @@ const UserSettings = () => {
     }
     const onError = (error: any) => {
         console.log('Error haha', error)
-
     }
+
     const handleImageInput = (event) => {
         if (event.target.files && event.target.files[0]) {
             setImage(URL.createObjectURL(event.target.files[0]));
-
         }
-
     }
+
     const removePicture = () => {
         setImage(null);
         setValue('profilePicture', null);
     }
 
-    const sendEmailChangeEmail = () => {
-        dispatch(showMessage({message: 'Check your e-mail for further steps.', type: 'info'}))
+    const sendResetEmail = () => {
+        dispatch(showMessage({message: 'Sending, wait a second...', type: 'info', duration: 10000}));
+
+        sendEmail().then((_) => {
+            dispatch(showMessage({message: 'Check your e-mail for further steps.', type: 'success', duration: 3000}));
+        }).catch((_) => {
+            dispatch(showMessage({message: 'An error ocurred when sending the reset email.', type: 'error', duration: 3000}));
+        });
+
     }
 
     const sendPasswordChangeEmail = () => {
@@ -142,10 +145,9 @@ const UserSettings = () => {
                     <hr/>
 
                     <div className="flex flex-col gap-2 items-start">
-                        {/* TODO: Changing email should send an email to actually change it */}
-                        <Button className="w-[213px]" value="Change email" variant="white" type="button"
+                        <Button className="w-[213px]" value="Reset email" variant="white" type="button"
                                 icon={<MdEmail size={20} className="ml-2 text-mainColor"/>}
-                                onClick={() => sendEmailChangeEmail()}/>
+                                onClick={() => sendResetEmail()}/>
 
                         {/* TODO: The same here, but with password */}
                         <Button className="w-[213px]" value="Change password" variant="white" type="button"

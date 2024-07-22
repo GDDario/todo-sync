@@ -22,9 +22,7 @@ const getToken = (): string | null => {
 };
 
 const logout = async (): Promise<void> => {
-    await axiosInstance.post('/logout');
-    localStorage.clear();
-    sessionStorage.clear();
+    return await axiosInstance.post('/logout');
 }
 
 export { register, login, storeToken, getToken, tokenLogin, logout };
