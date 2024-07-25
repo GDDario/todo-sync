@@ -1,11 +1,10 @@
 <?php
 
-namespace Src\UseCases\Email\SendUpdateEmail;
+namespace Src\UseCases\Password\SendPasswordResetEmail;
 
-class SendResetEmailInput
+class SendPasswordResetEmailInput
 {
     public function __construct(
-        public int $userId,
         public string $username,
         public string $email
     )

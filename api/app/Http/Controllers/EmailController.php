@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ConfirmEmailResetTokenRequest;
+use App\Http\Requests\ConfirmPasswordResetTokenRequest;
 use App\Http\Requests\ResetEmailRequest;
 use Illuminate\Http\Request;
 use Src\UseCases\Email\ConfirmResetEmailToken\ConfirmEmailResetToken;
 use Src\UseCases\Email\ConfirmResetEmailToken\ConfirmEmailResetTokenInput;
+use Src\UseCases\Email\ConfirmResetEmailToken\ConfirmPasswordResetToken;
+use Src\UseCases\Email\ConfirmResetEmailToken\ConfirmPasswordResetTokenInput;
 use Src\UseCases\Email\GenerateResetEmailToken\GenerateResetEmailToken;
 use Src\UseCases\Email\GenerateResetEmailToken\GenerateResetEmailTokenInput;
 use Src\UseCases\Email\ResetEmail\ResetEmail;
-use Src\UseCases\Email\ResetEmail\ResetEmailInput;
-use Src\UseCases\Email\SendUpdateEmail\SendResetEmail;
-use Src\UseCases\Email\SendUpdateEmail\SendResetEmailInput;
+use Src\UseCases\Email\ResetEmail\ResetPasswordInput;
+use Src\UseCases\Email\SendResetEmail\SendResetEmail;
+use Src\UseCases\Email\SendResetEmail\SendResetEmailInput;
 use Src\UseCases\User\GetUserByToken\GetUserByToken;
 use Src\UseCases\User\GetUserByToken\GetUserByTokenInput;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +49,7 @@ class EmailController extends Controller
     )
     {
         $useCase->handle(
-            new ResetEmailInput(
+            new ResetPasswordInput(
                 $request->new_email,
                 $request->new_email_confirmation,
                 $request->token,

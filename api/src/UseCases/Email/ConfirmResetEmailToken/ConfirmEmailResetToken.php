@@ -16,7 +16,7 @@ class ConfirmEmailResetToken
     {
         $isValid = $this->repository->markMasOpened($input->token);
 
-        return new ConfirmEmailResetTokenOutput(
+        return new ConfirmPasswordResetTokenOutput(
             $isValid
         );
     }

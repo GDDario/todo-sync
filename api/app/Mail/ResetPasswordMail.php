@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class UpdateEmail extends Mailable
+class ResetPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,7 +30,7 @@ class UpdateEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Update Email',
+            subject: 'Reset Password',
         );
     }
 
@@ -40,7 +40,7 @@ class UpdateEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.update-email',
+            view: 'emails.reset-password',
         );
     }
 

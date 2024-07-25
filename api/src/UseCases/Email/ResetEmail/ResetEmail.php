@@ -18,7 +18,7 @@ class ResetEmail
 
     }
 
-    public function handle(ResetEmailInput $input)
+    public function handle(ResetPasswordInput $input)
     {
         $data = $this->emailResetTokenRepository->findByToken($input->token);
 

@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
-class ResetEmailRequest extends FormRequest
+class ResetPasswordRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -22,9 +22,8 @@ class ResetEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'new_email' => [
+            'new_password' => [
                 'required',
-                'email',
                 'confirmed'
             ],
             'token' => [

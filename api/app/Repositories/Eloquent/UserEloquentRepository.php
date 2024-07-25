@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Src\Adapters\Repositories\UserRepository\RegisterUserDTO;
 use Src\Adapters\Repositories\UserRepository\UpdateUsernameAndPictureDTO;
 use Src\Adapters\Repositories\UserRepository\UserRepositoryInterface;
@@ -82,6 +83,18 @@ class UserEloquentRepository implements UserRepositoryInterface
         }
 
         $newUserData = ['email' => $email];
+
+        $user->update($newUserData);
+    }
+
+    public function updatePasswordByEmail(string $email, string $password): void
+    {
+        if (!$user = User::query()->where('email', $email)) {
+            throw new EntityNotFoundException('User not found');
+        }
+
+        $passwordHash = Hash::make($password);
+        $newUserData = ['password' => $passwordHash];
 
         $user->update($newUserData);
     }

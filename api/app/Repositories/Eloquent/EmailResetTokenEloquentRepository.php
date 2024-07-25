@@ -31,14 +31,13 @@ class EmailResetTokenEloquentRepository implements EmailResetTokenRepositoryInte
     public function markMasOpened(string $token): bool
     {
         if (!$data = EmailResetToken::query()->where('token', $token)->first()) {
-            dd('Here');
             return false;
         }
 
         if ($data->opened) {
             Log::info('Opened');
-//            $data->delete();
-//            return false;
+            $data->delete();
+            return false;
         }
 
         $data->update(['opened' => true]);

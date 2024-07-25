@@ -1,8 +1,8 @@
 <?php
 
-namespace Src\UseCases\Email\SendUpdateEmail;
+namespace Src\UseCases\Email\SendResetEmail;
 
-use App\Mail\UpdateEmail;
+use App\Mail\ResetEmailMail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -31,7 +31,7 @@ class SendResetEmail
 
         $this->repository->store($dto);
 
-        Mail::to($input->email)->send(new UpdateEmail(
+        Mail::to($input->email)->send(new ResetEmailMail(
             $input->username,
             $token
         ));

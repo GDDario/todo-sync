@@ -14,4 +14,5 @@ interface UserRepositoryInterface
 
     public function updateUsernameAndPicture(UpdateUsernameAndPictureDTO $dto): User;
     public function updateEmailByUserId(int $userId, string $email): void;
+    public function updatePasswordByEmail(string $email, string $password): void;
 }

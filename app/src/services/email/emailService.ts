@@ -1,12 +1,12 @@
 import axiosInstance from "../../config/axiosConfig.ts";
-import {CreateTodoListValues} from "./types.ts";
+import {ResetEmailValues} from "./types.ts";
 
 export const sendResetEmail = async () => {
     return await axiosInstance.post(`email/send-reset-email`);
 }
 
-export const resetEmail = async (data:  CreateTodoListValues) => {
-    return await axiosInstance.post(`email/reset-email`, data);
+export const resetEmail = async (data:  ResetEmailValues) => {
+    return await axiosInstance.post(`email/reset`, data);
 }
 
 export const confirmResetEmailToken = async (token: string) => {

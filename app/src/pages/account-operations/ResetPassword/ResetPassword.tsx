@@ -7,38 +7,37 @@ import {showMessage} from "../../../store/messageSlice.ts";
 import {useEffect, useState} from "react";
 import {z} from "zod";
 import {useDispatch} from "react-redux";
-import {confirmResetEmailToken, resetEmail} from "../../../services/email/emailService.ts";
+import {confirmResetPasswordToken, resetPassword} from "../../../services/password/passwordService.ts";
 
 const schema = z
     .object({
-        email: z.string().email('Invalid email.'),
-        emailConfirmation: z.string().email('Invalid email.'),
+        password: z.string(),
+        passwordConfirmation: z.string(),
     })
-    .refine((data) => data.email === data.emailConfirmation, {
-        message: "Emails don't match",
-        path: ["emailConfirmation"],
+    .refine((data) => data.password === data.passwordConfirmation, {
+        message: "Passwords don't match",
+        path: ["passwordConfirmation"],
     });
 
-type resetEmailSchema = z.infer<typeof schema>;
+type resetPasswordSchema = z.infer<typeof schema>;
 
-const ResetEmail = () => {
+const ResetPassword = () => {
     const [isLoading, setLoading] = useState(true);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Extrair o token da URL
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get('token');
     const {
         register,
         handleSubmit,
         formState: {errors},
-    } = useForm<resetEmailSchema>({resolver: zodResolver(schema)});
+    } = useForm<resetPasswordSchema>({resolver: zodResolver(schema)});
 
     useEffect(() => {
         if (token) {
-            confirmResetEmailToken(token).catch((e: any) => {
+            confirmResetPasswordToken(token).catch((e: any) => {
                 console.error(e);
                 dispatch(showMessage({message: 'Invalid token!', type: 'error'}));
                 navigate('/');
@@ -48,15 +47,15 @@ const ResetEmail = () => {
         }
     }, [token]);
 
-    const onSubmit = async ({email, emailConfirmation}) => {
+    const onSubmit = async ({password, passwordConfirmation}) => {
         setLoading(true);
 
-        resetEmail({
-            new_email: email,
-            new_email_confirmation: emailConfirmation,
+        resetPassword({
+            new_password: password,
+            new_password_confirmation: passwordConfirmation,
             token: token!
         }).then((_) => {
-            dispatch(showMessage({message: 'Email changed succesfully!.', type: 'success'}));
+            dispatch(showMessage({message: 'Password reseted succesfully!.', type: 'success'}));
             navigate('/');
         }).catch((e: any) => {
             console.error(e);
@@ -73,24 +72,24 @@ const ResetEmail = () => {
             <div className="p-4 shadow-lg rounded-lg bg-white w-[50%] min-w-[350px] max-w-[550px] ">
                 <div
                     className="mx-auto w-[100%] border rounded-lg bg-mainColor p-8 text-appWhite z-10">
-                    <h1 className="text-center text-2xl">Reset email</h1>
+                    <h1 className="text-center text-2xl">Reset password</h1>
 
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <FormField
-                            type="email"
-                            label="Email"
-                            name="email"
+                            type="password"
+                            label="Password"
+                            name="password"
                             register={register}
-                            error={errors.email}
+                            error={errors.password}
                             fullWidth
                         />
                         <div className="mt-2">
                             <FormField
-                                type="email"
-                                label="Email confirmation"
-                                name="emailConfirmation"
+                                type="password"
+                                label="Password confirmation"
+                                name="passwordConfirmation"
                                 register={register}
-                                error={errors.emailConfirmation}
+                                error={errors.passwordConfirmation}
                                 fullWidth
                             />
                         </div>
@@ -106,4 +105,4 @@ const ResetEmail = () => {
     );
 }
 
-export default ResetEmail;
+export default ResetPassword;

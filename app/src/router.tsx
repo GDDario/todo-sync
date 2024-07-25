@@ -1,4 +1,4 @@
-import {RouteObject, createBrowserRouter} from "react-router-dom";
+import {createBrowserRouter} from "react-router-dom";
 import UnauthenticatedRoutes from "./pages/unauthenticated/UnauthenticatedRoutes";
 import LoginPage from "./pages/unauthenticated/LoginPage/LoginPage.tsx";
 import RegisterPage from "./pages/unauthenticated/RegisterPage/RegisterPage.tsx";
@@ -6,6 +6,7 @@ import AuthenticatedRoutes from "./pages/authenticated/AuthenticatedRoutes";
 import DashboardPage from "./pages/authenticated/DashboardPage/DashboardPage.tsx";
 import TodoListPage from "./pages/authenticated/TodoListPage/TodoListPage.tsx";
 import ResetEmail from "./pages/account-operations/ResetEmail/ResetEmail.tsx";
+import ResetPassword from "./pages/account-operations/ResetPassword/ResetPassword.tsx";
 
 
 const router = createBrowserRouter([
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
     {
         element: <ResetEmail/>,
         path: '/reset-email',
+    },
+    {
+        element: <ResetPassword/>,
+        path: '/reset-password',
     }
 ]);
 

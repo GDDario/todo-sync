@@ -12,8 +12,8 @@ import {useEffect, useState} from "react";
 import {updateUsernameAndProfilePicture} from "../../../../../services/user/userService.ts";
 import {sendResetEmail as sendEmail} from "../../../../../services/email/emailService.ts";
 import {showMessage} from "../../../../../store/messageSlice.ts";
-import {MdDelete} from "react-icons/md";
-import {MdEmail} from "react-icons/md";
+import {MdDelete, MdEmail} from "react-icons/md";
+import {sendResetPasswordEmail} from "../../../../../services/password/passwordService.ts";
 
 const apiPath = import.meta.env.VITE_API_BASE_PATH;
 const MAX_FILE_SIZE = 500000;
@@ -76,7 +76,7 @@ const UserSettings = () => {
 
     const removePicture = () => {
         setImage(null);
-        setValue('profilePicture', null);
+        setValue('profilePicture', null!);
     }
 
     const sendResetEmail = () => {
@@ -85,13 +85,26 @@ const UserSettings = () => {
         sendEmail().then((_) => {
             dispatch(showMessage({message: 'Check your e-mail for further steps.', type: 'success', duration: 3000}));
         }).catch((_) => {
-            dispatch(showMessage({message: 'An error ocurred when sending the reset email.', type: 'error', duration: 3000}));
+            dispatch(showMessage({
+                message: 'An error ocurred when sending the reset email.',
+                type: 'error',
+                duration: 3000
+            }));
         });
-
     }
 
     const sendPasswordChangeEmail = () => {
-        dispatch(showMessage({message: 'Check your e-mail for further steps.', type: 'info'}))
+        dispatch(showMessage({message: 'Sending, wait a second...', type: 'info', duration: 10000}));
+
+        sendResetPasswordEmail().then((_) => {
+            dispatch(showMessage({message: 'Check your e-mail for further steps.', type: 'success', duration: 3000}));
+        }).catch((_) => {
+            dispatch(showMessage({
+                message: 'An error ocurred when sending the reset password email.',
+                type: 'error',
+                duration: 3000
+            }));
+        });
     }
 
     return (
@@ -150,7 +163,7 @@ const UserSettings = () => {
                                 onClick={() => sendResetEmail()}/>
 
                         {/* TODO: The same here, but with password */}
-                        <Button className="w-[213px]" value="Change password" variant="white" type="button"
+                        <Button className="w-[213px]" value="Reset password" variant="white" type="button"
                                 icon={<FaKey className="ml-2 text-mainColor"/>}
                                 onClick={() => sendPasswordChangeEmail()}/>
                     </div>

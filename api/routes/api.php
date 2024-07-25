@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\PreferencesController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TagController;
@@ -26,13 +27,17 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [RegisterController::class, 'store']);
 Route::post('/login', [LoginController::class, 'login']);
 
-Route::post('email/reset-email', [EmailController::class, 'resetEmail']);
+Route::post('email/reset', [EmailController::class, 'resetEmail']);
 Route::post('email/confirm-token', [EmailController::class, 'confirmToken']);
+
+Route::post('password/reset', [PasswordController::class, 'resetPassword']);
+Route::post('password/confirm-token', [PasswordController::class, 'confirmToken']);
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout']);
 
     Route::post('email/send-reset-email', [EmailController::class, 'sendResetEmail']);
+    Route::post('password/send-reset-email', [PasswordController::class, 'sendResetEmail']);
 
     Route::prefix('/todo-list')->group(function () {
         Route::get('', [TodoListController::class, 'index']);
