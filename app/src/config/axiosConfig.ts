@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getToken } from '../services/authentication/authenticationService';
 
-const axiosInstance = axios.create();
+const axiosInstance  = axios.create();
 
 axiosInstance.interceptors.request.use(
   async (config) => {

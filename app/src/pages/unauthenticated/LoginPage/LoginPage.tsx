@@ -4,14 +4,14 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Link, useNavigate} from "react-router-dom";
 import FormField from "../../../components/Form/FormField/FormField.tsx";
 import Button from "../../../components/Button/Button.tsx";
-import {useState} from "react";
+import {useEffect, useState, useTransition} from "react";
 import {useDispatch} from "react-redux";
 import {setUser} from "../../../store/userSlice";
 import {login, storeToken} from "../../../services/authentication/authenticationService";
 import {getTodoLists} from "../../../services/todo/todoListService";
 import {setTodoLists} from "../../../store/todoListsSlice";
 import {showMessage} from "../../../store/messageSlice.ts";
-import {setPreferences} from "../../../store/preferencesSlice.ts";
+import {useTranslation} from "react-i18next";
 
 const schema = z.object({
     email: z.string().email('Invalid email.'),
@@ -21,6 +21,7 @@ const schema = z.object({
 type loginSchema = z.infer<typeof schema>;
 
 const LoginPage = () => {
+    const {t, i18n} = useTranslation();
     const [isLoading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -29,6 +30,11 @@ const LoginPage = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<loginSchema>({ resolver: zodResolver(schema) });
+
+    useEffect(() => {
+        const lng = navigator.language;
+        i18n.changeLanguage(lng);
+    }, []);
 
     const onSubmit = async ({ email, password }) => {
         setLoading(true);
@@ -58,6 +64,7 @@ const LoginPage = () => {
             <h1 className="text-center text-2xl">Login</h1>
 
             <p className="my-4">
+                {t('login.doNotHaveAccount')}
                 Do not have an account?{" "}
                 <Link to="/register" className="hover:text-appWhiteDarker">
                     <u>Register now</u>
